@@ -75,7 +75,7 @@ init python:
         'tags': ['rome', 'masculine', 'mature', 'menace'],
         'cultures': ['western', 'oriental', 'african', 'native', 'nordic', 'slavic', 'eastern',],             
         'modifiers': {'sex_buster': +5, 'combat_buster': +5, 'hardiness': +1, 'refinement': -1, 'menace': +1, 'subtlety': -1, 'competence': +1, 'charisma': -1, 'extravagance': +1, 'purity': -1,}, 
-        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'loincloth', 'secondary_accessory': None, 'style': None},
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'loincloth', 'secondary_accessory': None, 'load': None},
         'image': 'miscards',
         },
 
@@ -86,7 +86,7 @@ init python:
         'tags': ['any',],
         'cultures': [], 
         'modifiers': {}, 
-        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': None, 'secondary_accessory': None, 'style': None},
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': None, 'secondary_accessory': None, 'load': None},
         'image': 'miscards',
         },
 
@@ -96,7 +96,7 @@ init python:
         'tags': ['any', 'junior'],
         'cultures': ['western', 'oriental', 'african', 'native', 'nordic', 'slavic', 'eastern',],             
         'modifiers': {'sex_buster': -5, 'combat_buster': -5, 'hardiness': -1, 'menace': -1, 'competence': -1, 'purity': +1,}, 
-        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'casual_cloth', 'secondary_accessory': None, 'style': None},
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'casual_cloth', 'secondary_accessory': None, 'load': None},
         'image': 'miscards',
         },
 
@@ -106,7 +106,7 @@ init python:
         'tags': ['any', 'adolescent'],
         'cultures': ['western', 'oriental', 'african', 'native', 'nordic', 'slavic', 'eastern',],             
         'modifiers': {}, 
-        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'casual_cloth', 'secondary_accessory': None, 'style': None},
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'casual_cloth', 'secondary_accessory': None, 'load': None},
         'image': 'miscards',
         },
 
@@ -116,7 +116,7 @@ init python:
         'tags': ['any', 'elder'],
         'cultures': ['western', 'oriental', 'african', 'native', 'nordic', 'slavic', 'eastern',],             
         'modifiers': {'sex_buster': +5, 'combat_buster': -5, 'hardiness': -1, 'menace': -1, 'competence': +1, 'purity': -1,}, 
-        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'casual_cloth', 'secondary_accessory': None, 'style': None},
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'casual_cloth', 'secondary_accessory': None, 'load': None},
         'image': 'miscards',
         },
  
@@ -128,7 +128,7 @@ init python:
         'tags': ['eden'],
         'cultures': ['native', ],             
         'modifiers': {'sex_buster': -10, 'combat_buster': -10, 'hardiness': +1, 'refinement': -1, 'competence': -1, 'charisma': +1, 'purity': +1,}, 
-        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': None, 'secondary_accessory': None, 'style': None},
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': None, 'secondary_accessory': None, 'load': None},
         'image': 'miscards',
         },
 
@@ -138,7 +138,7 @@ init python:
         'tags': ['eden'], 
         'cultures': ['native', ],             
         'modifiers': {'sex_buster': +10, 'combat_buster': +2, 'hardiness': +1, 'refinement': -1, 'menace': +1, 'subtlety': -1, 'competence': -1, 'charisma': +1, 'extravagance': +1,}, 
-        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': None, 'secondary_accessory': None, 'style': None},
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': None, 'secondary_accessory': None, 'load': None},
         'image': 'miscards',  
         },
 
@@ -148,7 +148,7 @@ init python:
         'tags': ['sawage'],
         'cultures': ['native',],             
         'modifiers': {'sex_buster': +5, 'combat_buster': +5, 'hardiness': +1, 'refinement': -2, 'menace': +1, 'subtlety': -1, 'competence': -1, 'extravagance': +1, 'purity': -1,}, 
-        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'loincloth', 'secondary_accessory': None, 'style': None},
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'loincloth', 'secondary_accessory': None, 'load': None},
         'image': 'miscards',
         },
 
@@ -158,7 +158,7 @@ init python:
         'tags': ['sawage'],
         'cultures': ['native',],             
         'modifiers': {'sex_buster': +5, 'combat_buster': +1, 'hardiness': +1, 'refinement': -2, 'competence': -1, 'extravagance': +1, 'purity': -1,}, 
-        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'loincloth', 'secondary_accessory': None, 'style': None},
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'loincloth', 'secondary_accessory': None, 'load': None},
         'image': 'miscards',
         },
 
