@@ -149,7 +149,7 @@ init python:
         'tags': ['sawage'],
         'cultures': ['native',],             
         'modifiers': {'sex_buster': +5, 'combat_buster': +5, 'hardiness': +1, 'refinement': -2, 'menace': +1, 'subtlety': -1, 'competence': -1, 'extravagance': +1, 'purity': -1,}, 
-        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'loincloth', 'secondary_accessory': None, 'load': None},
+        'equipment': {'main_implement': 'stone_spear', 'secondary_implement': None, 'main_accessory': None, 'garment': 'loincloth', 'secondary_accessory': None, 'load': None},
         'image': 'miscards',
         },
 
@@ -159,7 +159,7 @@ init python:
         'tags': ['sawage'],
         'cultures': ['native',],             
         'modifiers': {'sex_buster': +5, 'combat_buster': +1, 'hardiness': +1, 'refinement': -2, 'competence': -1, 'extravagance': +1, 'purity': -1,}, 
-        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'loincloth', 'secondary_accessory': None, 'load': None},
+        'equipment': {'main_implement': 'stone_knife', 'secondary_implement': None, 'main_accessory': None, 'garment': 'loincloth', 'secondary_accessory': None, 'load': None},
         'image': 'miscards',
         },
 

@@ -81,6 +81,11 @@
     'modest': {'name': __('modest'), 'slot': 'ambition_feat', 'modifiers': {'ambition': -1}, 'description': __("{cap_pronoun} is a {{color=#ff9999}}modest{{/color}} person and have no need to approve own ambitions constantly."), 'image': 'miscards'},
     'lewd': {'name': __('sensual'), 'slot': 'eros_feat', 'modifiers': {'eros': +1}, 'description': __("{person.name}is quite {{color=#00ffcc}}sensual{{/color}} and has a wild erotic fantasies."), 'image': 'miscards'},
     'frigid': {'name': __('frigid'), 'slot': 'eros_feat', 'modifiers': {'eros': -1}, 'description': __("{person.name}is quite {{color=#ff9999}}frigid{{/color}} and have almost no sex drive."), 'image': 'miscards'},
+
+	## METABOLISM
+    #'metabolism_food': {'name': __('name'), 'slot': 'metabolism', 'modifiers': {'prosperity': +1}, 'description': __(""), 'image': 'miscards'},
+    #'id': {'name': __('name'), 'slot': 'metabolism', 'modifiers': {'prosperity': +1}, 'description': __(""), 'image': 'miscards'},
+    #'id': {'name': __('name'), 'slot': 'metabolism', 'modifiers': {'prosperity': +1}, 'description': __(""), 'image': 'miscards'},
     
     ## SHAPE
     'emaciated': {'name': __('Emaciated'), 'slot': 'shape', 'modifiers': {'hardiness': -99, 'menace': -2, 'succulence': -2}, 'description': __(""), 'image': 'miscards'},
@@ -95,7 +100,7 @@
     'obese': {'name': __('Obese'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'subtlety': -99, 'refinement': -1, 'purity': -1,  'succulence': +1}, 'description': __(""), 'image': 'miscards'},
 
 
-    #'id': {'name': __('name'), 'slot': 'slot', 'modifiers': {'prosperity': +1}, 'description': __(""), 'image': 'miscards'},
+    #'id': {'name': __('name'), 'slot': 'slot', 'modifiers': {'hardiness': +1, 'refinement': -1, 'menace': +1, 'subtlety': -1, 'competence': +1, 'charisma': -1, 'extravagance': +1, 'purity': -1}, 'description': __(""), 'image': 'miscards'},
     }
 
 
