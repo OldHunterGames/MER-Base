@@ -7,6 +7,9 @@
 
     genuses_frequency = {
     'human': 10, 
+    'undead': 5,
+    'doghead': 3,  
+    'slime': 2, 
     }
 
 

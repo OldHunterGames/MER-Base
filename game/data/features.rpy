@@ -129,4 +129,40 @@
             'culture': None,
         },
 
+        'ghoul':{
+            'name': __('ghoul'),
+            'description': __('undead ghoul'),
+            'slot': 'genus', 
+            'image': 'miscards',  
+            'modifiers': {},             
+            'tags': ['ageless'] 
+            'features': [],
+            'head_type': 'undead',
+            'culture': None,
+        },
+
+        'doghead':{
+            'name': __('doghead'),
+            'description': __('furry'),
+            'slot': 'genus', 
+            'image': 'miscards',  
+            'modifiers': {},             
+            'tags': [] 
+            'features': [],
+            'head_type': 'canine',
+            'culture': None,
+        },
+
+        'slimegirl':{
+            'name': __('slimegirl'),
+            'description': __('slimegirl'),
+            'slot': 'genus', 
+            'image': 'miscards',  
+            'modifiers': {},             
+            'tags': [] 
+            'features': ['ageless', 'sexless'],
+            'head_type': 'canine',
+            'culture': None,
+        },
+
     }
