@@ -6,17 +6,17 @@
  init python:
     person_features = {
     ## GENDER
-    'male': {'name': __('male'), 'slot': 'gender', 'modifiers': {'hardiness': +1, 'menace': +1, 'subtlety': -1, 'refinement': -1, 'succulence': -1}, 'image': 'miscards'},
-    'female': {'name': __('female'), 'slot': 'gender', 'modifiers': {'hardiness': -1, 'menace': -1, 'subtlety': +1, 'refinement': +1,'succulence': +1}, 'image': 'miscards'},
-    'shemale': {'name': __('shemale'), 'slot': 'gender', 'modifiers': {'extravagance': +1, 'purity': -1, 'hardiness': +1, 'refinement': -1,}, 'image': 'miscards'},
-    'transmale': {'name': __('trans'), 'slot': 'gender', 'modifiers': {'extravagance': +1, 'purity': -1,'succulence': -1}, 'image': 'miscards'},
-    'transfemale': {'name': __('androgyn'), 'slot': 'gender', 'modifiers': {'extravagance': +1, 'purity': -1, 'menace': +1, 'subtlety': -1,'succulence': +1}, 'image': 'miscards'},   
+    'male': {'name': __('male'), 'description': __(" male"), 'slot': 'gender', 'modifiers': {'hardiness': +1, 'menace': +1, 'subtlety': -1, 'refinement': -1, 'succulence': -1}, 'image': 'miscards'},
+    'female': {'name': __('female'), 'description': __(" female"), 'slot': 'gender', 'modifiers': {'hardiness': -1, 'menace': -1, 'subtlety': +1, 'refinement': +1,'succulence': +1}, 'image': 'miscards'},
+    'shemale': {'name': __('shemale'), 'description': __(" shemale"), 'slot': 'gender', 'modifiers': {'extravagance': +1, 'purity': -1, 'hardiness': +1, 'refinement': -1,}, 'image': 'miscards'},
+    'transmale': {'name': __('trans'), 'description': __(" transmale"), 'slot': 'gender', 'modifiers': {'extravagance': +1, 'purity': -1,'succulence': -1}, 'image': 'miscards'},
+    'transfemale': {'name': __('androgyn'), 'description': __(" transfemale"), 'slot': 'gender', 'modifiers': {'extravagance': +1, 'purity': -1, 'menace': +1, 'subtlety': -1,'succulence': +1}, 'image': 'miscards'},   
 
     ## AGE
-	'junior': {'name': __('junior'), 'slot': 'age', 'modifiers': {'hardiness': -1, 'menace': -1, 'subtlety': -1, 'refinement': -1, 'competence': -1, 'charisma': +1, 'purity': +1,'succulence': +1}, 'image': 'miscards'},
-	'adolescent': {'name': __('adolescent'), 'slot': 'age', 'modifiers': {'menace': -1, 'subtlety': +1, 'competence': -1, 'purity': +1,}, 'image': 'miscards'},
-	'mature': {'name': __('mature'), 'slot': 'age', 'modifiers': {'hardiness': +1, 'menace': +1, 'subtlety': -1, 'charisma': +1,}, 'image': 'miscards'},
-	'elder': {'name': __('elder'), 'slot': 'age', 'modifiers': {'menace': -1, 'hardiness': -1, 'subtlety': -1,'competence': +1,'extravagance': +1, 'purity': -1, 'refinement': +1, 'succulence': -1}, 'image': 'miscards'},
+	'junior': {'name': __('junior'), 'description': __(" junior"), 'slot': 'age', 'modifiers': {'hardiness': -1, 'menace': -1, 'subtlety': -1, 'refinement': -1, 'competence': -1, 'charisma': +1, 'purity': +1,'succulence': +1}, 'image': 'miscards'},
+	'adolescent': {'name': __('adolescent'), 'description': __(" adolescent"), 'slot': 'age', 'modifiers': {'menace': -1, 'subtlety': +1, 'competence': -1, 'purity': +1,}, 'image': 'miscards'},
+	'mature': {'name': __('mature'), 'description': __(" mature"), 'slot': 'age', 'modifiers': {'hardiness': +1, 'menace': +1, 'subtlety': -1, 'charisma': +1,}, 'image': 'miscards'},
+	'elder': {'name': __('elder'), 'description': __(" elder"), 'slot': 'age', 'modifiers': {'menace': -1, 'hardiness': -1, 'subtlety': -1,'competence': +1,'extravagance': +1, 'purity': -1, 'refinement': +1, 'succulence': -1}, 'image': 'miscards'},
 
     ## CONSTITUTION
     'normal': {'name': __('has average build'), 'slot': 'constitution', 'modifiers': {}, 'image': 'miscards'},
@@ -27,6 +27,8 @@
     'lean': {'name': __('has a gracile build'), 'slot': 'constitution', 'modifiers': {'subtlety': +1, 'hardiness': -1, 'succulence': -1, 'extravagance': -1, 'purity': +1,'refinement': +1,}, 'image': 'miscards'},
     'clumsy': {'name': __('has a disproportional body'), 'slot': 'constitution', 'modifiers': {'subtlety': -1, 'extravagance': +1, 'purity': -1,'refinement': -1,}, 'image': 'miscards'},
     'crooked': {'name': __('has a crooked bones'), 'slot': 'constitution', 'modifiers': {'subtlety': -1, 'hardiness': -1,'menace': -1, 'extravagance': +1, 'purity': -1,'refinement': -1,}, 'image': 'miscards'},
+    'amorphous': {'name': __('has amorphous body'), 'slot': 'constitution', 'modifiers': {}, 'image': 'miscards'},
+    'shapeshifter': {'name': __('is a shapeshifter'), 'slot': 'constitution', 'modifiers': {}, 'image': 'miscards'},
 
 	## QUIRK
     'stubborn': {'name': __('stubborn'), 'slot': 'quirk', 'modifiers': {'hardiness': +1, 'refinement': -1, 'competence': +1, 'charisma': -1, }, 'image': 'miscards'},
@@ -45,7 +47,7 @@
     'chaotic': {'name': __('chaotic'), 'slot': 'orderliness', 'modifiers': {'charisma': +1, 'competence': -1,}, 'image': 'miscards'},    
     'good': {'name': __('good'), 'slot': 'morality', 'modifiers': {'purity': +1, 'extravagance': -1,}, 'image': 'miscards'},    
     'evil': {'name': __('evil'), 'slot': 'morality', 'modifiers': {'extravagance': +1, 'purity': -1,}, 'image': 'miscards'}, 
-    'unaligned': {'name': __('unaligned'), 'slot': None, 'modifiers': {}, 'image': 'miscards'},    
+    'unaligned': {'name': __('conformal'), 'slot': None, 'modifiers': {}, 'image': 'miscards'},    
 
     ## APPEARENCE
     'unremarkable': {'name': __('appearence is unremarkable'), 'description': __(""), 'slot': 'appearance', 'modifiers': {}, 'image': 'miscards'},    
@@ -99,7 +101,6 @@
     'beefy': {'name': __('Beefy'), 'slot': 'shape', 'modifiers': {'hardiness': +1, 'menace': +2, 'subtlety': -1, 'refinement': -1}, 'description': __(""), 'image': 'miscards'},
     'obese': {'name': __('Obese'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'subtlety': -99, 'refinement': -1, 'purity': -1,  'succulence': +1}, 'description': __(""), 'image': 'miscards'},
 
-
     #'id': {'name': __('name'), 'slot': 'slot', 'modifiers': {'hardiness': +1, 'refinement': -1, 'menace': +1, 'subtlety': -1, 'competence': +1, 'charisma': -1, 'extravagance': +1, 'purity': -1}, 'description': __(""), 'image': 'miscards'},
     }
 
@@ -117,11 +118,15 @@
     ## GENUS
     genuses_data = {
         'human':{
-            'name': __(''),
+            'name': __('common human'),
+            'description': __(''),
+            'slot': 'genus', 
+            'image': 'miscards',  
+            'modifiers': {},             
+            'tags': [] 
+            'features': [],
             'head_type': 'human',
             'culture': None,
-            'modifiers': {},             
-            'genders': [('male', 5), ('female', 6), ('transmale', 1), ('transfemale', 1)],
-            'ages': [('junior', 1), ('adolescent', 2), ('mature', 3), ('elder', 1)],
-            'features': [],
         },
+
+    }
