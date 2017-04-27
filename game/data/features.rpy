@@ -114,6 +114,8 @@
         'human':{
             'name': __(''),
             'head_type': 'human',
+            'culture': None,
+            'modifiers': {},             
             'genders': [('male', 5), ('female', 6), ('transmale', 1), ('transfemale', 1)],
             'ages': [('junior', 1), ('adolescent', 2), ('mature', 3), ('elder', 1)],
             'features': [],
