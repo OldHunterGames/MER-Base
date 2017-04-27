@@ -75,6 +75,9 @@ init python:
             'tags': ['lethal', 'offhand', ],                             
         },
 
+        knife
+        
+
     }
 
     heavy_implement_data = {
@@ -121,6 +124,9 @@ init python:
 			'modifiers': {'refinement': -99, 'menace': -2, 'subtlety': +1, 'extravagance': +1, 'purity': -1},
             'tags': ['accessory', ],                             
         },
+
+        revealing_dress
+        sturdy_cloth
 
     }
 

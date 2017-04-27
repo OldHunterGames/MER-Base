@@ -16,52 +16,52 @@ init python:
         'eden':{
             'name': __('Eden'),
             'tags': ['eden'], 
-            'descriptions': [__(''), __('wild world 2'), __('wild world 3'), ]
+            'descriptions': [__('{person.name} originates from a idilstic eden world'), __('{person.name} originates from a lush wild with no hint of civilisation'),]
         },
         'sawage':{
             'name': __('Sawage'),
             'tags': ['sawage'],
-            'descriptions': [__('prehistoric world 1'), __('prehistoric world 2'), __('prehistoric world 3'), ]
+            'descriptions': [__('{person.name} originates from prehistoric world 1'), __('{person.name} originates from prehistoric world 2'), __('{person.name} originates from prehistoric world 3'), ]
         },
         'lowtec':{
             'name': __('Feudal'),
             'tags': ['notech'],   
-            'descriptions': [__('feudal world 1'), __('feudal world 2'), __('feudal world 3'), ]
+            'descriptions': [__('{person.name} originates from feudal world 1'), __('{person.name} originates from feudal world 2'), __('{person.name} originates from feudal world 3'), ]
         },
         'fantasy':{
             'name': __('Fantasy'),
             'tags': ['notech', 'magic'],   
-            'descriptions': [__('fantasy world 1'), __('fantasy world 2'), __('fantasy world 3'), ]
+            'descriptions': [__('{person.name} originates from fantasy world 1'), __('{person.name} originates from fantasy world 2'), __('{person.name} originates from fantasy world 3'), ]
         },
         'imperial':{
             'name': __('Imperial'),
             'tags': ['lowtech'],     
-            'descriptions': [__('imperial world 1'), __('imperial world 2'), __('imperial world 3'), ]
+            'descriptions': [__('{person.name} originates from imperial world 1'), __('{person.name} originates from imperial world 2'), __('{person.name} originates from imperial world 3'), ]
         },
         'steampunk':{
             'name': __('Steampunk'),
             'tags': ['lowtech', 'weirdscience'], 
-            'descriptions': [__('steampunk world 1'), __('steampunk world 2'), __('steampunk world 3'), ]
+            'descriptions': [__('{person.name} originates from steampunk world 1'), __('{person.name} originates from steampunk world 2'), __('{person.name} originates from steampunk world 3'), ]
         },
         'modern':{
             'name': __('Modern'),
             'tags': ['modern'],                    
-            'descriptions': [__('modern world 1'), __('modern world 2'), __('modern world 3'), ]
+            'descriptions': [__('{person.name} originates from modern world 1'), __('{person.name} originates from modern world 2'), __('{person.name} originates from modern world 3'), ]
         },
         'cyberpunk':{
             'name': __('Cyberpunk'),
             'tags': ['hightech', 'dystopia'],              
-            'descriptions': [__('cyberpunk world 1'), __('cyberpunk world 2'), __('cyberpunk world 3'), ]
+            'descriptions': [__('{person.name} originates from cyberpunk world 1'), __('{person.name} originates from cyberpunk world 2'), __('{person.name} originates from cyberpunk world 3'), ]
         },        
         'postapoc':{
             'name': __('Postapoc'),
             'tags': ['postapoc'],                
-            'descriptions': [__('postapoc world 1'), __('postapoc world 2'), __('postapoc world 3'), ]
+            'descriptions': [__('{person.name} originates from postapoc world 1'), __('{person.name} originates from postapoc world 2'), __('{person.name} originates from postapoc world 3'), ]
         },
         'spaceopera':{
             'name': __('Spaceopera'),
             'tags': ['spacetech'],                     
-            'descriptions': [__('spaceopera world 1'), __('spaceopera world 2'), __('spaceopera world 3'), ]
+            'descriptions': [__('{person.name} originates from spaceopera world 1'), __('{person.name} originates from spaceopera world 2'), __('{person.name} originates from spaceopera world 3'), ]
         },
     }
     
@@ -146,7 +146,7 @@ init python:
         'tribal_hunter': {'name': __('Tribal hunter'), 
         'description': __("and was a common tribal hunter"),
         'slot': 'occupation', 
-        'tags': ['sawage'],
+        'tags': ['sawage', 'postapoc'],
         'cultures': ['native',],             
         'modifiers': {'sex_buster': +5, 'combat_buster': +5, 'hardiness': +1, 'refinement': -2, 'menace': +1, 'subtlety': -1, 'competence': -1, 'extravagance': +1, 'purity': -1,}, 
         'equipment': {'main_implement': 'stone_spear', 'secondary_implement': None, 'main_accessory': None, 'garment': 'loincloth', 'secondary_accessory': None, 'load': None},
@@ -156,12 +156,83 @@ init python:
         'tribal_gatherer': {'name': __('Tribal gatherer'), 
         'description': __("and was a common tribal gatherer"),
         'slot': 'occupation', 
-        'tags': ['sawage'],
+        'tags': ['sawage', 'postapoc'],
         'cultures': ['native',],             
         'modifiers': {'sex_buster': +5, 'combat_buster': +1, 'hardiness': +1, 'refinement': -2, 'competence': -1, 'extravagance': +1, 'purity': -1,}, 
         'equipment': {'main_implement': 'stone_knife', 'secondary_implement': None, 'main_accessory': None, 'garment': 'loincloth', 'secondary_accessory': None, 'load': None},
         'image': 'miscards',
         },
+
+        'farmer': {'name': __('farmer'), 
+        'description': __("and has a life of a simple farmer there"),
+        'slot': 'occupation', 
+        'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', ],
+        'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'eastern',],             
+        'modifiers': {'hardiness': +1, 'refinement': -1,}, 
+        'equipment': {'main_implement': None, 'secondary_implement': 'knife', 'main_accessory': None, 'garment': 'sturdy_cloth', 'secondary_accessory': None, 'load': None},
+        'image': 'miscards',
+        },
+
+        'factory_worker': {'name': __('Factory worker'), 
+        'description': __("and had a hard working life on a big factory"),
+        'slot': 'occupation', 
+        'tags': ['lowtech', 'modern', 'hightech', 'spacetech', ],
+        'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'eastern',],             
+        'modifiers': {'hardiness': +1, 'refinement': -1, }, 
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'sturdy_cloth', 'secondary_accessory': None, 'load': None},
+        'image': 'miscards',
+        },
+        
+        'office_worker': {'name': __('Office worker'), 
+        'description': __("and was a common office worker"),
+        'slot': 'occupation', 
+        'tags': ['modern', 'hightech', 'spacetech', ],
+        'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'eastern',],             
+        'modifiers': {'sex_buster': +5, 'combat_buster': +5, 'hardiness': +1, 'refinement': -1, 'menace': +1, 'subtlety': -1, 'competence': +1, 'charisma': -1, 'extravagance': +1, 'purity': -1,}, 
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'casual_cloth', 'secondary_accessory': None, 'load': None},
+        'image': 'miscards',
+        },
+
+        'streetwalker': {'name': __('Streetwalker'), 
+        'description': __("and used to be a streetwalker"),
+        'slot': 'occupation', 
+        'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', 'feminine', ],
+        'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'eastern',],             
+        'modifiers': {'sex_buster': +10, 'extravagance': +1, 'purity': -1,}, 
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'revealing_dress', 'secondary_accessory': None, 'load': None},
+        'image': 'miscards',
+        },
+
+        'armyman': {'name': __('Armyman'), 
+        'description': __("and udes to serve in army"),
+        'slot': 'occupation', 
+        'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', 'masculine'],
+        'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'eastern',],             
+        'modifiers': {'combat_buster': +5, 'menace': +1, 'subtlety': -1,}, 
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': 'knife', 'garment': 'military_uniform', 'secondary_accessory': None, 'load': None},
+        'image': 'miscards',
+        },
+
+        'knave': {'name': __('Knave'), 
+        'description': __("and was a miserable knave there"),
+        'slot': 'occupation', 
+        'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', ],
+        'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'eastern',],             
+        'modifiers': {'refinement': -1, 'subtlety': +1, 'purity': -1,}, 
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': 'knife', 'garment': 'casual_cloth', 'secondary_accessory': None, 'load': None},
+        'image': 'miscards',
+        },
+
+        'performer': {'name': __('Street performer'), 
+        'description': __("where he earned his living by street performances"),
+        'slot': 'occupation', 
+        'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', ],
+        'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'eastern',],             
+        'modifiers': {'sex_buster': +2, 'competence': -1, 'charisma': +1, }, 
+        'equipment': {'main_implement': None, 'secondary_implement': None, 'main_accessory': None, 'garment': 'revealing_dress', 'secondary_accessory': None, 'load': None},
+        'image': 'miscards',
+        },
+
 
         ## ADVANCED
 

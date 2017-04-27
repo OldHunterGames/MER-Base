@@ -31,14 +31,14 @@
     'shapeshifter': {'name': __('is a shapeshifter'), 'slot': 'constitution', 'modifiers': {}, 'image': 'miscards'},
 
 	## QUIRK
-    'stubborn': {'name': __('stubborn'), 'slot': 'quirk', 'modifiers': {'hardiness': +1, 'refinement': -1, 'competence': +1, 'charisma': -1, }, 'image': 'miscards'},
-    'sly': {'name': __('sly'), 'slot': 'quirk', 'modifiers': {'hardiness': -1, 'refinement': +1, 'competence': -1, 'charisma': +1, }, 'image': 'miscards'},
-    'careless': {'name': __('careless'), 'slot': 'quirk', 'modifiers': {'charisma': +1, 'competence': -1}, 'image': 'miscards'},  
-    'scrupulous': {'name': __('scrupulous'), 'slot': 'quirk', 'modifiers': {'charisma': -1,'competence': +1, }, 'image': 'miscards'},        
-    'optimistic': {'name': __('optimistic'), 'slot': 'quirk', 'modifiers': {'charisma': +1, }, 'image': 'miscards'},
-    'nagging': {'name': __('pessimistic'), 'slot': 'quirk', 'modifiers': {'charisma': -1, }, 'image': 'miscards'},
-    'smart': {'name': __('smart'), 'slot': 'quirk', 'modifiers': {'competence': +1}, 'image': 'miscards'},
-    'dumb': {'name': __('dumb'), 'slot': 'quirk', 'modifiers': {'competence': -1}, 'image': 'miscards'},
+    'stubborn': {'name': __('stubborn'), 'description': __(" {person.name} is appearently stubborn."), 'slot': 'quirk', 'modifiers': {'hardiness': +1, 'refinement': -1, 'competence': +1, 'charisma': -1, }, 'image': 'miscards'},
+    'sly': {'name': __('sly'), 'description': __(" {person.name} is quite sly."), 'slot': 'quirk', 'modifiers': {'hardiness': -1, 'refinement': +1, 'competence': -1, 'charisma': +1, }, 'image': 'miscards'},
+    'careless': {'name': __('careless'), 'description': __(" {person.name} is appearently careless."), 'slot': 'quirk', 'modifiers': {'charisma': +1, 'competence': -1}, 'image': 'miscards'},  
+    'scrupulous': {'name': __('scrupulous'), 'description': __(" {person.name} is quite scrupulous."), 'slot': 'quirk', 'modifiers': {'charisma': -1,'competence': +1, }, 'image': 'miscards'},        
+    'optimistic': {'name': __('optimistic'), 'description': __(" {person.name} looks optimistic most of the time."), 'slot': 'quirk', 'modifiers': {'charisma': +1, }, 'image': 'miscards'},
+    'nagging': {'name': __('pessimistic'), 'description': __(" {person.name} is irritatingly nagging and grumpy person."), 'slot': 'quirk', 'modifiers': {'charisma': -1, }, 'image': 'miscards'},
+    'smart': {'name': __('smart'), 'description': __(" {person.name} is quite smart."), 'slot': 'quirk', 'modifiers': {'competence': +1}, 'image': 'miscards'},
+    'dumb': {'name': __('dumb'), 'description': __(" {person.name} is dumb as a stump."), 'slot': 'quirk', 'modifiers': {'competence': -1}, 'image': 'miscards'},
 
     ## ALIGNMENT
     'timid': {'name': __('timid'), 'slot': 'activity', 'modifiers': {'subtlety': +1, 'menace': -1,}, 'image': 'miscards'},    
@@ -50,17 +50,17 @@
     'unaligned': {'name': __('conformal'), 'slot': None, 'modifiers': {}, 'image': 'miscards'},    
 
     ## APPEARENCE
-    'unremarkable': {'name': __('appearence is unremarkable'), 'description': __(""), 'slot': 'appearance', 'modifiers': {}, 'image': 'miscards'},    
-    'flawless': {'name': __('has a flawless appearence'), 'description': __(""), 'slot': 'appearance', 'modifiers': {'refinement': +1, 'hardiness': -1,}, 'image': 'miscards'},    
-    'coarse': {'name': __('looks coarse'), 'description': __(""), 'slot': 'appearance', 'modifiers': {'hardiness': +1, 'refinement': -1,}, 'image': 'miscards'},        
-    'unusual': {'name': __('appearence is somehow unusual'), 'description': __(""), 'slot': 'appearance', 'modifiers': {'extravagance': +1, 'purity': -1,}, 'image': 'miscards'},    
-    'naive': {'name': __('looks naive'), 'description': __(""), 'slot': 'appearance', 'modifiers': {'purity': +1, 'extravagance': -1,}, 'image': 'miscards'},    
-    'gentle': {'name': __('have a gentle appearence'), 'description': __(""), 'slot': 'appearance', 'modifiers': {'charisma': +1, 'menace': -1,}, 'image': 'miscards'},    
-    'honest': {'name': __('has a most honest appearence'), 'description': __(""), 'slot': 'appearance', 'modifiers': {'subtlety': -1, 'charisma': +1,}, 'image': 'miscards'},    
-    'bold': {'name': __('looks bold'), 'slot': 'appearance', 'description': __(""), 'modifiers': {'subtlety': -1, 'menace': +1,'refinement': +1, 'hardiness': -1,}, 'image': 'miscards'},    
-    'wild': {'name': __('looks wild'), 'slot': 'appearance', 'description': __(""), 'modifiers': {'subtlety': -1, 'menace': +1,}, 'image': 'miscards'},    
-    'foxy': {'name': __('has a foxy look'), 'slot': 'appearance', 'description': __(""), 'modifiers': {'subtlety': +1, 'charisma': +1,}, 'image': 'miscards'},    
-    'sleazy': {'name': __('looks somehow sleazy'), 'description': __(""), 'slot': 'appearance', 'modifiers': {'extravagance': +1, 'purity': -1,'charisma': +1, 'competence': -1,}, 'image': 'miscards'},    
+    'unremarkable': {'name': __('Unremarkable'), 'description': __("appearence is unremarkable"), 'slot': 'appearance', 'modifiers': {}, 'image': 'miscards'},    
+    'flawless': {'name': __('Flawless'), 'description': __("has a flawless appearence"), 'slot': 'appearance', 'modifiers': {'refinement': +1, 'hardiness': -1,}, 'image': 'miscards'},    
+    'coarse': {'name': __('Coarse'), 'description': __("looks coarse"), 'slot': 'appearance', 'modifiers': {'hardiness': +1, 'refinement': -1,}, 'image': 'miscards'},        
+    'unusual': {'name': __('Unusual'), 'description': __("appearence is somehow unusual"), 'slot': 'appearance', 'modifiers': {'extravagance': +1, 'purity': -1,}, 'image': 'miscards'},    
+    'naive': {'name': __('Naive'), 'description': __("looks naive"), 'slot': 'appearance', 'modifiers': {'purity': +1, 'extravagance': -1,}, 'image': 'miscards'},    
+    'gentle': {'name': __('Gentle'), 'description': __("have a gentle appearence"), 'slot': 'appearance', 'modifiers': {'charisma': +1, 'menace': -1,}, 'image': 'miscards'},    
+    'honest': {'name': __('Honest'), 'description': __("has a most honest appearence"), 'slot': 'appearance', 'modifiers': {'subtlety': -1, 'charisma': +1,}, 'image': 'miscards'},    
+    'bold': {'name': __('Bold'), 'slot': 'appearance', 'description': __("looks bold"), 'modifiers': {'subtlety': -1, 'menace': +1,'refinement': +1, 'hardiness': -1,}, 'image': 'miscards'},    
+    'wild': {'name': __('Wild'), 'slot': 'appearance', 'description': __("looks wild"), 'modifiers': {'subtlety': -1, 'menace': +1,}, 'image': 'miscards'},    
+    'foxy': {'name': __('Foxy'), 'slot': 'appearance', 'description': __("has a foxy look"), 'modifiers': {'subtlety': +1, 'charisma': +1,}, 'image': 'miscards'},    
+    'sleazy': {'name': __('Sleazy'), 'description': __("looks somehow sleazy"), 'slot': 'appearance', 'modifiers': {'extravagance': +1, 'purity': -1,'charisma': +1, 'competence': -1,}, 'image': 'miscards'},    
             
     ## NEEDS
     'greedy': {'name': __('greedy'), 'slot': 'prosperity_feat', 'modifiers': {'prosperity': +1}, 'description': __("{person.name}is {{color=#00ffcc}}greedy{{/color}}, wich makes {pronoun2} sensitive to prosperity matters."), 'image': 'miscards'},
@@ -90,16 +90,16 @@
     #'id': {'name': __('name'), 'slot': 'metabolism', 'modifiers': {'prosperity': +1}, 'description': __(""), 'image': 'miscards'},
     
     ## SHAPE
-    'emaciated': {'name': __('Emaciated'), 'slot': 'shape', 'modifiers': {'hardiness': -99, 'menace': -2, 'succulence': -2}, 'description': __(""), 'image': 'miscards'},
-    'frail': {'name': __('Frail'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'menace': -2 'subtlety': +1, 'refinement': +1}, 'description': __(""), 'image': 'miscards'},
-    'slim': {'name': __('Slim'), 'slot': 'shape', 'modifiers': {'menace': -1, 'subtlety': +1, 'succulence': -1}, 'description': __(""), 'image': 'miscards'},
-    'wiry': {'name': __('Wiry'), 'slot': 'shape', 'modifiers': {'hardiness': +1,  'subtlety': +1, 'refinement': -1,'succulence': -2}, 'description': __(""), 'image': 'miscards'},
-    'skinnyfat': {'name': __('Skinny fat'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'menace': -1, 'refinement': +1,'succulence': +1}, 'description': __(""), 'image': 'miscards'},
-    'muscular': {'name': __('Muscular'), 'slot': 'shape', 'modifiers': {'hardiness': +1, 'menace': +1, 'refinement': -1,'succulence': -1}, 'description': __(""), 'image': 'miscards'},
-    'flabby': {'name': __('Soft'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'subtlety': -1, 'refinement': +1,'succulence': +2}, 'description': __(""), 'image': 'miscards'},
-    'chubby': {'name': __('Chubby'), 'slot': 'shape', 'modifiers': {'menace': +1, 'subtlety': -1, 'succulence': +1}, 'description': __(""), 'image': 'miscards'},
-    'beefy': {'name': __('Beefy'), 'slot': 'shape', 'modifiers': {'hardiness': +1, 'menace': +2, 'subtlety': -1, 'refinement': -1}, 'description': __(""), 'image': 'miscards'},
-    'obese': {'name': __('Obese'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'subtlety': -99, 'refinement': -1, 'purity': -1,  'succulence': +1}, 'description': __(""), 'image': 'miscards'},
+    'emaciated': {'name': __('Emaciated'), 'slot': 'shape', 'modifiers': {'hardiness': -99, 'menace': -2, 'succulence': -2}, 'description': __("and emaciated to the limit"), 'image': 'miscards'},
+    'frail': {'name': __('Frail'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'menace': -2 'subtlety': +1, 'refinement': +1}, 'description': __("and in frail shape"), 'image': 'miscards'},
+    'slim': {'name': __('Slim'), 'slot': 'shape', 'modifiers': {'menace': -1, 'subtlety': +1, 'succulence': -1}, 'description': __("and in slim shape"), 'image': 'miscards'},
+    'wiry': {'name': __('Wiry'), 'slot': 'shape', 'modifiers': {'hardiness': +1,  'subtlety': +1, 'refinement': -1,'succulence': -2}, 'description': __("with a dry and wiry muscles"), 'image': 'miscards'},
+    'skinnyfat': {'name': __('Skinny fat'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'menace': -1, 'refinement': +1,'succulence': +1}, 'description': __("amd looks like a skinny-fat"), 'image': 'miscards'},
+    'muscular': {'name': __('Muscular'), 'slot': 'shape', 'modifiers': {'hardiness': +1, 'menace': +1, 'refinement': -1,'succulence': -1}, 'description': __("and wery fit"), 'image': 'miscards'},
+    'flabby': {'name': __('Soft'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'subtlety': -1, 'refinement': +1,'succulence': +2}, 'description': __("with a smooth body"), 'image': 'miscards'},
+    'chubby': {'name': __('Chubby'), 'slot': 'shape', 'modifiers': {'menace': +1, 'subtlety': -1, 'succulence': +1}, 'description': __("with a chubby curves"), 'image': 'miscards'},
+    'beefy': {'name': __('Beefy'), 'slot': 'shape', 'modifiers': {'hardiness': +1, 'menace': +2, 'subtlety': -1, 'refinement': -1}, 'description': __("with a beefy torso"), 'image': 'miscards'},
+    'obese': {'name': __('Obese'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'subtlety': -99, 'refinement': -1, 'purity': -1,  'succulence': +1}, 'description': __("and visibily obeese"), 'image': 'miscards'},
 
     #'id': {'name': __('name'), 'slot': 'slot', 'modifiers': {'hardiness': +1, 'refinement': -1, 'menace': +1, 'subtlety': -1, 'competence': +1, 'charisma': -1, 'extravagance': +1, 'purity': -1}, 'description': __(""), 'image': 'miscards'},
     }
