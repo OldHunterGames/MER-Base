@@ -6,7 +6,6 @@ import renpy.store as store
 import renpy.exports as renpy
 
 from features import Feature, HomeWorld
-from skills import Skilled
 from anatomy import Anatomy
 from psymodel import PsyModel
 from schedule import Schedule
@@ -625,7 +624,7 @@ class FoodSystem(object):
                 continue
 
 
-class Person(Skilled, InventoryWielder, PsyModel):
+class Person(InventoryWielder, PsyModel):
     game_ref = None
 
     @utilities.Observable
