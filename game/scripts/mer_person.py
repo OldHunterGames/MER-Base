@@ -634,7 +634,6 @@ class Person(InventoryWielder, PsyModel):
 
         self.player_controlled = False
         self.init_inventorywielder()
-        self.init_skilled()
         self.init_psymodel()
         self._event_type = 'person'
         self._firstname = u"Anonimous"
@@ -716,7 +715,7 @@ class Person(InventoryWielder, PsyModel):
         self.food_system.set_shape(id)
 
     def appearance_type(self):
-        return store.gender_correspondence.get(self.gender.id)
+        return store.gender_correspondence.get(self.gender)
 
     def orderliness(self):
         return self.feature_by_slot('orderliness')
