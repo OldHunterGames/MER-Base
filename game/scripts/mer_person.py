@@ -13,7 +13,6 @@ from relations import Relations
 from genus import available_genuses, Genus
 
 from factions import Faction
-from buffs import Buff
 from inventory import InventoryWielder
 import mer_utilities as utilities
 from mer_command import *
