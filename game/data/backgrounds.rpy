@@ -1,6 +1,6 @@
 #######################################
 #
-#	Basic backgrounds data
+#   Basic backgrounds data
 #
 
 init python:
@@ -69,7 +69,7 @@ init python:
     
     occupation_features = {
 
-    	## TEMPLATE
+        ## TEMPLATE
         'id': {'name': __('Name'), 
         'description': __("Description"),
         'slot': 'occupation', 

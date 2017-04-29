@@ -1,26 +1,26 @@
-#######################################
+﻿####################################
 #
-#	Basic items data
+#   Basic items data
 #
 
 init python:
 
-	## TAGS DESCRIPTION
+    ## TAGS DESCRIPTION
 
-	# lethal - can be used as a weapon, leaves wound, opponent can be killed
-	# nonlethal - can be used as a weapon, leaves bruises, opponent will live
-	# heavy - can be equpped to a main_implement slot and blocks secondary_implement slots
-	# versatile - can be equpped to a main_implement and secondary_implement slots
-	# shield - can be equpped to a secondary_implement slot	
-	# offhand - can be equpped to a main_implement, secondary_implement and accessory slots, cannot be equipped in a load slot
-	# hard_armor - counts as a hard armor, can be equipped in garment slot and blocks secondary_implement slot
-	# soft_armor - counts as a soft armor, can be equipped in garment slot
-	# garment - counts as unarmored, can be equipped in garment slot
-	# accessory - can be equipped in accessory slots, cannot be equipped in a load slot
-	# load - can be equipped into a load slot only, but fully functional when equiped there 
-	# mutable - item name and descriprtion can be edited by player
+    # lethal - can be used as a weapon, leaves wound, opponent can be killed
+    # nonlethal - can be used as a weapon, leaves bruises, opponent will live
+    # heavy - can be equpped to a main_implement slot and blocks secondary_implement slots
+    # versatile - can be equpped to a main_implement and secondary_implement slots
+    # shield - can be equpped to a secondary_implement slot 
+    # offhand - can be equpped to a main_implement, secondary_implement and accessory slots, cannot be equipped in a load slot
+    # hard_armor - counts as a hard armor, can be equipped in garment slot and blocks secondary_implement slot
+    # soft_armor - counts as a soft armor, can be equipped in garment slot
+    # garment - counts as unarmored, can be equipped in garment slot
+    # accessory - can be equipped in accessory slots, cannot be equipped in a load slot
+    # load - can be equipped into a load slot only, but fully functional when equiped there 
+    # mutable - item name and descriprtion can be edited by player
 
-	## TEMPLATE ITEM
+    ## TEMPLATE ITEM
 
     template_data = {
         'id':{
@@ -29,7 +29,7 @@ init python:
             'quality': 1,  
             'size': 1,  
             'condition': 5, 
-			'modifiers': {'hardiness': +1, 'refinement': -1, 'menace': +1, 'subtlety': -1, 'competence': +1, 'charisma': -1, 'extravagance': +1, 'purity': -1},
+            'modifiers': {'hardiness': +1, 'refinement': -1, 'menace': +1, 'subtlety': -1, 'competence': +1, 'charisma': -1, 'extravagance': +1, 'purity': -1},
             'tags': ['accessory', ],                             
         },
     }
@@ -43,8 +43,8 @@ init python:
             'quality': 2,  
             'size': 10,  
             'condition': 5, 
-  			'modifiers': {'refinement': -1, 'menace': +2, 'subtlety': -99, 'purity': -1},
-	        'tags': ['lethal', 'heavy', ],                             
+            'modifiers': {'refinement': -1, 'menace': +2, 'subtlety': -99, 'purity': -1},
+            'tags': ['lethal', 'heavy', ],                             
         },
 
         'stone_spear':{
@@ -53,7 +53,7 @@ init python:
             'quality': 1,  
             'size': 5,  
             'condition': 5, 
-  			'modifiers': {'refinement': -99, 'menace': +1, 'subtlety': -99, 'extravagance': +1, 'purity': -1},
+            'modifiers': {'refinement': -99, 'menace': +1, 'subtlety': -99, 'extravagance': +1, 'purity': -1},
             'tags': ['lethal', 'heavy', ],                             
         },
 
@@ -71,11 +71,11 @@ init python:
             'quality': 1,  
             'size': 1,  
             'condition': 5, 
-  			'modifiers': {'hardiness': +1},
+            'modifiers': {'hardiness': +1},
             'tags': ['lethal', 'offhand', ],                             
         },
 
-        knife
+        'knife': {}
         
 
     }
@@ -101,7 +101,7 @@ init python:
             'quality': 1,  
             'size': 1,  
             'condition': 0, 
-			'modifiers': {'refinement': -99, 'charisma': -99, 'menace': -2, 'purity': -1},
+            'modifiers': {'refinement': -99, 'charisma': -99, 'menace': -2, 'purity': -1},
             'tags': ['garment', ],                             
         },
 
@@ -111,7 +111,7 @@ init python:
             'quality': 2,  
             'size': 3,  
             'condition': 5, 
-			'modifiers': {'menace': -1, },
+            'modifiers': {'menace': -1, },
             'tags': ['garment', ],                             
         },
         
@@ -121,12 +121,12 @@ init python:
             'quality': 1,  
             'size': 1,  
             'condition': 5, 
-			'modifiers': {'refinement': -99, 'menace': -2, 'subtlety': +1, 'extravagance': +1, 'purity': -1},
+            'modifiers': {'refinement': -99, 'menace': -2, 'subtlety': +1, 'extravagance': +1, 'purity': -1},
             'tags': ['accessory', ],                             
         },
 
-        revealing_dress
-        sturdy_cloth
+        'revealing_dress' : {},
+        'sturdy_cloth': {}
 
     }
 

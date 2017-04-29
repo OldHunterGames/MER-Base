@@ -1,6 +1,6 @@
-#######################################
+﻿####################################
 #
-#	Basic features data
+#   Basic features data
 #
 
  init python:
@@ -13,10 +13,10 @@
     'transfemale': {'name': __('androgyn'), 'description': __(" transfemale"), 'slot': 'gender', 'modifiers': {'extravagance': +1, 'purity': -1, 'menace': +1, 'subtlety': -1,'succulence': +1}, 'image': 'miscards'},   
 
     ## AGE
-	'junior': {'name': __('junior'), 'description': __(" junior"), 'slot': 'age', 'modifiers': {'hardiness': -1, 'menace': -1, 'subtlety': -1, 'refinement': -1, 'competence': -1, 'charisma': +1, 'purity': +1,'succulence': +1}, 'image': 'miscards'},
-	'adolescent': {'name': __('adolescent'), 'description': __(" adolescent"), 'slot': 'age', 'modifiers': {'menace': -1, 'subtlety': +1, 'competence': -1, 'purity': +1,}, 'image': 'miscards'},
-	'mature': {'name': __('mature'), 'description': __(" mature"), 'slot': 'age', 'modifiers': {'hardiness': +1, 'menace': +1, 'subtlety': -1, 'charisma': +1,}, 'image': 'miscards'},
-	'elder': {'name': __('elder'), 'description': __(" elder"), 'slot': 'age', 'modifiers': {'menace': -1, 'hardiness': -1, 'subtlety': -1,'competence': +1,'extravagance': +1, 'purity': -1, 'refinement': +1, 'succulence': -1}, 'image': 'miscards'},
+    'junior': {'name': __('junior'), 'description': __(" junior"), 'slot': 'age', 'modifiers': {'hardiness': -1, 'menace': -1, 'subtlety': -1, 'refinement': -1, 'competence': -1, 'charisma': +1, 'purity': +1,'succulence': +1}, 'image': 'miscards'},
+    'adolescent': {'name': __('adolescent'), 'description': __(" adolescent"), 'slot': 'age', 'modifiers': {'menace': -1, 'subtlety': +1, 'competence': -1, 'purity': +1,}, 'image': 'miscards'},
+    'mature': {'name': __('mature'), 'description': __(" mature"), 'slot': 'age', 'modifiers': {'hardiness': +1, 'menace': +1, 'subtlety': -1, 'charisma': +1,}, 'image': 'miscards'},
+    'elder': {'name': __('elder'), 'description': __(" elder"), 'slot': 'age', 'modifiers': {'menace': -1, 'hardiness': -1, 'subtlety': -1,'competence': +1,'extravagance': +1, 'purity': -1, 'refinement': +1, 'succulence': -1}, 'image': 'miscards'},
 
     ## CONSTITUTION
     'normal': {'name': __('has average build'), 'slot': 'constitution', 'modifiers': {}, 'image': 'miscards'},
@@ -30,7 +30,7 @@
     'amorphous': {'name': __('has amorphous body'), 'slot': 'constitution', 'modifiers': {}, 'image': 'miscards'},
     'shapeshifter': {'name': __('is a shapeshifter'), 'slot': 'constitution', 'modifiers': {}, 'image': 'miscards'},
 
-	## QUIRK
+    ## QUIRK
     'stubborn': {'name': __('stubborn'), 'description': __(" {person.name} is appearently stubborn."), 'slot': 'quirk', 'modifiers': {'hardiness': +1, 'refinement': -1, 'competence': +1, 'charisma': -1, }, 'image': 'miscards'},
     'sly': {'name': __('sly'), 'description': __(" {person.name} is quite sly."), 'slot': 'quirk', 'modifiers': {'hardiness': -1, 'refinement': +1, 'competence': -1, 'charisma': +1, }, 'image': 'miscards'},
     'careless': {'name': __('careless'), 'description': __(" {person.name} is appearently careless."), 'slot': 'quirk', 'modifiers': {'charisma': +1, 'competence': -1}, 'image': 'miscards'},  
@@ -84,14 +84,14 @@
     'lewd': {'name': __('sensual'), 'slot': 'eros_feat', 'modifiers': {'eros': +1}, 'description': __("{person.name}is quite {{color=#00ffcc}}sensual{{/color}} and has a wild erotic fantasies."), 'image': 'miscards'},
     'frigid': {'name': __('frigid'), 'slot': 'eros_feat', 'modifiers': {'eros': -1}, 'description': __("{person.name}is quite {{color=#ff9999}}frigid{{/color}} and have almost no sex drive."), 'image': 'miscards'},
 
-	## METABOLISM
+    ## METABOLISM
     #'metabolism_food': {'name': __('name'), 'slot': 'metabolism', 'modifiers': {'prosperity': +1}, 'description': __(""), 'image': 'miscards'},
     #'id': {'name': __('name'), 'slot': 'metabolism', 'modifiers': {'prosperity': +1}, 'description': __(""), 'image': 'miscards'},
     #'id': {'name': __('name'), 'slot': 'metabolism', 'modifiers': {'prosperity': +1}, 'description': __(""), 'image': 'miscards'},
     
     ## SHAPE
     'emaciated': {'name': __('Emaciated'), 'slot': 'shape', 'modifiers': {'hardiness': -99, 'menace': -2, 'succulence': -2}, 'description': __("and emaciated to the limit"), 'image': 'miscards'},
-    'frail': {'name': __('Frail'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'menace': -2 'subtlety': +1, 'refinement': +1}, 'description': __("and in frail shape"), 'image': 'miscards'},
+    'frail': {'name': __('Frail'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'menace': -2, 'subtlety': +1, 'refinement': +1}, 'description': __("and in frail shape"), 'image': 'miscards'},
     'slim': {'name': __('Slim'), 'slot': 'shape', 'modifiers': {'menace': -1, 'subtlety': +1, 'succulence': -1}, 'description': __("and in slim shape"), 'image': 'miscards'},
     'wiry': {'name': __('Wiry'), 'slot': 'shape', 'modifiers': {'hardiness': +1,  'subtlety': +1, 'refinement': -1,'succulence': -2}, 'description': __("with a dry and wiry muscles"), 'image': 'miscards'},
     'skinnyfat': {'name': __('Skinny fat'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'menace': -1, 'refinement': +1,'succulence': +1}, 'description': __("amd looks like a skinny-fat"), 'image': 'miscards'},
@@ -107,12 +107,12 @@
 
     ## GENDER CORRESPONDENCE
 
-    gender_corrspondence = {
-    	'male':'masculine',
-    	'female':'feminine',
-     	'shemale':'feminine',   
-     	'transmale':'feminine',        		    	    	
-    	'transfemale':'masculine',
+    gender_correspondence = {
+        'male':'masculine',
+        'female':'feminine',
+        'shemale':'feminine',   
+        'transmale':'feminine',                             
+        'transfemale':'masculine',
     }
 
     ## GENUS
@@ -123,7 +123,7 @@
             'slot': 'genus', 
             'image': 'miscards',  
             'modifiers': {},             
-            'tags': [] 
+            'tags': [], 
             'features': [],
             'head_type': 'human',
             'culture': None,
@@ -135,7 +135,7 @@
             'slot': 'genus', 
             'image': 'miscards',  
             'modifiers': {},             
-            'tags': ['ageless'] 
+            'tags': ['ageless'], 
             'features': [],
             'head_type': 'undead',
             'culture': None,
@@ -147,7 +147,7 @@
             'slot': 'genus', 
             'image': 'miscards',  
             'modifiers': {},             
-            'tags': [] 
+            'tags': [], 
             'features': [],
             'head_type': 'canine',
             'culture': None,
@@ -159,7 +159,7 @@
             'slot': 'genus', 
             'image': 'miscards',  
             'modifiers': {},             
-            'tags': [] 
+            'tags': [], 
             'features': ['ageless', 'sexless'],
             'head_type': 'canine',
             'culture': None,

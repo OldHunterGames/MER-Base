@@ -28,6 +28,9 @@ class Genus(object):
             raise AttributeError(key)
         return value
 
+    def description(self):
+        return self.data.get('description', 'No description')
+
     def apply(self, person):
         func = self.data.get('on_apply')
         if func is not None:

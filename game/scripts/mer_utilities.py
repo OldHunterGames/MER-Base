@@ -27,7 +27,7 @@ def get_files(path):
     return [i for i in files if path in i]
 
 
-def default_avatar_path():
+def default_avatar():
     return 'images/avatar/none.jpg'
 
 

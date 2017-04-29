@@ -313,7 +313,7 @@ class PersonCreator(object):
         shape = kwargs.get('shape', genus.get_shape())
         if shape is None:
             shape = self.random_constitution(age)
-
+        p.add_feature(shape)
         if gender is None:
             gender = 'default'
             appearance = 'default'
@@ -366,18 +366,18 @@ def gen_avatar(person):
     start_path = 'images/avatars'
     start_path += person.genus.get_face_type()
     if person.get_culture() is not None:
-        start_path = _check_avatar_path(
+        start_path = _check_avatar(
             start_path, person.get_culture())
-    start_path = _check_avatar_path(start_path, person.appearance_type())
-    start_path = _check_avatar_path(start_path, person.age.id)
+    start_path = _check_avatar(start_path, person.appearance_type())
+    start_path = _check_avatar(start_path, person.age.id)
     try:
         avatar = choice(get_avatars(start_path))
     except IndexError:
-        avatar = utilities.default_avatar_path()
+        avatar = utilities.default_avatar()
     return avatar
 
 
-def _check_avatar_path(start_path, attr):
+def _check_avatar(start_path, attr):
     if attr is not None:
         if renpy.exists(start_path + '/%s' % attr):
             start_path += '/%s' % attr
@@ -443,71 +443,52 @@ class DescriptionMaker(object):
 
     def description(self):
         person = self.person
-        background = self.person.background
-        weapon_txt = self.make_weapon_text()
-        alignment_desc = [i.capitalize()
-                          for i in person.alignment.description()]
-        get_feature = person.feature_by_slot
-        profession = person.feature_by_slot('profession')
-        possesive = self.get_possesive()
         pronoun = self.get_pronoun1()
         pronoun2 = self.get_pronoun2()
-        slots = ['hair', 'voice', 'constitution', 'shape',
-                 'look', 'skin', 'profession', 'gender', 'age']
-
-        string = '{person.firstname} "{person.nickname}" is a {person.age} {person.genus.name} {person.gender}, '
-
-        if not self.person.player_controlled:
-            string += self.relations_text()
-
-        string += '{cap_pronoun} behaves as a {alignment[0]}, {alignment[1]} and '\
-            '{alignment[2]} person and {possesive} sexuality is a {sex_suite} {sex_orientation}. '
-        string += '{{person.firstname}} originated from {world.name}, {world.description}. '.format(
-            world=person.homeworld())
-        if profession is not None:
-            string += 'and became a {profession} eventually. \n'.format(
-                profession=profession.name)
+        possesive = self.get_possesive()
+        cap_possesive = possesive.capitalize()
+        cap_pronoun = pronoun.capitalize()
+        cap_pronoun2 = pronoun2.capitalize()
+        name = person.name
+        nickname = person.nickname
+        age = person.feature_by_slot('age')
+        if age is None:
+            age = ''
         else:
-            string += '.\n'
-        if person.obligation:
-            text = store.obligations_dict.get(
-                person.player_relations().attitude_tendency(),
-                'obligation description here').format(
-                person=person)
-            string += utilities.encolor_text(text, 'green', protected=True)
-        string += '{person.firstname} has a {constitution} and {shape} figure. '\
-            '{cap_possesive} appearance is {look}. '\
-            '{cap_possesive} voice is {voice}. '\
-            '{person.name} has a {hair} and {skin}. '
-        string += '\n'
-        for i in ['vagina', 'boobs', 'ass', 'penis']:
-            organ = person.anatomy.get_part(i)
-            if organ is not None:
-                string += '{cap_pronoun} has %s. ' % organ.description()
-        string += '\n'
-        start = True
-        for i in person.features:
-            if i.slot not in slots:
-                if not start:
-                    string += ' '
-                else:
-                    start = False
-                string += i.description
-        string = string.format(
-            person=person, pronoun=pronoun,
-            alignment=alignment_desc, possesive=possesive,
-            cap_possesive=str.capitalize(possesive),
-            cap_pronoun=str.capitalize(pronoun),
-            hair=get_feature('hair').name, voice=get_feature('voice').name,
-            constitution=get_feature('constitution').name,
-            shape=get_feature('shape').name,
-            look=get_feature('look').name,
-            skin=get_feature('skin').description,
-            sex_suite=person.sexual_suite['name'],
-            sex_orientation=person.sexual_orientation['name'],
-            pronoun2=pronoun2, cap_pronoun2=str.capitalize(self.get_pronoun2())
-        )
-        return string
+            age = age.description()
+        gender = person.feature_by_slot('gender')
+        if gender is None:
+            gender = ''
+        else:
+            gender = gender.description()
+        genus = person.genus.description()
+        homeworld = person.homeworld.description()
+        occupation = person.feature_by_slot('occupation').description()
+        start_text = "{name} {nickname} is a {age} {genus} {gender}. "
+        start_text += homeworld
+        start_text += person.feature_by_slot('occupation').description()
+        start_text += '.'
+        # start_text += self.relations_text()
+        start_text += '\n'
+        start_text = self.features_text(start_text)
+        start_text += '\n'
+        start_text = self.needs_text(start_text)
+        start_text = start_text.format(**locals())
+        return start_text
+
+    def features_text(self, text):
+        text += self.person.name
+        text += ' '
+        for i in ('constitution', 'appearance', 'quirk'):
+            text += self.person.feature_by_slot(i).description()
+        return text
+
+    def needs_text(self, text):
+        for i in self.person.needs.values():
+            feature = self.person.feature_by_slot(i.name + '_feat')
+            if feature is not None:
+                text += feature.description()
+        return text
 
     def get_pronoun1(self):
         if self.person.gender == 'male' or self.person.gender == 'sexless':
@@ -597,6 +578,7 @@ class FoodSystem(object):
         data = self._features[self._fatness]
         if not isinstance(data, str):
             data = data[self._fitness]
+        print data.encode('utf-8')
         self.owner.add_feature(data)
 
     def rest(self):
@@ -604,23 +586,21 @@ class FoodSystem(object):
 
     def set_shape(self, id):
         for key, value in self._features.items():
-            fatness = key
-            fitness = 0
             if value == id:
-                self._fitness = fitness
-                self._fantess = fatness
+                self._fatness = key
+                self._fitness = 0
                 self._set_shape()
                 return
-            try:
-                for k, v in value.items():
-                    fitness = k
-                    if v == id:
-                        self._fitness = fitness
-                        self._fantess = fatness
-                        self._set_shape()
-                        return
-            except AttributeError:
-                continue
+            else:
+                try:
+                    for k, v in value.items():
+                        if v == id:
+                            self._fatness = key
+                            self._fitness = k
+                            self._set_shape()
+                            return
+                except AttributeError:
+                    pass
 
 
 class Person(InventoryWielder, PsyModel):
@@ -637,8 +617,8 @@ class Person(InventoryWielder, PsyModel):
         self.init_psymodel()
         self._event_type = 'person'
         self._firstname = u"Anonimous"
-        self.surname = u""
-        self.nickname = u""
+        self._surname = u""
+        self._nickname = u""
 
         # gets Feature() objects and their child's. Add new Feature only with
         # self.add_feature()
@@ -647,7 +627,7 @@ class Person(InventoryWielder, PsyModel):
         self.relations_tendency = {'convention': 0,
                                    'conquest': 0, 'contribution': 0}
         # obedience, dependecy and respect stats
-        self.avatar_path = ''
+        self.avatar = ''
 
         self._master = None  # If this person is a slave, the master will be set
         self.supervisor = None
@@ -896,7 +876,27 @@ class Person(InventoryWielder, PsyModel):
     @firstname.setter
     def firstname(self, name):
         self._firstname = name
-        self._renpy_character.name = self.name
+        self._set_renpy_char_name()
+
+    @property
+    def nickname(self):
+        return self._nickname
+
+    @nickname.setter
+    def nickname(self, value):
+        self._nickname = value
+        self._set_renpy_char_name()
+
+    @property
+    def surname(self):
+        return self._surname
+
+    @surname.setter
+    def surname(self, value):
+        self._surname = value
+
+    def _set_renpy_char_name(self):
+        self._renpy_character.name = self.name + ' ' + self.nickname
 
     def __call__(self, what, interact=True):
         self.game_ref.sayer = self
@@ -960,9 +960,9 @@ class Person(InventoryWielder, PsyModel):
     def set_avatar(self, avatar=None):
         if avatar is not None:
             if avatar in renpy.list_files():
-                self.avatar_path = avatar
+                self.avatar = avatar
             else:
-                self.avatar_path = utilities.default_avatar_path()
+                self.avatar = utilities.default_avatar()
             return
         path = 'images/avatar/'
         path += self.genus.head_type + '/'
@@ -980,7 +980,7 @@ class Person(InventoryWielder, PsyModel):
         try:
             avatar = choice(this_avas)
         except IndexError:
-            self.avatar_path = utilities.default_avatar_path()
+            self.avatar = utilities.default_avatar()
             return
         avatar_split = avatar.split('/')
         for str_ in avatar_split:
@@ -990,7 +990,7 @@ class Person(InventoryWielder, PsyModel):
             if 'hair' in str_:
                 hair_color = str_.split('_')[0]
                 self.hair_color = hair_color
-        self.avatar_path = avatar
+        self.avatar = avatar
 
     def change_genus(self, genus):
         self.genus.remove(self)
@@ -1083,7 +1083,7 @@ class Person(InventoryWielder, PsyModel):
 
     @property
     def name(self):
-        s = self.firstname + ' %s' % self.nickname + ' %s' % self.surname
+        s = self.firstname
         return s
 
     def tick_features(self):
