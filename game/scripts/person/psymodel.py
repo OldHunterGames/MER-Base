@@ -2,7 +2,6 @@
 
 import renpy.store as store
 import renpy.exports as renpy
-from alignment import Alignment
 import mer_utilities
 
 

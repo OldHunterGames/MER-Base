@@ -310,10 +310,10 @@ class PersonCreator(object):
         else:
             gender = kwargs.get('gender', self.random_gender())
         p = Person(age, gender, genus)
-        shape = kwargs.get('shape', genus.get_shape())
-        if shape is None:
-            shape = self.random_constitution(age)
-        p.add_feature(shape)
+        constitution = kwargs.get('constitution', genus.get_constitution())
+        if constitution is None:
+            constitution = self.random_constitution(age)
+        p.add_feature(constitution)
         if gender is None:
             gender = 'default'
             appearance = 'default'
@@ -1319,8 +1319,6 @@ class Person(InventoryWielder, PsyModel):
         d = {'lawful': ('formal', 'loyality'), 'chaotic': ('intimate', 'scum-slave'),
              'timid': ('delicate', 'worship'), 'ardent': ('intense', 'disciple'),
              'good': ('supporter', 'dedication'), 'evil': ('contradictor', 'henchman')}
-        list_ = [self.alignment.morality_str(), self.alignment.orderliness_str(),
-                 self.alignment.activity_str()]
         return [d.get(x) for x in list_]
 
     def willing_available(self):

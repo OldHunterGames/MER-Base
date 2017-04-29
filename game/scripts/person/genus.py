@@ -105,3 +105,6 @@ class Genus(object):
 
     def get_shape(self, value=None):
         return self.data.get('shape', value)
+
+    def get_constitution(self, value=None):
+        return self.data.get('constitution', value)
