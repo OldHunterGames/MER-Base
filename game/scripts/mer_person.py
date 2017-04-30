@@ -180,10 +180,13 @@ class CharacterCustomization(object):
 
 class PersonCreator(object):
 
-    def __init__(self, features_generator=FeaturesGenerator()):
+    def __init__(self, **kwargs):
         # only human genus is functional for now
         self.stats = dict()
-        self._features_generator = features_generator
+        self.add_stats(**kwargs)
+
+    def add_stats(self, **kwargs):
+        self.stats.update(**kwargs)
 
     def available_worlds(self):
         return [HomeWorld(i) for i in store.homeworlds_dict]
@@ -352,7 +355,7 @@ class PersonCreator(object):
 
     def gen_person(self):
         "Creates person with predefined parameters"
-        person = self.gen_person(**self.stats)
+        person = self.gen_random_person(**self.stats)
         return person
 
 
@@ -578,7 +581,6 @@ class FoodSystem(object):
         data = self._features[self._fatness]
         if not isinstance(data, str):
             data = data[self._fitness]
-        print data.encode('utf-8')
         self.owner.add_feature(data)
 
     def rest(self):
