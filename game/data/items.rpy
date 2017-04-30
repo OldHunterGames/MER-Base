@@ -75,8 +75,17 @@ init python:
             'tags': ['lethal', 'offhand', ],                             
         },
 
-        'knife': {}
+        'knife': {
+            'name': __("Stone knife"),
+            'description': __('Spear with a stone tip. Crude but effective heavy melee weapon.'),
+            'quality': 1,  
+            'size': 1,  
+            'condition': 5, 
+            'modifiers': {'hardiness': +1},
+            'tags': ['lethal', 'offhand', ],          
+        }
         
+
 
     }
 
