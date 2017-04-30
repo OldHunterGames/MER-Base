@@ -8,7 +8,7 @@ define e = Character("Eileen")
 init -10 python:
     sys.path.append(renpy.loader.transfn("scripts"))
     sys.path.append(renpy.loader.transfn("scripts/person"))
-    sys.path.append(renpy.loader.transfn("Core"))
+    sys.path.append(renpy.loader.transfn("core"))
     from mer_person import *
 # The game starts here.
 
