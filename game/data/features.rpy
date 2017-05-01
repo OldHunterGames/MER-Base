@@ -95,6 +95,7 @@
     'slim': {'name': __('Slim'), 'slot': 'shape', 'modifiers': {'menace': -1, 'subtlety': +1, 'succulence': -1}, 'description': __("and in slim shape"), 'image': 'miscards'},
     'wiry': {'name': __('Wiry'), 'slot': 'shape', 'modifiers': {'hardiness': +1,  'subtlety': +1, 'refinement': -1,'succulence': -2}, 'description': __("with a dry and wiry muscles"), 'image': 'miscards'},
     'skinnyfat': {'name': __('Skinny fat'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'menace': -1, 'refinement': +1,'succulence': +1}, 'description': __("amd looks like a skinny-fat"), 'image': 'miscards'},
+    'undistinguished': {'name': __(''), 'slot': 'shape', 'modifiers': {}, 'description': __(""), 'image': 'miscards'},
     'muscular': {'name': __('Muscular'), 'slot': 'shape', 'modifiers': {'hardiness': +1, 'menace': +1, 'refinement': -1,'succulence': -1}, 'description': __("and wery fit"), 'image': 'miscards'},
     'flabby': {'name': __('Soft'), 'slot': 'shape', 'modifiers': {'hardiness': -1, 'subtlety': -1, 'refinement': +1,'succulence': +2}, 'description': __("with a smooth body"), 'image': 'miscards'},
     'chubby': {'name': __('Chubby'), 'slot': 'shape', 'modifiers': {'menace': +1, 'subtlety': -1, 'succulence': +1}, 'description': __("with a chubby curves"), 'image': 'miscards'},
