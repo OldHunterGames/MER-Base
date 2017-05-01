@@ -10,6 +10,7 @@ init -10 python:
     sys.path.append(renpy.loader.transfn("scripts/person"))
     sys.path.append(renpy.loader.transfn("core"))
     from mer_person import *
+    from mer_utilities import *
 # The game starts here.
 
 label start:
@@ -17,9 +18,9 @@ label start:
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.
-    $ person = PersonCreator().gen_random_person()
+    
     scene bg room
-
+    call generate
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
@@ -37,3 +38,8 @@ label start:
     # This ends the game.
 
     return
+
+label generate:
+    $ person = PersonCreator(age='junior').gen_person()
+    call screen sc_cis(person)
+    jump generate

@@ -20,7 +20,7 @@ class ModifiersStorage(object):
 
     def count_modifiers(self, attribute):
         return sum(
-            [i.value(attribute) for i in self.get_all_modifiers])
+            [i.value(attribute) for i in self.get_all_modifiers()])
 
     def remove_modifier(self, source):
         raise NotImplementedError

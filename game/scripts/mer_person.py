@@ -241,7 +241,7 @@ class PersonCreator(object):
 
     def random_alignment(self, person):
         alignments = [
-            ('chaotic', 'lawfull'), ('evil', 'good'), ('ardent', 'timid')]
+            ('chaotic', 'lawful'), ('evil', 'good'), ('ardent', 'timid')]
         no_alignment = 0
         for i in alignments:
             dice = randint(1, 10)
@@ -470,6 +470,7 @@ class DescriptionMaker(object):
         start_text = "{name} {nickname} is a {age} {genus} {gender}. "
         start_text += homeworld
         start_text += person.feature_by_slot('occupation').description()
+        start_text = self.alignment_text(start_text)
         start_text += '.'
         # start_text += self.relations_text()
         start_text += '\n'
@@ -482,8 +483,17 @@ class DescriptionMaker(object):
     def features_text(self, text):
         text += self.person.name
         text += ' '
-        for i in ('constitution', 'appearance', 'quirk'):
+        for i in ('constitution', 'shape', 'appearance', 'quirk'):
             text += self.person.feature_by_slot(i).description()
+        return text
+
+    def alignment_text(self, text):
+        for i in ("orderliness", "activity", "morality"):
+            feature = self.person.feature_by_slot(i)
+            if feature is not None:
+                text += ' %s'%feature.name()
+        if self.person.feature('unaligned') is not None:
+            text += ' %s'%self.person.feature('unaligned').name()
         return text
 
     def needs_text(self, text):
@@ -831,8 +841,7 @@ class Person(InventoryWielder, PsyModel):
         return None
 
     def count_modifiers(self, attribute):
-        value = super(Person, self).count_modifiers(attribute)
-        value += self.inventory.count_modifiers(attribute)
+        value = self.inventory.count_modifiers(attribute)
         for i in self.features:
             value += i.count_modifiers(attribute)
         value += self._count_conditions(attribute)
@@ -1430,11 +1439,11 @@ class Person(InventoryWielder, PsyModel):
 
     # rating methods
     def allure(self):
-        value += self.count_modifiers('allure')
+        value = self.count_modifiers('allure')
         return max(0, min(value, 5))
 
     def hardiness(self):
-        value += self.count_modifiers('hardiness')
+        value = self.count_modifiers('hardiness')
         return max(0, min(value, 5))
 
     def succulence(self):
@@ -1446,23 +1455,7 @@ class Person(InventoryWielder, PsyModel):
         return max(0, min(value, 5))
 
     def menace(self):
-        value += self.skill('physique') - 3
-        weapons = self.weapon_slots().values()
-        if (self.get_slot('harness') is None and
-                self.get_slot('belt1')is None and
-                self.get_slot('belt2') is None):
-            value -= 1
-        for i in weapons:
-            weapon = i.get_item()
-            if weapon is not None:
-                if weapon.size == 'twohand':
-                    value += 1
-                    break
-        if self.armor is None:
-            value -= 1
-        elif self.armor.armor_rate == 'heavy_armor':
-            value += 1
-        value += self.count_modifiers('menace')
+        value = self.count_modifiers('menace')
         return max(0, min(value, 5))
 
     def subtlety(self):
@@ -1484,6 +1477,15 @@ class Person(InventoryWielder, PsyModel):
     def extravagance(self):
         value = self.count_modifiers('extravagance')
         return max(0, min(value, 5))
+
+    def show_stats(self):
+        stats = (
+            'allure', 'hardiness', 'succulence', 'purity',
+            'menace', 'subtlety', 'refinement', 'competence', 'charisma',
+            'extravagance')
+        return dict(
+            [(store.person_stats.get(i, i), getattr(self, i)()) for i in stats
+            if getattr(self, i)() > 0])
 
     def get_price(self):
         # pricing formula for untrained slaves
