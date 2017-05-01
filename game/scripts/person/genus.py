@@ -108,3 +108,7 @@ class Genus(object):
 
     def get_constitution(self, value=None):
         return self.data.get('constitution', value)
+
+    @property
+    def tags(self):
+        return self.data.get('tags', list())

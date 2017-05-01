@@ -10,7 +10,7 @@ screen sc_cis(person):
         style 'char_info_window'
         hbox:
             vbox:
-                image person.avatar
+                image im.Scale(person.avatar, 200, 200)
                 for key, value in person.show_stats().items():
                     text encolor_text(key, value)
             text DescriptionMaker(person).description()
@@ -20,4 +20,4 @@ screen gen_button():
     textbutton 'Generate':
         xalign 0.6
         yalign 0.6
-        action SetVariable('person', PersonCreator().gen_random_person()), Return()
+        action Return()

@@ -226,7 +226,7 @@ class PersonCreator(object):
         return utilities.weighted_random(store.ages_frequency)
 
     def random_gender(self):
-        return utilities.weighted_random(store.genders_frequency)
+        return utilities.weighted_random(store.sexes_frequency)
 
     def random_constitution(self, age):
         if age is None:
@@ -308,7 +308,7 @@ class PersonCreator(object):
             gender = None
         else:
             age = kwargs.get('age', self.random_age())
-        if 'sexless' in genus.genders():
+        if 'sexless' in genus.tags:
             gender = None
         else:
             gender = kwargs.get('gender', self.random_gender())
@@ -340,7 +340,8 @@ class PersonCreator(object):
             p.culture = choice(p.feature_by_slot('occupation').cultures)
         except IndexError:
             p.culture = None
-        # gen_name(p, p.culture, gender)
+        self.gen_name(p, p.culture, p.gender)
+        self.gen_avatar(p)
         # random_sex_type = self.random_sexual_type(gender)
         # random_sex_orientation = self.random_sexual_orientation(appearance)
         # p.set_sexual_suite(kwargs.get(
@@ -358,46 +359,45 @@ class PersonCreator(object):
         person = self.gen_random_person(**self.stats)
         return person
 
+    def gen_name(self, person, culture_id, gender):
+        if gender == 'transfemale':
+            gender = 'male'
+        elif gender in ('shemale', 'transmale'):
+            gender = 'female'
+        elif gender == 'sexless':
+            gender = choice('male', 'female')
+        try:
+            names = store.firstname[culture_id][gender]
+        except KeyError:
+            names = store.firstname['default'][gender]
+        person.firstname = choice(names)
 
-def get_avatars(path):
-    all_ = renpy.list_files()
-    avas = [str_ for str_ in all_ if str_.startswith(path)]
-    return avas
+    def _get_avatars(self, path):
+        all_ = renpy.list_files()
+        avas = [str_ for str_ in all_ if str_.startswith(path)]
+        return avas
 
+    def gen_avatar(self, person):
+        start_path = 'images/avatar/'
+        start_path += person.genus.get_face_type()
+        print start_path.encode('utf-8')
+        if person.get_culture() is not None:
+            start_path = self._check_avatar(
+                start_path, person.get_culture())
+        start_path = self._check_avatar(start_path, person.appearance_type())
+        start_path = self._check_avatar(start_path, person.age)
+        print start_path.encode('utf-8')
+        try:
+            avatar = choice(self._get_avatars(start_path))
+        except IndexError:
+            avatar = utilities.default_avatar()
+        person.set_avatar(avatar)
 
-def gen_avatar(person):
-    start_path = 'images/avatars'
-    start_path += person.genus.get_face_type()
-    if person.get_culture() is not None:
-        start_path = _check_avatar(
-            start_path, person.get_culture())
-    start_path = _check_avatar(start_path, person.appearance_type())
-    start_path = _check_avatar(start_path, person.age.id)
-    try:
-        avatar = choice(get_avatars(start_path))
-    except IndexError:
-        avatar = utilities.default_avatar()
-    return avatar
-
-
-def _check_avatar(start_path, attr):
-    if attr is not None:
-        if renpy.exists(start_path + '/%s' % attr):
-            start_path += '/%s' % attr
-    return start_path
-
-
-def gen_name(person, culture_id, gender):
-    if gender == 'sexless':
-        gender = 'male'
-    elif gender == 'shemale':
-        gender = 'female'
-    try:
-        names = store.firstname[culture_id][gender]
-    except KeyError:
-        names = store.firstname['default'][gender]
-    person.firstname = choice(names)
-
+    def _check_avatar(self, start_path, attr):
+        if attr is not None:
+            if renpy.exists(start_path + '/%s' % attr):
+                start_path += '/%s' % attr
+        return start_path
 
 persons_list = []
 
@@ -639,7 +639,7 @@ class Person(InventoryWielder, PsyModel):
         self.relations_tendency = {'convention': 0,
                                    'conquest': 0, 'contribution': 0}
         # obedience, dependecy and respect stats
-        self.avatar = ''
+        self.avatar = utilities.default_avatar()
 
         self._master = None  # If this person is a slave, the master will be set
         self.supervisor = None
@@ -975,33 +975,6 @@ class Person(InventoryWielder, PsyModel):
             else:
                 self.avatar = utilities.default_avatar()
             return
-        path = 'images/avatar/'
-        path += self.genus.head_type + '/'
-        if self.gender is not None:
-            if self.gender == 'sexless':
-                gender = 'male'
-            elif self.gender == 'shemale':
-                gender = 'female'
-            else:
-                gender = self.gender
-            path += gender + '/'
-        if self.age is not None:
-            path += self.age + '/'
-        this_avas = get_avatars(path)
-        try:
-            avatar = choice(this_avas)
-        except IndexError:
-            self.avatar = utilities.default_avatar()
-            return
-        avatar_split = avatar.split('/')
-        for str_ in avatar_split:
-            if 'skin' in str_:
-                skin_color = str_.split('_')[0]
-                self.add_feature(skin_color)
-            if 'hair' in str_:
-                hair_color = str_.split('_')[0]
-                self.hair_color = hair_color
-        self.avatar = avatar
 
     def change_genus(self, genus):
         self.genus.remove(self)
@@ -1081,7 +1054,7 @@ class Person(InventoryWielder, PsyModel):
             gender = self.feature_by_slot('gender').id
             return gender
         except AttributeError:
-            return 'ageless'
+            return 'sexless'
 
     # person gender relies on feature with slot 'age'
     @property
@@ -1090,7 +1063,10 @@ class Person(InventoryWielder, PsyModel):
             gender = self.feature_by_slot('age').id
             return gender
         except AttributeError:
-            return 'sexless'
+            return 'ageless'
+
+    def get_culture(self):
+        return self.culture
 
     @property
     def name(self):
