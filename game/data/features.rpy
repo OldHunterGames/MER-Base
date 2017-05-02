@@ -19,16 +19,16 @@
     'elder': {'name': __('elder'), 'description': __(" elder"), 'slot': 'age', 'modifiers': {'menace': -1, 'hardiness': -1, 'subtlety': -1,'competence': +1,'extravagance': +1, 'purity': -1, 'refinement': +1, 'succulence': -1}, 'image': 'miscards'},
 
     ## CONSTITUTION
-    'normal': {'name': __('has average build'), 'slot': 'constitution', 'modifiers': {}, 'image': 'miscards'},
-    'small': {'name': __('is short'), 'slot': 'constitution', 'modifiers': {'subtlety': +1, 'menace': -1}, 'image': 'miscards'},
-    'large': {'name': __('is tall'), 'slot': 'constitution', 'modifiers': {'menace': +1, 'subtlety': -1}, 'image': 'miscards'},
-    'athletic': {'name': __('has athletic build'), 'slot': 'constitution', 'modifiers': {'menace': +1, 'hardiness': +1}, 'image': 'miscards'},
-    'brawny': {'name': __('has a broad bones'), 'slot': 'constitution', 'modifiers': {'subtlety': -1, 'hardiness': +1, 'extravagance': +1, 'purity': -1, 'refinement': -1,}, 'image': 'miscards'},
-    'lean': {'name': __('has a gracile build'), 'slot': 'constitution', 'modifiers': {'subtlety': +1, 'hardiness': -1, 'succulence': -1, 'extravagance': -1, 'purity': +1,'refinement': +1,}, 'image': 'miscards'},
-    'clumsy': {'name': __('has a disproportional body'), 'slot': 'constitution', 'modifiers': {'subtlety': -1, 'extravagance': +1, 'purity': -1,'refinement': -1,}, 'image': 'miscards'},
-    'crooked': {'name': __('has a crooked bones'), 'slot': 'constitution', 'modifiers': {'subtlety': -1, 'hardiness': -1,'menace': -1, 'extravagance': +1, 'purity': -1,'refinement': -1,}, 'image': 'miscards'},
-    'amorphous': {'name': __('has amorphous body'), 'slot': 'constitution', 'modifiers': {}, 'image': 'miscards'},
-    'shapeshifter': {'name': __('is a shapeshifter'), 'slot': 'constitution', 'modifiers': {}, 'image': 'miscards'},
+    'normal': {'name': __('average constitution'), 'description': __('has average build'), 'slot': 'constitution', 'modifiers': {}, 'image': 'miscards'},
+    'small': {'name': __('short'), 'description': __('is short'), 'slot': 'constitution', 'modifiers': {'subtlety': +1, 'menace': -1}, 'image': 'miscards'},
+    'large': {'name': __('tall'), 'description': __('is tall'), 'slot': 'constitution', 'modifiers': {'menace': +1, 'subtlety': -1}, 'image': 'miscards'},
+    'athletic': {'name': __('athletic'), 'description': __('has athletic build'), 'slot': 'constitution', 'modifiers': {'menace': +1, 'hardiness': +1}, 'image': 'miscards'},
+    'brawny': {'name': __('broad bones'), 'description': __('has a broad bones'), 'slot': 'constitution', 'modifiers': {'subtlety': -1, 'hardiness': +1, 'extravagance': +1, 'purity': -1, 'refinement': -1,}, 'image': 'miscards'},
+    'lean': {'name': __('gracile'), 'description': __('has a gracile build'), 'slot': 'constitution', 'modifiers': {'subtlety': +1, 'hardiness': -1, 'succulence': -1, 'extravagance': -1, 'purity': +1,'refinement': +1,}, 'image': 'miscards'},
+    'clumsy': {'name': __('disproportional body'), 'description': __('has a disproportional body'), 'slot': 'constitution', 'modifiers': {'subtlety': -1, 'extravagance': +1, 'purity': -1,'refinement': -1,}, 'image': 'miscards'},
+    'crooked': {'name': __('crooked'), 'description': __('has a crooked bones'), 'slot': 'constitution', 'modifiers': {'subtlety': -1, 'hardiness': -1,'menace': -1, 'extravagance': +1, 'purity': -1,'refinement': -1,}, 'image': 'miscards'},
+    'amorphous': {'name': __('amorphous body'), 'description': __('has amorphous body'), 'slot': 'constitution', 'modifiers': {}, 'image': 'miscards'},
+    'shapeshifter': {'name': __('shapeshifter'), 'description': __('is a shapeshifter'), 'slot': 'constitution', 'modifiers': {}, 'image': 'miscards'},
 
     ## QUIRK
     'stubborn': {'name': __('stubborn'), 'description': __(" {person.name} is appearently stubborn."), 'slot': 'quirk', 'modifiers': {'hardiness': +1, 'refinement': -1, 'competence': +1, 'charisma': -1, }, 'image': 'miscards'},
