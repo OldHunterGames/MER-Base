@@ -221,6 +221,8 @@ class PersonCreator(object):
                     if getattr(person, i)() < 1:
                         del occupations[key]
                         break
+
+        del occupations['unknown']
         return occupations.keys()
 
     def get_weights(self, id):
@@ -272,7 +274,11 @@ class PersonCreator(object):
         return choice(self.available_worlds()).id
 
     def random_occupation(self, world, person):
-        return choice(self.available_occupations(world, person))
+        try:
+            occupation = choice(self.available_occupations(world, person))
+        except IndexError:
+            occupation = 'unknown'
+        return occupation
 
     def random_needs(self, person):
         needs = [
@@ -400,10 +406,12 @@ class PersonCreator(object):
                 start_path, person.get_culture())
         start_path = self._check_avatar(start_path, person.appearance_type())
         start_path = self._check_avatar(start_path, person.age)
+        print start_path.encode('utf-8')
         try:
             avatar = choice(self._get_avatars(start_path))
         except IndexError:
             avatar = utilities.default_avatar()
+        print avatar.encode('utf-8')
         person.set_avatar(avatar)
 
     def _check_avatar(self, start_path, attr):
@@ -496,8 +504,8 @@ class DescriptionMaker(object):
 
     def features_text(self, text):
         text += self.person.name
-        text += ' '
         for i in ('constitution', 'shape', 'appearance', 'quirk'):
+            text += ' '
             text += self.person.feature_by_slot(i).description()
         return text
 

@@ -11,6 +11,7 @@ init -10 python:
     sys.path.append(renpy.loader.transfn("core"))
     from mer_person import *
     from mer_utilities import *
+    import collections
 # The game starts here.
 
 label start:
@@ -18,7 +19,6 @@ label start:
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.
-    
     scene bg room
     call generate
     # This shows a character sprite. A placeholder is used, but you can
@@ -40,6 +40,6 @@ label start:
     return
 
 label generate:
-    $ person = PersonCreator(age='junior').gen_person()
+    $ person = PersonCreator().gen_random_person()
     call screen sc_cis(person)
     jump generate
