@@ -505,17 +505,22 @@ class DescriptionMaker(object):
     def features_text(self, text):
         text += self.person.name
         for i in ('constitution', 'shape', 'appearance', 'quirk'):
-            text += ' '
-            text += self.person.feature_by_slot(i).description()
+            feature = self.person.feature_by_slot(i).description()
+            if feature is not None:
+                text += ' '
+                text += self.person.feature_by_slot(i).description()
+                if i == 'shape' or i == 'appearance':
+                    text += '.'
         return text
 
     def alignment_text(self, text):
+        text += '{cap_possesive} alignment is '
         for i in ("orderliness", "activity", "morality"):
             feature = self.person.feature_by_slot(i)
             if feature is not None:
-                text += ' %s'%feature.name()
+                text += ' %s' % feature.name()
         if self.person.feature('unaligned') is not None:
-            text += ' %s'%self.person.feature('unaligned').name()
+            text += ' %s' % self.person.feature('unaligned').name()
         return text
 
     def needs_text(self, text):
