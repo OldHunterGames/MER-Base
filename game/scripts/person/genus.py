@@ -23,7 +23,7 @@ class Genus(object):
 
     def __getattr__(self, key):
         try:
-            value = self.data[key]
+            value = self.__dict__['data'][key]
         except KeyError:
             raise AttributeError(key)
         return value

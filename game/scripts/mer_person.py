@@ -181,9 +181,14 @@ class CharacterCustomization(object):
 class PersonCreator(object):
 
     def __init__(self, **kwargs):
-        # only human genus is functional for now
+        self.weights = dict()
         self.stats = dict()
         self.add_stats(**kwargs)
+
+    def add_weights(self, dict_id, dict_):
+        # some dicts need special formating
+        # see character_generator_data.rpy
+        self.weights[dict_id] = dict_
 
     def add_stats(self, **kwargs):
         self.stats.update(**kwargs)
@@ -200,7 +205,9 @@ class PersonCreator(object):
         age_tags = ['junior', 'adolescent', 'mature', 'elder']
         for key, value in occupations.items():
             if any([i in value['tags'] for i in age_tags]):
-                if not person.feature_by_slot('age').id in value['tags']:
+                age = person.feature_by_slot('age')
+                age = age and age.id
+                if age not in value['tags'] and age is not None:
                     del occupations[key]
         for key, value in occupations.items():
             if 'masculine' in value['tags'] or 'femenie' in value['tags']:
@@ -216,28 +223,35 @@ class PersonCreator(object):
                         break
         return occupations.keys()
 
+    def get_weights(self, id):
+        return self.weights.get(
+            id, getattr(store, id))
+
     def get_genuses(self):
         return [Genus(i) for i in store.genuses_dict]
 
     def random_genus(self):
-        return utilities.weighted_random(store.genuses_frequency)
+        return utilities.weighted_random(
+            self.get_weights('genuses_frequency'))
 
     def random_age(self):
-        return utilities.weighted_random(store.ages_frequency)
+        return utilities.weighted_random(self.get_weights('ages_frequency'))
 
     def random_gender(self):
-        return utilities.weighted_random(store.sexes_frequency)
+        return utilities.weighted_random(self.get_weights('sexes_frequency'))
 
     def random_constitution(self, age):
         if age is None:
             age = 'default'
-        return utilities.weighted_random(store.constitutions_frequency[age])
+        return utilities.weighted_random(
+            self.get_weights('constitutions_frequency')[age])
 
     def random_quirk(self):
-        return utilities.weighted_random(store.quirks_frequency)
+        return utilities.weighted_random(self.get_weights('quirks_frequency'))
 
     def random_appearance(self, type_):
-        return utilities.weighted_random(store.appearance_frequency[type_])
+        return utilities.weighted_random(
+            self.get_weights('appearance_frequency')[type_])
 
     def random_alignment(self, person):
         alignments = [
@@ -275,10 +289,11 @@ class PersonCreator(object):
                 person.add_feature(i[1])
 
     def random_sexual_type(self, key):
-        return utilities.weighted_random(store.sexual_type[key])
+        return utilities.weighted_random(self.get_weights('sexual_type'[key]))
 
     def random_sexual_orientation(self, key):
-        return utilities.weighted_random(store.sexual_orientation[key])
+        return utilities.weighted_random(
+            self.get_weights('sexual_orientation'[key]))
 
     def get_ages(self, genus):
         return genus.ages_names()
@@ -304,8 +319,8 @@ class PersonCreator(object):
         "Creates fully random person if no agruments specified"
         genus = kwargs.get('genus', self.random_genus())
         genus = Genus(genus)
-        if 'ageless' in genus.ages():
-            gender = None
+        if 'ageless' in genus.tags:
+            age = None
         else:
             age = kwargs.get('age', self.random_age())
         if 'sexless' in genus.tags:
@@ -380,13 +395,11 @@ class PersonCreator(object):
     def gen_avatar(self, person):
         start_path = 'images/avatar/'
         start_path += person.genus.get_face_type()
-        print start_path.encode('utf-8')
         if person.get_culture() is not None:
             start_path = self._check_avatar(
                 start_path, person.get_culture())
         start_path = self._check_avatar(start_path, person.appearance_type())
         start_path = self._check_avatar(start_path, person.age)
-        print start_path.encode('utf-8')
         try:
             avatar = choice(self._get_avatars(start_path))
         except IndexError:
@@ -470,6 +483,7 @@ class DescriptionMaker(object):
         start_text = "{name} {nickname} is a {age} {genus} {gender}. "
         start_text += homeworld
         start_text += person.feature_by_slot('occupation').description()
+        start_text += '. '
         start_text = self.alignment_text(start_text)
         start_text += '.'
         # start_text += self.relations_text()

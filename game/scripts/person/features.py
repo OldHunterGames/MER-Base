@@ -31,7 +31,7 @@ class Feature(Modifiable):
 
     def __getattr__(self, key):
         try:
-            value = self.stats[key]
+            value = self.__dict__['stats'][key]
         except KeyError:
             raise AttributeError(key)
         else:
