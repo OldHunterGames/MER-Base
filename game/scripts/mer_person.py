@@ -1,6 +1,7 @@
 ﻿# -*- coding: UTF-8 -*-
 from random import *
 import copy
+import collections
 
 import renpy.store as store
 import renpy.exports as renpy
@@ -179,16 +180,39 @@ class CharacterCustomization(object):
 
 
 class PersonCreator(object):
+    _restrictions = list()
 
     def __init__(self, **kwargs):
-        self.weights = dict()
+        self.weights = collections.defaultdict(dict)
         self.stats = dict()
         self.add_stats(**kwargs)
+
+    def _weighted_random(self, data):
+        data = copy.copy(data)
+        for i in self._restrictions:
+            try:
+                del data[i]
+            except KeyError:
+                pass
+        return utilities.weighted_random(data)
 
     def add_weights(self, dict_id, dict_):
         # some dicts need special formating
         # see character_generator_data.rpy
-        self.weights[dict_id] = dict_
+        self.weights[dict_id].update(**dict_)
+
+    @staticmethod
+    def add_restriction(id):
+        PersonCreator._restrictions.append(id)
+
+    @staticmethod
+    def remove_restriction(id):
+        if id in PersonCreator._restrictions:
+            PersonCreator._restrictions.remove(id)
+
+    @staticmethod
+    def has_restriction(id):
+        return id in PersonCreator._restrictions
 
     def add_stats(self, **kwargs):
         self.stats.update(**kwargs)
@@ -225,35 +249,36 @@ class PersonCreator(object):
         del occupations['unknown']
         return occupations.keys()
 
-    def get_weights(self, id):
-        return self.weights.get(
-            id, getattr(store, id))
+    def _get_weights(self, id):
+        weights = copy.copy(getattr(store, id))
+        weights.update(self.weights.get(id, dict()))
+        return weights
 
     def get_genuses(self):
         return [Genus(i) for i in store.genuses_dict]
 
     def random_genus(self):
-        return utilities.weighted_random(
-            self.get_weights('genuses_frequency'))
+        return self._weighted_random(
+            self._get_weights('genuses_frequency'))
 
     def random_age(self):
-        return utilities.weighted_random(self.get_weights('ages_frequency'))
+        return self._weighted_random(self._get_weights('ages_frequency'))
 
     def random_gender(self):
-        return utilities.weighted_random(self.get_weights('sexes_frequency'))
+        return self._weighted_random(self._get_weights('sexes_frequency'))
 
     def random_constitution(self, age):
         if age is None:
             age = 'default'
-        return utilities.weighted_random(
-            self.get_weights('constitutions_frequency')[age])
+        return self._weighted_random(
+            self._get_weights('constitutions_frequency')[age])
 
     def random_quirk(self):
-        return utilities.weighted_random(self.get_weights('quirks_frequency'))
+        return self._weighted_random(self._get_weights('quirks_frequency'))
 
     def random_appearance(self, type_):
-        return utilities.weighted_random(
-            self.get_weights('appearance_frequency')[type_])
+        return self._weighted_random(
+            self._get_weights('appearance_frequency')[type_])
 
     def random_alignment(self, person):
         alignments = [
@@ -296,11 +321,11 @@ class PersonCreator(object):
 
     def random_sexual_type(self, key):
         return utilities.weighted_random(
-            self.get_weights('sexual_type_frequency')[key])
+            self._get_weights('sexual_type_frequency')[key])
 
     def random_sexual_orientation(self, key):
         return utilities.weighted_random(
-            self.get_weights('sexual_orientation_frequency')[key])
+            self._get_weights('sexual_orientation_frequency')[key])
 
     def get_ages(self, genus):
         return genus.ages_names()

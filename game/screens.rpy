@@ -720,7 +720,7 @@ screen preferences():
 
             hbox:
                 box_wrap True
-
+                spacing 10
                 if renpy.variant("pc"):
 
                     vbox:
@@ -730,19 +730,41 @@ screen preferences():
                         textbutton _("Fullscreen") action Preference("display", "fullscreen")
 
                 vbox:
-                    style_prefix "radio"
-                    label _("Rollback Side")
-                    textbutton _("Disable") action Preference("rollback side", "disable")
-                    textbutton _("Left") action Preference("rollback side", "left")
-                    textbutton _("Right") action Preference("rollback side", "right")
+                    label "Juniors"
+                    textbutton 'Yes' action [Function(PersonCreator.remove_restriction, 'junior'),
+                        SelectedIf(not PersonCreator.has_restriction('junior'))]
+                    textbutton 'No' action [Function(PersonCreator.add_restriction, 'junior'),
+                        SelectedIf(PersonCreator.has_restriction('junior'))]
 
                 vbox:
-                    style_prefix "check"
-                    label _("Skip")
-                    textbutton _("Unseen Text") action Preference("skip", "toggle")
-                    textbutton _("After Choices") action Preference("after choices", "toggle")
-                    textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
+                    label 'Transgenders'
+                    textbutton 'Yes' action [Function(PersonCreator.remove_restriction, 'transfemale'),
+                        Function(PersonCreator.remove_restriction, 'transmale'),
+                        SelectedIf(not PersonCreator.has_restriction('transmale'))]
+                    textbutton 'No' action [Function(PersonCreator.add_restriction, 'transfemale'),
+                        Function(PersonCreator.add_restriction, 'transmale'),
+                        SelectedIf(PersonCreator.has_restriction('transmale'))]
 
+                vbox:
+                    label 'Shemales'
+                    textbutton 'Yes' action [Function(PersonCreator.remove_restriction, 'shemale'),
+                        SelectedIf(not PersonCreator.has_restriction('shemale'))]
+                    textbutton 'No' action [Function(PersonCreator.add_restriction, 'shemale'),
+                        SelectedIf(PersonCreator.has_restriction('shemale'))]
+
+                vbox:
+                    label 'Male Homosexuality'
+                    textbutton 'Yes' action [Function(PersonCreator.remove_restriction, 'gay'),
+                        SelectedIf(not PersonCreator.has_restriction('gay'))]
+                    textbutton 'No' action [Function(PersonCreator.add_restriction, 'gay'),
+                        SelectedIf(PersonCreator.has_restriction('gay'))]
+
+                vbox:
+                    label 'Female Homosexuality'
+                    textbutton 'Yes' action [Function(PersonCreator.remove_restriction, 'lesbian'),
+                        SelectedIf(not PersonCreator.has_restriction('lesbian'))]
+                    textbutton 'No' action [Function(PersonCreator.add_restriction, 'lesbian'),
+                        SelectedIf(PersonCreator.has_restriction('lesbian'))]
                 ## Additional vboxes of type "radio_pref" or "check_pref" can be
                 ## added here, to add additional creator-defined preferences.
 
@@ -751,16 +773,6 @@ screen preferences():
             hbox:
                 style_prefix "slider"
                 box_wrap True
-
-                vbox:
-
-                    label _("Text Speed")
-
-                    bar value Preference("text speed")
-
-                    label _("Auto-Forward Time")
-
-                    bar value Preference("auto-forward time")
 
                 vbox:
 
