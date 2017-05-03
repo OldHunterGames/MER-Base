@@ -143,7 +143,7 @@
     
     }
 
-    sexual_orientation = {
+    sexual_orientation_frequency = {
         'default': {
             'asexual': 1, 
         },
@@ -174,7 +174,7 @@
 
     }
 
-    sexual_type = {
+    sexual_type_frequency = {
         'default': {
             'frigid': 1, 
         },

@@ -295,11 +295,12 @@ class PersonCreator(object):
                 person.add_feature(i[1])
 
     def random_sexual_type(self, key):
-        return utilities.weighted_random(self.get_weights('sexual_type'[key]))
+        return utilities.weighted_random(
+            self.get_weights('sexual_type_frequency')[key])
 
     def random_sexual_orientation(self, key):
         return utilities.weighted_random(
-            self.get_weights('sexual_orientation'[key]))
+            self.get_weights('sexual_orientation_frequency')[key])
 
     def get_ages(self, genus):
         return genus.ages_names()
@@ -353,7 +354,8 @@ class PersonCreator(object):
         self.random_needs(p)
         for i in genus.features():
             p.add_feature(i)
-        p.homeworld = HomeWorld(kwargs.get('homeworld', self.random_homeworld()))
+        p.homeworld = HomeWorld(kwargs.get(
+            'homeworld', self.random_homeworld()))
         p.add_feature(
             kwargs.get('occupation', self.random_occupation(p.homeworld, p)),
             'occupation_features')
@@ -363,12 +365,12 @@ class PersonCreator(object):
             p.culture = None
         self.gen_name(p, p.culture, p.gender)
         self.gen_avatar(p)
-        # random_sex_type = self.random_sexual_type(gender)
-        # random_sex_orientation = self.random_sexual_orientation(appearance)
-        # p.set_sexual_suite(kwargs.get(
-        #    'sexual_type', random_sex_type))
-        # p.set_sexual_orientation(kwargs.get('sexual_orientation',
-        #                                    random_sex_orientation))
+        random_sex_type = self.random_sexual_type(gender)
+        random_sex_orientation = self.random_sexual_orientation(appearance)
+        p.set_sexual_type(kwargs.get(
+            'sexual_type', random_sex_type))
+        p.set_sexual_orientation(kwargs.get('sexual_orientation',
+                                            random_sex_orientation))
         return p
 
     def equip_person(self, person):
@@ -406,12 +408,10 @@ class PersonCreator(object):
                 start_path, person.get_culture())
         start_path = self._check_avatar(start_path, person.appearance_type())
         start_path = self._check_avatar(start_path, person.age)
-        print start_path.encode('utf-8')
         try:
             avatar = choice(self._get_avatars(start_path))
         except IndexError:
             avatar = utilities.default_avatar()
-        print avatar.encode('utf-8')
         person.set_avatar(avatar)
 
     def _check_avatar(self, start_path, attr):
@@ -473,6 +473,8 @@ class DescriptionMaker(object):
         cap_possesive = possesive.capitalize()
         cap_pronoun = pronoun.capitalize()
         cap_pronoun2 = pronoun2.capitalize()
+        sex_type = person.sexual_type['name']
+        sex_orientation = person.sexual_orientation['name']
         name = person.name
         nickname = person.nickname
         age = person.feature_by_slot('age')
@@ -493,7 +495,7 @@ class DescriptionMaker(object):
         start_text += person.feature_by_slot('occupation').description()
         start_text += '. '
         start_text = self.alignment_text(start_text)
-        start_text += '.'
+        start_text += ' and sexually {pronoun} is {sex_type} {sex_orientation}.'
         # start_text += self.relations_text()
         start_text += '\n'
         start_text = self.features_text(start_text)
@@ -728,7 +730,7 @@ class Person(InventoryWielder, PsyModel):
         self._interactions = CardsMaker()
         self._active_quest = None
         self._sexual_orientation = None
-        self._sexual_suite = None
+        self._sexual_type = None
 
     def set_shape(self, id):
         self.food_system.set_shape(id)
@@ -750,14 +752,14 @@ class Person(InventoryWielder, PsyModel):
         return self._sexual_orientation
 
     @property
-    def sexual_suite(self):
-        return self._sexual_suite
+    def sexual_type(self):
+        return self._sexual_type
 
     def set_sexual_orientation(self, id):
         self._sexual_orientation = store.sexual_orientation[id]
 
-    def set_sexual_suite(self, id):
-        self._sexual_suite = store.sexual_type[id]
+    def set_sexual_type(self, id):
+        self._sexual_type = store.sexual_type[id]
 
     def get_interactions(self):
         self._interactions.set_context(owner=self)
@@ -1488,7 +1490,7 @@ class Person(InventoryWielder, PsyModel):
             'extravagance')
         return dict(
             [(store.person_stats.get(i, i), getattr(self, i)()) for i in stats
-            if getattr(self, i)() > 0])
+             if getattr(self, i)() > 0])
 
     def get_price(self):
         # pricing formula for untrained slaves
