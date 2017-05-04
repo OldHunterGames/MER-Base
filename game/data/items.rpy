@@ -1,4 +1,4 @@
-﻿####################################
+####################################
 #
 #   Basic items data
 #
@@ -33,6 +33,43 @@ init python:
             'tags': ['accessory', ],                             
         },
     }
+
+    ## Base build in "items" of genuses
+
+
+    base_equipement_data = {
+
+        'bare_hands':{
+            'name': __("Bare hands"),
+            'description': __('Just a bare hands and no armament.'),
+            'quality': 0,  
+            'size': 0,  
+            'condition': 5, 
+            'modifiers': {'menace': -2, },
+            'tags': ['nonlethal', 'offhand', ],                             
+        },
+
+        'nude':{
+            'name': __("Nude"),
+            'description': __('No clothes at all, just a nude skin.'),
+            'quality': 0,  
+            'size': 0,  
+            'condition': 5, 
+            'modifiers': {'menace': -1, 'hardiness': -1, 'refinement': -1, },
+            'tags': ['garment', ],                             
+        },
+
+        'fur':{
+            'name': __("Pretty fur"),
+            'description': __('The natural fur serves as a substitude to clothers.'),
+            'quality': 0,  
+            'size': 0,  
+            'condition': 5, 
+            'modifiers': {'extravagance': +1},
+            'tags': ['garment', ],                             
+        },
+                        
+    }    
 
     ## Implement type items
 
@@ -120,7 +157,7 @@ init python:
             'quality': 2,  
             'size': 3,  
             'condition': 5, 
-            'modifiers': {'menace': -1, },
+            'modifiers': {'menace': -1},
             'tags': ['garment', ],                             
         },
         
@@ -131,11 +168,40 @@ init python:
             'size': 1,  
             'condition': 5, 
             'modifiers': {'refinement': -99, 'menace': -2, 'subtlety': +1, 'extravagance': +1, 'purity': -1},
-            'tags': ['accessory', ],                             
+            'tags': ['garment', ],                             
         },
+        
+        'revealing_dress':{
+            'name': __("Revealing dress"),
+            'description': __('This dress is not leaves much to imagination...'),
+            'quality': 2,  
+            'size': 2,  
+            'condition': 5, 
+            'modifiers': {'refinement': -1, 'menace': -2, 'charisma': +1, 'competence': -1, 'extravagance': +1, 'purity': -1},
+            'tags': ['garment', ],                             
+        },
+        
+        'sturdy_cloth':{
+            'name': __("Sturdy cloth"),
+            'description': __('Simple but tough cloth, good for a travels or a hard work.'),
+            'quality': 2,  
+            'size': 4,  
+            'condition': 5, 
+            'modifiers': {'hardiness': +1, 'refinement': -1, 'menace': -1, },
+            'tags': ['garment', ],                             
+        },
+        
+        'military_uniform':{
+            'name': __("Military uniform"),
+            'description': __('Some kind of a standart military uniform from the outworlds.'),
+            'quality': 2,  
+            'size': 4,  
+            'condition': 5, 
+            'modifiers': {'purity': -1},
+            'tags': ['garment', ],                             
+        },
+       
 
-        'revealing_dress' : {},
-        'sturdy_cloth': {}
 
     }
 
