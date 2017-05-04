@@ -16,7 +16,7 @@ def init_default_items_data():
         'offhand_weapon_data', 'heavy_implement_data',
         'versatile_implement_data', 'offhand_implement_data',
         'garment_data', 'armor_data', 'loadout_data', 'accessory_data',
-        'item_data'
+        'item_data', 'base_equipement_data'
     ):
         Item.add_data(getattr(store, i))
 
