@@ -72,6 +72,7 @@ init python:
         ## TEMPLATE
         'id': {'name': __('Name'), 
         'description': __("Description"),
+        'nicknames': [ __('nick'), ],
         'slot': 'occupation', 
         'tags': ['rome', 'masculine', 'mature', 'menace'],
         'cultures': ['western', 'oriental', 'african', 'native', 'nordic', 'slavic', 'arabic',],             
@@ -93,6 +94,7 @@ init python:
 
         'infant': {'name': __('Infantile'), 
         'description': __("and had a life of a careless child"),
+        'nicknames': [ __('Junior'), ],        
         'slot': 'occupation', 
         'tags': ['any', 'junior'],
         'cultures': ['western', 'oriental', 'african', 'native', 'nordic', 'slavic', 'arabic',],             
@@ -103,6 +105,7 @@ init python:
 
         'teenager': {'name': __('Teenager'), 
         'description': __(" and had a common teenager life"),
+        'nicknames': [ __('Youngster'), ],        
         'slot': 'occupation', 
         'tags': ['any', 'adolescent'],
         'cultures': ['western', 'oriental', 'african', 'native', 'nordic', 'slavic', 'arabic',],             
@@ -113,6 +116,7 @@ init python:
 
         'retired': {'name': __('Elder'), 
         'description': __(" and retired to the well-deserved rest"),
+        'nicknames': [ __('Oldtimer'), ],        
         'slot': 'occupation', 
         'tags': ['any', 'elder'],
         'cultures': ['western', 'oriental', 'african', 'native', 'nordic', 'slavic', 'arabic',],             
@@ -125,6 +129,7 @@ init python:
         ## COMMON
         'innocent': {'name': __('Innocent sawage'), 
         'description': __(" and had a careless live of innocent sawage"),
+        'nicknames': [ __('Wildy'), ],        
         'slot': 'occupation', 
         'tags': ['eden'],
         'cultures': ['native', ],             
@@ -135,6 +140,7 @@ init python:
 
         'carnal': {'name': __('Carnal sawage'), 
         'description': __(" and had a carnal and wild life"),
+        'nicknames': [ __('Brute'), ],        
         'slot': 'occupation', 
         'tags': ['eden'], 
         'cultures': ['native', ],             
@@ -145,6 +151,7 @@ init python:
 
         'tribal_hunter': {'name': __('Tribal hunter'), 
         'description': __(" and was a common tribal hunter"),
+        'nicknames': [ __('Sharp spear'), ],        
         'slot': 'occupation', 
         'tags': ['sawage', 'postapoc'],
         'cultures': ['native',],             
@@ -155,6 +162,7 @@ init python:
 
         'tribal_gatherer': {'name': __('Tribal gatherer'), 
         'description': __(" and was a common tribal gatherer"),
+        'nicknames': [ __('Fingernail'), ],        
         'slot': 'occupation', 
         'tags': ['sawage', 'postapoc'],
         'cultures': ['native',],             
@@ -163,8 +171,9 @@ init python:
         'image': 'miscards',
         },
 
-        'farmer': {'name': __('farmer'), 
+        'farmer': {'name': __('Farmer'), 
         'description': __(" and has a life of a simple farmer there"),
+        'nicknames': [ __('Dirtfeet'), ],        
         'slot': 'occupation', 
         'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', ],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
@@ -175,6 +184,7 @@ init python:
 
         'factory_worker': {'name': __('Factory worker'), 
         'description': __(" and had a hard working life on a big factory"),
+        'nicknames': [ __('Plodder'), ],        
         'slot': 'occupation', 
         'tags': ['lowtech', 'modern', 'hightech', 'spacetech', ],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
@@ -185,6 +195,7 @@ init python:
         
         'office_worker': {'name': __('Office worker'), 
         'description': __(" and was a common office worker"),
+        'nicknames': [ __('Humster'), ],        
         'slot': 'occupation', 
         'tags': ['modern', 'hightech', 'spacetech', ],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
@@ -195,6 +206,7 @@ init python:
 
         'streetwalker': {'name': __('Streetwalker'), 
         'description': __(" and used to be a streetwalker"),
+        'nicknames': [ __('Slut'), ],        
         'slot': 'occupation', 
         'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', 'feminine', ],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
@@ -205,6 +217,7 @@ init python:
 
         'armyman': {'name': __('Armyman'), 
         'description': __(" and used to serve in army"),
+        'nicknames': [ __('Warmonger'), ],        
         'slot': 'occupation', 
         'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', 'masculine'],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
@@ -216,6 +229,7 @@ init python:
         'knave': {'name': __('Knave'), 
         'description': __(" and was a miserable knave there"),
         'slot': 'occupation', 
+        'nicknames': [ __('Miser'), ],        
         'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', ],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
         'modifiers': {'refinement': -1, 'subtlety': +1, 'purity': -1,}, 
@@ -225,6 +239,7 @@ init python:
 
         'performer': {'name': __('Street performer'), 
         'description': __(" where he earned his living by street performances"),
+        'nicknames': [ __('Flash'), ],        
         'slot': 'occupation', 
         'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', ],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
