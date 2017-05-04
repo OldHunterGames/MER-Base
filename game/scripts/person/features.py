@@ -24,7 +24,10 @@ class Feature(Modifiable):
         self._revealed = False   # true if the feature is revealed to player
 
     def count_modifiers(self, attr):
-        return self.stats.get('modifiers', 0).get(attr, 0)
+        mods = self.stats.get('modifiers', 0)
+        if mods == 0:
+            return mods
+        return mods.get(attr, 0)
     
     def has_tag(self, tag):
         return tag in self.tags

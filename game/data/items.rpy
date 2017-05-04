@@ -36,7 +36,7 @@ init python:
 
     ## Implement type items
 
-    heavy_wapon_data = {
+    heavy_weapon_data = {
         'halberd':{
             'name': __("Halberd"),
             'description': __('Heavy and fearsome longreach battlefield class weapon.'),

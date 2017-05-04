@@ -32,7 +32,7 @@ def default_avatar():
 
 
 def empty_card():
-    return 'images/gui/blank_card.png'
+    return 'gui/blank_card.png'
 
 
 def card_back():

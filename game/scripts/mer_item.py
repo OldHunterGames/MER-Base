@@ -1,5 +1,4 @@
 # -*- coding: <UTF-8> -*-
-from random import *
 
 import renpy.store as store
 import renpy.exports as renpy
@@ -11,11 +10,23 @@ from mer_utilities import encolor_text, empty_card
 # sizes 'offhand', 'versatile', 'shield', 'twohand'
 
 
+def init_default_items_data():
+    for i in (
+        'heavy_weapon_data', 'versatile_weapon_data',
+        'offhand_weapon_data', 'heavy_implement_data',
+        'versatile_implement_data', 'offhand_implement_data',
+        'garment_data', 'armor_data', 'loadout_data', 'accessory_data',
+        'item_data'
+    ):
+        Item.add_data(getattr(store, i))
+
+
 class Item(Modifiable):
     type_ = 'item'
+    _items_data = list()
 
-    def __init__(self, id_, data_dict):
-        self.data = data_dict[id_]
+    def __init__(self, id_):
+        self.data = self.get_data(id_)
         self.id = id_
         self.equiped = False
         self.init_modifiable()
@@ -26,14 +37,25 @@ class Item(Modifiable):
         self.new_description = None
         self.new_name = None
 
+    @staticmethod
+    def add_data(dict):
+        Item._items_data.append(dict)
+
+    def get_data(self, id):
+        for i in self._items_data:
+            data = i.get(id)
+            if data is not None:
+                return data
+        raise Exception('No item with id: %s' % id)
+
     def has_tag(self, tag):
         return tag in self.data['tags']
 
     def count_modifiers(self, attribute):
-        value = super(Item, self).count_modifiers(attribute)
-        for i in self.features:
-            value += i.count_modifiers(attribute)
-        return value
+        mods = self.data.get('modifiers', 0)
+        if mods == 0:
+            return mods
+        return mods.get(attribute, 0)
 
     def sellable(self):
         return self.price > 0

@@ -12,6 +12,7 @@ from psymodel import PsyModel
 from schedule import Schedule
 from relations import Relations
 from genus import available_genuses, Genus
+from mer_item import Item
 
 from factions import Faction
 from inventory import InventoryWielder
@@ -396,11 +397,13 @@ class PersonCreator(object):
             'sexual_type', random_sex_type))
         p.set_sexual_orientation(kwargs.get('sexual_orientation',
                                             random_sex_orientation))
+        self.equip_person(p)
         return p
 
     def equip_person(self, person):
-        for key, value in person.feature_by_slot('occupation').equipment:
-            person.equip_on_slot(key, value)
+        for key, value in person.feature_by_slot('occupation').equipment.items():
+            if value is not None:
+                person.equip_on_slot(key, Item(value))
 
     def gen_person(self):
         "Creates person with predefined parameters"
@@ -1490,10 +1493,18 @@ class Person(InventoryWielder, PsyModel):
         return max(0, min(value, 5))
 
     def subtlety(self):
+        item = self.get_slot('load').get_item()
+        if item is not None:
+            if 'accessory' not in item.tags:
+                return 0
         value = self.count_modifiers('subtlety')
         return max(0, min(value, 5))
 
     def refinement(self):
+        item = self.get_slot('load').get_item()
+        if item is not None:
+            if 'accessory' not in item.tags:
+                return 0
         value = self.count_modifiers('refinement')
         return max(0, min(value, 5))
 

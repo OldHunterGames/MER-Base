@@ -11,11 +11,14 @@ init -10 python:
     sys.path.append(renpy.loader.transfn("core"))
     from mer_person import *
     from mer_utilities import *
+    from mer_item import Item, init_default_items_data
+    from mer_command import *
     import collections
 # The game starts here.
 
 label start:
     $ renpy.block_rollback()
+    $ init_default_items_data()
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.

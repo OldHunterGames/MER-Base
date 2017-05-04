@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 import collections
+import copy
 from mer_itemsstorage import ItemsStorage
 from modifiers import ModifiersStorage
 import mer_utilities as utilities
@@ -51,6 +52,12 @@ class ItemSlot(object):
     def blocked(self):
         return self._blocked
 
+    def count_modifiers(self, attr):
+        if self.get_item() is None:
+            return 0
+        else:
+            return self.get_item().count_modifiers(attr)
+
 
 class MainImplement(ItemSlot):
 
@@ -64,7 +71,7 @@ class MainImplement(ItemSlot):
 
 class SecondaryImplement(MainImplement):
 
-    def allower(self, item):
+    def allowed(self, item):
         return ('implement' in item.tags and
                 'heavy' not in item.tags)
 
@@ -72,13 +79,22 @@ class SecondaryImplement(MainImplement):
 class ArmorSlot(ItemSlot):
 
     def allowed(self, item):
-        return 'garments' in item.tags
+        return 'garment' in item.tags
 
 
 class AccessorySlot(ItemSlot):
 
-    def allowed(sel, item):
-        return item.type == 'accessory'
+    def allowed(self, item):
+        return 'accessory' in item.tags
+
+
+class LoadSlot(ItemSlot):
+
+    def allowed(self, item):
+        return True
+
+    def count_modifiers(self, attr):
+        return 0
 
 
 class Inventory(ItemsStorage, ModifiersStorage):
@@ -90,6 +106,10 @@ class Inventory(ItemsStorage, ModifiersStorage):
                 ('main_implement', MainImplement(None)),
                 ('secondary_implement', SecondaryImplement(None)),
                 ('garment', ArmorSlot(None)),
+                ('main_accessory', AccessorySlot(None)),
+                ('secondary_accessory', AccessorySlot(None)),
+                ('load', LoadSlot(None))
+
             ]
         )
         # self._main_hand = self._slots['weapon']
@@ -97,19 +117,18 @@ class Inventory(ItemsStorage, ModifiersStorage):
         self.storage = []
         self.money = 0
 
+    def slots(self):
+        return copy.copy(self._slots)
+
     def available_for_slot(self, slot, storage=None):
         if storage is None:
             storage = self.unequiped_items()
         slot = self._slots[slot]
         return [i for i in storage if slot.allowed(i)]
 
-    def get_all_modifiers(self):
-        list_ = []
-        for i in self._slots.values():
-            item = i.get_item()
-            if item is not None:
-                list_.extend(item.get_all_modifiers())
-        return list_
+    def count_modifiers(self, attr):
+        return sum(
+            [i.count_modifiers(attr) for i in self._slots.values()])
 
     def get_slot(self, key):
         return self._slots.get(key, ItemSlot(None))
@@ -169,18 +188,25 @@ class Inventory(ItemsStorage, ModifiersStorage):
                 self._slots['secondary_implement'].get_item()]
 
     def equip_on_slot(self, slot, item):
+        if item not in self.storage and item is not None:
+            self.add_item(item)
         dict_ = self._slots
         if item == dict_[slot].get_item():
             return
         dict_[slot].set_item(item)
 
         if slot == 'main_implement':
+            if item is None:
+                dict_['secondary_implement'].unlock()
+                return
             if 'heavy' in item.tags:
                 dict_['secondary_implement'].set_item(None)
                 dict_['secondary_implement'].block()
             else:
                 dict_['secondary_implement'].unlock()
         if slot == 'garments':
+            if item is None:
+                dict_['secondary_accessory'].unlock()
             if 'heavy' in item.tags:
                 dict_['secondary_accessory'].set_item(None)
                 dict_['secondary_accessory'].block()

@@ -15,6 +15,10 @@ screen sc_cis(person):
                     text encolor_text(key, value)
             text DescriptionMaker(person).description()
         use gen_button
+        textbutton 'Items':
+            xalign 0.6
+            yalign 0.7
+            action Show('sc_simple_equip', person=person)
 
 screen gen_button():
     textbutton 'Generate':
