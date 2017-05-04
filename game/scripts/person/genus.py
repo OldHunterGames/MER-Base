@@ -28,6 +28,9 @@ class Genus(object):
             raise AttributeError(key)
         return value
 
+    def count_modifiers(self, attr):
+        return self.data.get('modifiers', 0).get(attr, 0)
+
     def description(self):
         return self.data.get('description', 'No description')
 

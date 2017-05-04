@@ -899,6 +899,7 @@ class Person(InventoryWielder, PsyModel):
         for i in self.features:
             value += i.count_modifiers(attribute)
         value += self._count_conditions(attribute)
+        value += self.genus.count_modifiers(attribute)
         return value
 
     def _count_conditions(self, attribute):
