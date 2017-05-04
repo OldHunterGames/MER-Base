@@ -124,7 +124,7 @@ init python:
 
         ## COMMON
         'innocent': {'name': __('Innocent sawage'), 
-        'description': __("and had a careless live of innocent sawage"),
+        'description': __(" and had a careless live of innocent sawage"),
         'slot': 'occupation', 
         'tags': ['eden'],
         'cultures': ['native', ],             
@@ -134,7 +134,7 @@ init python:
         },
 
         'carnal': {'name': __('Carnal sawage'), 
-        'description': __("and had a carnal and wild life"),
+        'description': __(" and had a carnal and wild life"),
         'slot': 'occupation', 
         'tags': ['eden'], 
         'cultures': ['native', ],             
@@ -144,7 +144,7 @@ init python:
         },
 
         'tribal_hunter': {'name': __('Tribal hunter'), 
-        'description': __("and was a common tribal hunter"),
+        'description': __(" and was a common tribal hunter"),
         'slot': 'occupation', 
         'tags': ['sawage', 'postapoc'],
         'cultures': ['native',],             
@@ -154,7 +154,7 @@ init python:
         },
 
         'tribal_gatherer': {'name': __('Tribal gatherer'), 
-        'description': __("and was a common tribal gatherer"),
+        'description': __(" and was a common tribal gatherer"),
         'slot': 'occupation', 
         'tags': ['sawage', 'postapoc'],
         'cultures': ['native',],             
@@ -164,7 +164,7 @@ init python:
         },
 
         'farmer': {'name': __('farmer'), 
-        'description': __("and has a life of a simple farmer there"),
+        'description': __(" and has a life of a simple farmer there"),
         'slot': 'occupation', 
         'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', ],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
@@ -174,7 +174,7 @@ init python:
         },
 
         'factory_worker': {'name': __('Factory worker'), 
-        'description': __("and had a hard working life on a big factory"),
+        'description': __(" and had a hard working life on a big factory"),
         'slot': 'occupation', 
         'tags': ['lowtech', 'modern', 'hightech', 'spacetech', ],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
@@ -184,7 +184,7 @@ init python:
         },
         
         'office_worker': {'name': __('Office worker'), 
-        'description': __("and was a common office worker"),
+        'description': __(" and was a common office worker"),
         'slot': 'occupation', 
         'tags': ['modern', 'hightech', 'spacetech', ],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
@@ -194,7 +194,7 @@ init python:
         },
 
         'streetwalker': {'name': __('Streetwalker'), 
-        'description': __("and used to be a streetwalker"),
+        'description': __(" and used to be a streetwalker"),
         'slot': 'occupation', 
         'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', 'feminine', ],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
@@ -204,7 +204,7 @@ init python:
         },
 
         'armyman': {'name': __('Armyman'), 
-        'description': __("and udes to serve in army"),
+        'description': __(" and used to serve in army"),
         'slot': 'occupation', 
         'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', 'masculine'],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
@@ -214,7 +214,7 @@ init python:
         },
 
         'knave': {'name': __('Knave'), 
-        'description': __("and was a miserable knave there"),
+        'description': __(" and was a miserable knave there"),
         'slot': 'occupation', 
         'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', ],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
@@ -224,7 +224,7 @@ init python:
         },
 
         'performer': {'name': __('Street performer'), 
-        'description': __("where he earned his living by street performances"),
+        'description': __(" where he earned his living by street performances"),
         'slot': 'occupation', 
         'tags': ['notech', 'lowtech', 'modern', 'hightech', 'spacetech', ],
         'cultures': ['western', 'oriental', 'african', 'nordic', 'slavic', 'arabic',],             
