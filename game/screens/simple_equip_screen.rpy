@@ -85,6 +85,7 @@ screen sc_simple_equip(person, look_mode=False, storage=None):
             action Hide('sc_simple_equip')
         hbox:
             xalign 0.35
+            xsize 700
             spacing 5
             box_wrap True
             for i in person.inventory.slots():
