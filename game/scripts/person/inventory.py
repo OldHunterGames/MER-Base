@@ -80,7 +80,7 @@ class SecondaryImplement(MainImplement):
 class ArmorSlot(ItemSlot):
 
     def allowed(self, item):
-        tags = ['garments', 'soft_armor', 'hard_armor']
+        tags = ['garment', 'soft_armor', 'hard_armor']
         return any([i in item.tags for i in tags])
 
 
@@ -195,9 +195,9 @@ class Inventory(ItemsStorage, ModifiersStorage):
                 self._slots['secondary_implement'].get_item()]
 
     def equip_on_slot(self, slot, item):
-        if item not in self.storage and item is not None:
-            self.add_item(item)
         dict_ = self._slots
+        if item not in self.storage and item is not None and item != dict_[slot].default:
+            self.add_item(item)
         if item == dict_[slot].get_item():
             return
         dict_[slot].set_item(item)
