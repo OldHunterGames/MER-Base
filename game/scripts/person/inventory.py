@@ -63,29 +63,32 @@ class MainImplement(ItemSlot):
 
     def __init__(self, default):
         super(MainImplement, self).__init__(default)
-        self.block()
+        # self.block()
 
     def allowed(self, item):
-        return 'implement' in item.tags
+        tags = ['heavy', 'versatile', 'offhand']
+        return any([i in item.tags for i in tags])
 
 
 class SecondaryImplement(MainImplement):
 
     def allowed(self, item):
-        return ('implement' in item.tags and
-                'heavy' not in item.tags)
+        tags = ['versatile', 'shield', 'offhand']
+        return any([i in item.tags for i in tags])
 
 
 class ArmorSlot(ItemSlot):
 
     def allowed(self, item):
-        return 'garment' in item.tags
+        tags = ['garments', 'soft_armor', 'hard_armor']
+        return any([i in item.tags for i in tags])
 
 
 class AccessorySlot(ItemSlot):
 
     def allowed(self, item):
-        return 'accessory' in item.tags
+        tags = ['accessory', 'offhand']
+        return any([i in item.tags for i in tags])
 
 
 class LoadSlot(ItemSlot):
@@ -94,6 +97,10 @@ class LoadSlot(ItemSlot):
         return True
 
     def count_modifiers(self, attr):
+        if self.get_item() is not None:
+            if ('accessory' in self.get_item().tags or
+                    'load' in self.get_item().tags):
+                return self.get_item().count_modifiers(attr)
         return 0
 
 
@@ -207,17 +214,11 @@ class Inventory(ItemsStorage, ModifiersStorage):
         if slot == 'garments':
             if item is None:
                 dict_['secondary_accessory'].unlock()
-            if 'heavy' in item.tags:
+            if 'hard_armor' in item.tags:
                 dict_['secondary_accessory'].set_item(None)
                 dict_['secondary_accessory'].block()
             else:
                 dict_['secondary_accessory'].unlock()
-
-    def slot_active(self, slot):
-        if slot == 'main_implement' or slot == 'secondary_implement':
-            return (self.has_body_part('manipulators') and
-                    not self._slots[slot].blocked)
-        return not self._slots[slot].blocked
 
     def equip_weapon(self, weapon, hand='main_hand'):
         if weapon is not None:
@@ -280,6 +281,12 @@ class InventoryWielder(object):
 
     def any_equiped(self):
         return any(self.equiped_items())
+
+    def slot_active(self, slot):
+        # if slot == 'main_implement' or slot == 'secondary_implement':
+        #     return (self.has_body_part('manipulators') and
+        #             not self.inventory.slots()[slot].blocked)
+        return not self.inventory.slots()[slot].blocked
 
     @property
     def trade_level(self):

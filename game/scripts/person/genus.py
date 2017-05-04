@@ -2,6 +2,7 @@
 from random import choice
 
 from mer_utilities import weighted_random
+from mer_item import Item
 
 import renpy.store as store
 
@@ -33,16 +34,6 @@ class Genus(object):
 
     def description(self):
         return self.data.get('description', 'No description')
-
-    def apply(self, person):
-        func = self.data.get('on_apply')
-        if func is not None:
-            func(person)
-
-    def remove(self, person):
-        func = self.data.get('on_remove')
-        if func is not None:
-            func(person)
 
     def get_face_type(self):
         return self.data.get('head_type', 'human')
@@ -115,3 +106,18 @@ class Genus(object):
     @property
     def tags(self):
         return self.data.get('tags', list())
+
+    def on_apply(self, person):
+        func = self.data.get('on_apply')
+        if func is not None:
+            func(person)
+        self.set_default_items(person)
+
+    def on_remove(self, person):
+        func = self.data.get('on_remove')
+        if func is not None:
+            func(person)
+
+    def set_default_items(self, person):
+        for key, value in self.data.get('default_items', dict()).items():
+            person.get_slot(key).set_default(Item(value))

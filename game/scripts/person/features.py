@@ -28,7 +28,10 @@ class Feature(Modifiable):
         if mods == 0:
             return mods
         return mods.get(attr, 0)
-    
+
+    def get_nicknames(self):
+        return self.stats.get('nicknames', list())
+
     def has_tag(self, tag):
         return tag in self.tags
 

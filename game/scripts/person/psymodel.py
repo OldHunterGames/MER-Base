@@ -114,7 +114,14 @@ class PsyModel(object):
         self._motivations = []
         self._chances = {}
         self.needs = init_needs()
+        self.inactive_needs = []
         self.check_bonus = 0
+
+    def deactivate_need(self, id):
+        self.inactive_needs.append(id)
+
+    def activate_need(self, id):
+        self.inactive_needs.remove(id)
 
     def add_motivation(self, motivation):
         if not self.has_motivation(motivation):
@@ -222,16 +229,22 @@ class PsyModel(object):
         return max(-1, min(1, self.count_modifiers(name)))
 
     def tense_need(self, name, point):
+        if name in self.inactive_needs:
+            return
         need_obj = self.needs[name]
         need_obj.set_tension(point)
 
     def satisfy_need(self, name, point, value):
+        if name in self.inactive_needs:
+            return
         need_obj = self.needs[name]
         need_obj.set_satisfaction(value)
 
     def reset_psych(self):
         self._motivations = []
         for need in self.needs.values():
+            if need.id in self.inactive_needs:
+                continue
             if need.saturation < 0:
                 need.set_tension(needs_default_points[need.id])
             level = self.need_level(need.id)

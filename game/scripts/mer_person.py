@@ -389,6 +389,7 @@ class PersonCreator(object):
             p.culture = choice(p.feature_by_slot('occupation').cultures)
         except IndexError:
             p.culture = None
+        genus.on_apply(p)
         self.gen_name(p, p.culture, p.gender)
         self.gen_avatar(p)
         random_sex_type = self.random_sexual_type(gender)
@@ -398,6 +399,7 @@ class PersonCreator(object):
         p.set_sexual_orientation(kwargs.get('sexual_orientation',
                                             random_sex_orientation))
         self.equip_person(p)
+        self.get_nickname(p)
         return p
 
     def equip_person(self, person):
@@ -447,6 +449,16 @@ class PersonCreator(object):
             if renpy.exists(start_path + '/%s' % attr):
                 start_path += '/%s' % attr
         return start_path
+
+    def get_nickname(self, person):
+        list_ = list()
+        for i in person.get_features():
+            list_.extend(i.get_nicknames())
+        try:
+            person.set_nickname(choice(list_))
+        except IndexError:
+            pass
+
 
 persons_list = []
 
@@ -691,7 +703,8 @@ class Person(InventoryWielder, PsyModel):
 
         # gets Feature() objects and their child's. Add new Feature only with
         # self.add_feature()
-        self.features = []
+        self._features = []
+        self.blocked_slots = []
         self.tokens = []  # Special resources to activate various events
         self.relations_tendency = {'convention': 0,
                                    'conquest': 0, 'contribution': 0}
@@ -725,7 +738,6 @@ class Person(InventoryWielder, PsyModel):
             self.genus = genus
         else:
             self.genus = Genus(genus)
-        self.genus.apply(self)
         self.add_feature(age)
         self.add_feature(gender)
         self.set_avatar()
@@ -759,6 +771,11 @@ class Person(InventoryWielder, PsyModel):
         self._active_quest = None
         self._sexual_orientation = None
         self._sexual_type = None
+
+    def change_genus(self, genus):
+        self.genus.on_remove(self)
+        self.genus = genus
+        self.genus.on_apply(self)
 
     def set_shape(self, id):
         self.food_system.set_shape(id)
@@ -899,7 +916,7 @@ class Person(InventoryWielder, PsyModel):
 
     def count_modifiers(self, attribute):
         value = self.inventory.count_modifiers(attribute)
-        for i in self.features:
+        for i in self.get_features():
             value += i.count_modifiers(attribute)
         value += self._count_conditions(attribute)
         value += self.genus.count_modifiers(attribute)
@@ -1146,17 +1163,19 @@ class Person(InventoryWielder, PsyModel):
         else:
             if feature.slot is not None:
                 self.remove_feature_by_slot(feature.slot)
-            self.features.append(feature)
+            self._features.append(feature)
 
     def feature_by_slot(self, slot):  # finds feature which hold needed slot
-        for f in self.features:
+        if slot in self.blocked_slots:
+            return None
+        for f in self._features:
             if f.slot == slot:
                 return f
         return None
 
     def feature(self, id_):  # finds feature with needed name if exist
-        for f in self.features:
-            if f.id == id_:
+        for f in self._features:
+            if f.id == id_ and f.slot not in self.blocked_slots:
                 return f
         return None
 
@@ -1167,21 +1186,27 @@ class Person(InventoryWielder, PsyModel):
         if isinstance(feature, str):
             for i in self.features:
                 if i.id == feature:
-                    self.features.remove(i)
+                    self._features.remove(i)
         else:
             try:
-                self.features.remove(feature)
+                self._features.remove(feature)
             except ValueError:
                 return
 
     def remove_feature_by_slot(self, slot):
-        for f in self.features:
+        for f in self._features:
             if f.slot == slot:
-                self.features.remove(f)
+                self._features.remove(f)
                 return
 
-    def visible_features(self,):
-        return [i for i in self.features if i.id != self.age and i.id != self.gender]
+    def get_features(self):
+        return [i for i in self._features if i.slot not in self.blocked_slots]
+
+    def block_slot(self, slot):
+        self.blocked_slots.append(slot)
+
+    def unlock_slot(self, slot):
+        self.blocked_slots.remove(slot)
 
     def full_name(self):
         return self.firstname + ' "' + self.nickname + '" ' + self.surname

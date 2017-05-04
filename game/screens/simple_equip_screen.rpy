@@ -90,6 +90,7 @@ screen sc_simple_equip(person, look_mode=False, storage=None):
             for i in person.inventory.slots():
                 python:
                     item = person.get_slot(i).get_item()
+                    active = True
                     if item is None:
                         name = i
                         img = im.Scale(card_back(), 200, 300)
@@ -97,6 +98,9 @@ screen sc_simple_equip(person, look_mode=False, storage=None):
                         name = item.colored_name()
                         img = im.Scale(item.image(), 200, 300)
                         item = EquipCard(person, person.get_slot(i).get_item(), i)
+                    if not person.slot_active(i):
+                        img = im.Grayscale(im.Scale(card_back(), 200, 300))
+                        active = False
                     items = [
                         EquipCard(person, j, i) for j in person.available_for_slot(i)]
 
@@ -105,7 +109,7 @@ screen sc_simple_equip(person, look_mode=False, storage=None):
                 vbox:
                     imagebutton:
                         idle img
-                        action If(look_mode, NullAction(), false=Function(CardMenu(items,
+                        action If(look_mode or not active, NullAction(), false=Function(CardMenu(items,
                             item).show, False))
                     text name:
                         xalign 0.5
