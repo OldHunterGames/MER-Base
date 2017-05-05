@@ -849,7 +849,7 @@ class Person(InventoryWielder, PsyModel):
         return phrase
 
     def set_nickname(self, string):
-        self.nickname = string
+        self.nickname = "'%s'" % string
         self._renpy_character.name = self.name
 
     def set_phrases(self, dict_):
