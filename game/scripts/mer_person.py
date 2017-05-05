@@ -227,12 +227,14 @@ class PersonCreator(object):
             if ('any' in value['tags'] or
                     any([i in world.tags for i in value['tags']])):
                 occupations[key] = value
-        age_tags = ['junior', 'adolescent', 'mature', 'elder']
+        age = person.feature_by_slot('age')
+        age = age and age.id
         for key, value in occupations.items():
-            if any([i in value['tags'] for i in age_tags]):
-                age = person.feature_by_slot('age')
-                age = age and age.id
-                if age not in value['tags'] and age is not None:
+            if any(value['ages']):
+                if age not in value['ages']:
+                    del occupations[key]
+            else:
+                if age == 'junior':
                     del occupations[key]
         for key, value in occupations.items():
             if 'masculine' in value['tags'] or 'femenie' in value['tags']:
@@ -246,8 +248,10 @@ class PersonCreator(object):
                     if getattr(person, i)() < 1:
                         del occupations[key]
                         break
-
-        del occupations['unknown']
+        try:
+            del occupations['unknown']
+        except KeyError:
+            pass
         return occupations.keys()
 
     def _get_weights(self, id):
@@ -418,7 +422,7 @@ class PersonCreator(object):
         elif gender in ('shemale', 'transmale'):
             gender = 'female'
         elif gender == 'sexless':
-            gender = choice('male', 'female')
+            gender = choice(('male', 'female'))
         try:
             names = store.firstname[culture_id][gender]
         except KeyError:
