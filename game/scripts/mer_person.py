@@ -237,7 +237,7 @@ class PersonCreator(object):
                 if age == 'junior':
                     del occupations[key]
         for key, value in occupations.items():
-            if 'masculine' in value['tags'] or 'femenie' in value['tags']:
+            if 'masculine' in value['tags'] or 'feminine' in value['tags']:
                 if person.appearance_type() not in value['tags']:
                     del occupations[key]
         attr_tags = ['menace', 'subtlety', 'hardiness', 'refinement',
@@ -577,16 +577,12 @@ class DescriptionMaker(object):
         return text
 
     def get_pronoun1(self):
-        if self.person.gender == 'male' or self.person.gender == 'sexless':
-            return 'he'
-        else:
-            return 'she'
+        return {'masculine': 'he',
+                'feminine': 'she'}[self.person.appearance_type()]
 
     def get_pronoun2(self):
-        if self.person.gender == 'male' or self.person.gender == 'sexless':
-            return 'him'
-        else:
-            return 'her'
+        return {'masculine': 'him',
+                'feminine': 'her'}[self.person.appearance_type()]
 
     def get_possesive(self):
         return {'he': 'his', 'she': 'her'}[self.get_pronoun1()]
