@@ -338,3 +338,127 @@
             'receiving': {'rough': -1, 'tender': -1, 'passionate': -1, 'bizarre': -1}, 
             },                     
     }
+
+    anatomy_features = {
+        'penis': 
+            {
+            'name': __("Penis"), 
+            "description": __("{self.penis_size.name} {self.penis_type.name}"), 
+            'slot': 'penis', 
+            'parts': ['penis_size', 'penis_type'],
+            'basis': True,
+            'sensitive': True,
+            'stimulating': False,
+            'penetration': 'penetrative'},
+        'horse_penis': {'name': __("horse penis"), 'slot': 'penis_type'},
+        'canine_penis': {'name': __("canine penis"), 'slot': 'penis_type'},        
+        'human_penis': {'name': __("cock"), 'slot': 'penis_type'},
+
+        'micro_penis': {"name": __("diminutive"), 'slot': 'penis_size', 'modifiers': {'size': 1}},
+        'small_penis': {"name": __("small"), 'slot': 'penis_size', 'modifiers': {'size': 2}},        
+        'normal_penis': {"name": __("normal"), 'slot': 'penis_size', 'modifiers': {'size': 3}},
+        'large_penis': {"name": __("large"), 'slot': 'penis_size', 'modifiers': {'size': 4}},        
+        'huge_penis': {"name": __("huge"), 'slot': 'penis_size', 'modifiers': {'size': 5}},          
+
+        'vagina': 
+            {
+            'name': __("vagina"), 
+            "description": __("{self.vagina_wetness.name}{self.vagina_size.name}"), 
+            'slot': 'vagina', 
+            'parts': ['vagina_size'],
+            'basis': True,
+            'sensitive': True,
+            'stimulating': False,
+            'penetration': 'receiving'},
+        'micro_vagina': {"name": __("very tight pussy"), 'slot': 'vagina_size', 'modifiers': {'size': 1}},
+        'small_vagina': {"name": __("tight pussy"), 'slot': 'vagina_size', 'modifiers': {'size': 2}},        
+        'normal_vagina': {"name": __("reasonably tigh pussy"), 'slot': 'vagina_size', 'modifiers': {'size': 3}},
+        'large_vagina': {"name": __("loose pussy"), 'slot': 'vagina_size', 'modifiers': {'size': 4}},        
+        'huge_vagina': {"name": __("gaping vaginal hole"), 'slot': 'vagina_size', 'modifiers': {'size': 5}},          
+
+        'dry_vagina': {"name": __("dry and "), 'slot': 'vagina_wetness', 'modifiers': {'wetness': -1}},
+        'wet_vagina': {"name": __("juicy and"), 'slot': 'vagina_wetness', 'modifiers': {'wetness': 1}},
+
+        'ass': 
+            {
+            'name': __("asshole"), 
+            "description": __("{self.ass_size.name}"), 
+            'slot': 'ass', 
+            'parts': ['ass_size'],
+            'basis': True,
+            'sensitive': False,
+            'stimulating': True,
+            'penetration': 'receiving'},
+        'micro_ass': {"name": __("very tight anus"), 'slot': 'ass_size', 'modifiers': {'size': 1}},
+        'small_ass': {"name": __("nice and tight anus"), 'slot': 'ass_size', 'modifiers': {'size': 2}},        
+        'normal_ass': {"name": __("reasonably tigh anus"), 'slot': 'ass_size', 'modifiers': {'size': 3}},
+        'large_ass': {"name": __("loose anus"), 'slot': 'ass_size', 'modifiers': {'size': 4}},        
+        'huge_ass': {"name": __("gaping anal spincter"), 'slot': 'ass_size', 'modifiers': {'size': 5}},   
+
+        'boobs': 
+            {
+            'name': __("boobs"), 
+            "description": __("{self.boobs_size.name}"), 
+            'slot': 'boobs', 
+            'parts': ['boobs_size'],
+            'basis': True,
+            'sensitive': False,
+            'stimulating': False,
+            'penetration': False},
+        'micro_boobs': {"name": __("flat chest"), 'slot': 'boobs_size', 'modifiers': {'size': 1}},
+        'small_boobs': {"name": __("small breasts"), 'slot': 'boobs_size', 'modifiers': {'size': 2}},        
+        'normal_boobs': {"name": __("fair tits"), 'slot': 'boobs_size', 'modifiers': {'size': 3}},
+        'large_boobs': {"name": __("large boobs"), 'slot': 'boobs_size', 'modifiers': {'size': 4}},        
+        'huge_boobs': {"name": __("enormous udders"), 'slot': 'boobs_size', 'modifiers': {'size': 5}},   
+
+        'mouth': 
+            {
+            'name': __("mouth"), 
+            "description": __("normal mouth"), 
+            'slot': 'mouth', 
+            'parts': [],
+            'basis': True,
+            'sensitive': False,
+            'stimulating': True,
+            'penetration': False},
+
+        'body': 
+            {
+            'name': __("body"), 
+            "description": __(""), 
+            'slot': 'body', 
+            'parts': [],
+            'basis': True,
+            'sensitive': False,
+            'stimulating': False,
+            'penetration': False},
+
+        'manipulator': 
+            {
+            'name': __("mouth"), 
+            "description": __("{self.appendage.name}"), 
+            'slot': 'mouth', 
+            'parts': ['appendage'],
+            'basis': True,
+            'sensitive': False,
+            'stimulating': False,
+            'penetration': False},        
+
+        'human_hand': {"name": __("human hands"), 'slot': 'appendage', 'modifiers': {}},                                                
+
+        'foot': 
+            {
+            'name': __("foot"), 
+            "description": __("{self.pedal.name}"), 
+            'slot': 'foot', 
+            'parts': ['pedal'],
+            'basis': True,
+            'sensitive': False,
+            'stimulating': False,
+            'penetration': False},        
+
+        'human_foot': {"name": __("human feets"), 'slot': 'pedal', 'modifiers': {},     
+
+    }
+    }
+
