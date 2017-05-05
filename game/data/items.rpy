@@ -152,7 +152,7 @@ init python:
         },
 
         'casual_cloth':{
-            'name': __("Casual cloth"),
+            'name': __("Casual cloths"),
             'description': __('Just a simple cloth, noting special.'),
             'quality': 2,  
             'size': 3,  
@@ -182,7 +182,7 @@ init python:
         },
         
         'sturdy_cloth':{
-            'name': __("Sturdy cloth"),
+            'name': __("Sturdy cloths"),
             'description': __('Simple but tough cloth, good for a travels or a hard work.'),
             'quality': 2,  
             'size': 4,  

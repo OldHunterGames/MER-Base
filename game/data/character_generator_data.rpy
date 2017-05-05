@@ -9,6 +9,7 @@
     'human': 10, 
     'ghoul': 5,
     'doghead': 3,  
+    'fey': 3, 
     'slimegirl': 2, 
     }
 

@@ -12,7 +12,7 @@
 ##
 ## The _() surrounding the string marks it as eligible for translation.
 
-define config.name = _("Mists of Eternal Rome")
+define config.name = _("MER - Character generation")
 
 
 ## Determines if the title given above is shown on the main menu screen. Set
@@ -36,7 +36,7 @@ define gui.about = _("")
 ## distribution. This must be ASCII-only, and must not contain spaces, colons,
 ## or semicolons.
 
-define build.name = "MER2"
+define build.name = "MER Chargen"
 
 
 ## Sounds and music ############################################################
@@ -44,8 +44,8 @@ define build.name = "MER2"
 ## These three variables control which mixers are shown to the player by
 ## default. Setting one of these to False will hide the appropriate mixer.
 
-define config.has_sound = True
-define config.has_music = True
+define config.has_sound = False
+define config.has_music = False
 define config.has_voice = False
 
 
