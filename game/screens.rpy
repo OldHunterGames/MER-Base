@@ -754,17 +754,17 @@ screen preferences():
 
                 vbox:
                     label 'Male Homosexuality'
-                    textbutton 'Yes' action [Function(PersonCreator.remove_restriction, 'gay'),
-                        SelectedIf(not PersonCreator.has_restriction('gay'))]
-                    textbutton 'No' action [Function(PersonCreator.add_restriction, 'gay'),
-                        SelectedIf(PersonCreator.has_restriction('gay'))]
+                    textbutton 'Yes' action [Function(PersonCreator.unlock_homosexual, 'masculine'),
+                        SelectedIf(not PersonCreator.has_homosexual_restrictions('masculine'))]
+                    textbutton 'No' action [Function(PersonCreator.block_homosexual, 'masculine'),
+                        SelectedIf(PersonCreator.has_homosexual_restrictions('masculine'))]
 
                 vbox:
                     label 'Female Homosexuality'
-                    textbutton 'Yes' action [Function(PersonCreator.remove_restriction, 'lesbian'),
-                        SelectedIf(not PersonCreator.has_restriction('lesbian'))]
-                    textbutton 'No' action [Function(PersonCreator.add_restriction, 'lesbian'),
-                        SelectedIf(PersonCreator.has_restriction('lesbian'))]
+                    textbutton 'Yes' action [Function(PersonCreator.unlock_homosexual, 'feminine'),
+                        SelectedIf(not PersonCreator.has_homosexual_restrictions('feminine'))]
+                    textbutton 'No' action [Function(PersonCreator.block_homosexual, 'feminine'),
+                        SelectedIf(PersonCreator.has_homosexual_restrictions('feminine'))]
                 ## Additional vboxes of type "radio_pref" or "check_pref" can be
                 ## added here, to add additional creator-defined preferences.
 

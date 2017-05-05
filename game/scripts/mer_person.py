@@ -182,6 +182,7 @@ class CharacterCustomization(object):
 
 class PersonCreator(object):
     _restrictions = list()
+    _restricted_orientations = {'masculine': [], 'feminine': [], 'default': []}
 
     def __init__(self, **kwargs):
         self.weights = collections.defaultdict(dict)
@@ -191,6 +192,15 @@ class PersonCreator(object):
     def _weighted_random(self, data):
         data = copy.copy(data)
         for i in self._restrictions:
+            try:
+                del data[i]
+            except KeyError:
+                pass
+        return utilities.weighted_random(data)
+
+    def _random_orientation(self, data, gender):
+        data = copy.copy(data)
+        for i in self._restricted_orientations[gender]:
             try:
                 del data[i]
             except KeyError:
@@ -214,6 +224,22 @@ class PersonCreator(object):
     @staticmethod
     def has_restriction(id):
         return id in PersonCreator._restrictions
+
+    @staticmethod
+    def has_homosexual_restrictions(gender):
+        return any([i for i in PersonCreator._restricted_orientations[gender]])
+
+    @staticmethod
+    def block_homosexual(gender):
+        for i in ('omisexual', 'bisexual', 'bicurious_male',
+                  'bicurious_female', 'gay', 'lesbian'):
+            PersonCreator._restricted_orientations[gender].append(i)
+
+    @staticmethod
+    def unlock_homosexual(gender):
+        for i in ('omisexual', 'bisexual', 'bicurious_male',
+                  'bicurious_female', 'gay', 'lesbian'):
+            PersonCreator._restricted_orientations[gender].remove(i)
 
     def add_stats(self, **kwargs):
         self.stats.update(**kwargs)
@@ -324,12 +350,12 @@ class PersonCreator(object):
                 person.add_feature(i[1])
 
     def random_sexual_type(self, key):
-        return utilities.weighted_random(
+        return self._weighted_random(
             self._get_weights('sexual_type_frequency')[key])
 
     def random_sexual_orientation(self, key):
-        return utilities.weighted_random(
-            self._get_weights('sexual_orientation_frequency')[key])
+        return self._random_orientation(
+            self._get_weights('sexual_orientation_frequency')[key], key)
 
     def get_ages(self, genus):
         return genus.ages_names()
