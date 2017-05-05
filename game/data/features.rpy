@@ -114,6 +114,7 @@
         'shemale':'feminine',   
         'transmale':'feminine',                             
         'transfemale':'masculine',
+        'sexless': 'feminine',
     }
 
     ## GENUS
