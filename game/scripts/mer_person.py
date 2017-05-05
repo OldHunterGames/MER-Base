@@ -227,8 +227,7 @@ class PersonCreator(object):
             if ('any' in value['tags'] or
                     any([i in world.tags for i in value['tags']])):
                 occupations[key] = value
-        age = person.feature_by_slot('age')
-        age = age and age.id
+        age = person.age
         for key, value in occupations.items():
             if any(value['ages']):
                 if age not in value['ages']:
