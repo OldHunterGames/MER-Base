@@ -1,4 +1,4 @@
-Mists of Ethernal Rome
+Mists of Ethernal Rome - character generator
 (very) early access 
 v 0.2.0 unstable
 
@@ -6,11 +6,9 @@ v 0.2.0 unstable
 
 It is noncommercial copyleft product, strictly for adult users.
 
-Please note that the game is at an early stage of development and is far from complete. All visual and sound design as well as the user interface are placeholders. Most of the locations of the game universe are unavailable. We provide this version of the game for informational purposes in order to gather support for further development.
+This is a standalone character generator for a MER-project, meant as a technical demo version of early random character generation. User interface is a placeholder.
 
-The gameplay is complex enough and can present a problem until we complete the tutorial and reference materials.
-
-I can not forbid you from spreading this game, but please do not do it. If you want to draw someone's attention to the project, just share a link to the Patreon.
+The version is unstable.
 
 ----Bugtracking----
 
