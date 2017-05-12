@@ -9,265 +9,232 @@ from mer_utilities import encolor_text
 
 
 class Relations(object):
-    """Represents relations between npc and player"""
-    _fervor = {-1: "delicate", 0: "straight", 1: "passionate"}
-    _distance = {-1: "intimate", 0: "fair", 1: "formal"}
-    _congruence = {-1: "hater", 0: "associate", 1: "admirer"}
-    # some things here has strong dependency on npc's alignment
-    _fervor_alignment = 'activity'
+    """Represents relations between persons"""
+    _authority_alignment = 'activity'
     _distance_alignment = 'orderliness'
-    _congruence_alignment = 'morality'
+    _affection_alignment = 'morality'
 
-    def __init__(self, person1, person2):
-        self.persons = [person1, person2]
-        self._axis = OrderedDict({
-            'fervor': 0,
-            'distance': 0,
-            'congruence': 0
-        })
-        self.stability = 0
-        self.first_impression = False
-        self.is_player_relations()
-        self._type = 'neutral'
-        self._stance = 0
-        self._special_value = None
-        self._used = set()
+    DOMINANT = 'dominant'
+    SUBMISSIVE = 'submissive'
+    FORMAL = 'formal'
+    PERSONAL = 'personal'
+    SUPPORTER = 'supporter'
+    HATER = 'hater'
 
-    @property
-    def axis(self):
-        return copy(self._axis)
+    _sides_alignments = {
+        DOMINANT: 'ardent',
+        SUBMISSIVE: 'timid',
+        FORMAL: 'lawful',
+        PERSONAL: 'chaotic',
+        SUPPORTER: 'good',
+        HATER: 'evil'
+    }
 
-    def axis_str(self, axis):
-        return getattr(self, axis+'_str')()
-
-    def is_player_relations(self):
-        if self.persons[0].player_controlled or self.persons[
-                1].player_controlled:
-            if not hasattr(self, 'player') and not hasattr(self, 'npc'):
-                for p in self.persons:
-                    if p.player_controlled:
-                        self.player = p
-                    else:
-                        self.npc = p
-            return True
-        else:
-            return False
+    def __init__(self, target):
+        self._target = target
+        self._sides = {'authority': None, 'distance': None, 'affection': None}
+        self._favor = 0
+        self._respect = 0
+        self._soulmate = False
+        self._special_stance = None
 
     @property
-    def type(self):
-        return self._type
+    def target(self):
+        return self._target
 
-    def change_type(self, name):
-        self._type = name
-
-    @property
-    def stance(self):
-        value = self._stance
-        for key in self.axis.keys():
-            if self.dissonance(key):
-                value -= 1
-        return max(-1, min(2, value))
-
-    def colored_stance(self, protected=False):
-        value = self.stance
-        if value == -1:
-            color = 0
-        elif value == 0:
-            color = 2
-        elif value == 1:
-            color = 4
-        else:
-            color = 5
-        return encolor_text(self.show_stance(), color, protected)
-
-    @stance.setter
-    def stance(self, value):
-        self._value = value
-        if self._stance < -1:
-            self._stance = -1
-
-        elif self._stance > 1:
-            self._stance = 1
-        else:
-            self._stance = value
-
-    def make_max_stance(self, value=None):
-        self._stance = 2
-        if self.is_player_relations():
-            if value is None:
-                return
-            self._special_value = value
-
-    def show_stance(self):
-        value = self.attitude_tendency()
-        return store.relations_name[self.stance][value]
-
-    def attitude_tendency(self):
-        if self.type == 'master' or self.type == 'slave':
-            return self.type
-        value = 'neutral'
-        if self._axis['congruence'] == 1 and self.npc.token != 'antagonism':
-            value = 'friendly'
-        if self.npc.token == 'contribution':
-            value = 'friendly'
-        if self._axis['congruence'] == -1  or self.npc.token == 'antagonism' or \
-                (self.npc.token == 'conquest' and self._axis['congruence'] != 1):
-            value = 'hostile'
-        return value
-
-    def is_max_stance(self):
-        return self.stance == 2
-
-    def is_max(self, axis, border):
-        d = {'-': -1, '+': 1}
-        if getattr(self, axis) == d[border]:
-            return True
-        return False
+    def make_soulmate(self, special_stance):
+        self._special_stance = special_stance
+        self._soulmate = True
 
     @property
-    def fervor(self):
-        value = self._axis['fervor']
-        if self.is_player_relations():
-            return value
-        fervor = value + \
-            self.persons[0].alignment.activity + \
-            self.persons[1].alignment.activity
-        if fervor < -1:
-            fervor = -1
-        elif fervor > 1:
-            fervor = 1
-        return fervor
+    def soulmate(self):
+        return self._soulmate
 
-    def show_fervor(self, colorise=False, protected=False, value=None):
-        text = self._translate('fervor', value)
-        if colorise:
-            return self._colorise(text, 'fervor', protected)
+    def stance(self, protected=False):
+        if self._special_stance is not None:
+            stance = store.special_stances[self._special_stance]
         else:
-            return text
+            key = (
+                self._sides['authority'],
+                self._sides['distance'],
+                self._sides['affection'])
+            stance = store.stances[key]
 
-    def fervor_str(self):
-        return Relations._fervor[self.fervor]
+        harmony = self.harmony()
+        if harmony == 0:
+            color = 'cyan'
+        elif harmony > 0:
+            color = 'green'
+        elif harmony < 0:
+            color = 'red'
+        if self._soulmate:
+            color = 'gold'
+        return encolor_text(stance, color, protected)
+
+    @property
+    def authority(self):
+        return self._sides['authority']
+
+    def set_authority(self, value):
+        self._sides['authority'] = value
 
     @property
     def distance(self):
-        value = self._axis['distance']
-        if self.is_player_relations():
-            return value
-        distance = value + \
-            self.persons[0].alignment.orderliness + \
-            self.persons[1].alignment.orderliness
-        if distance < -1:
-            distance = -1
-        elif distance > 1:
-            distance = 1
-        return distance
+        return self._sides['distance']
 
-    def distance_str(self):
-        return Relations._distance[self.distance]
-
-    def show_distance(self, colorise=False, protected=False, value=None):
-        text = self._translate('distance', value)
-        if colorise:
-            return self._colorise(text, 'distance', protected)
-        else:
-            return text
-
-    def _colorise(self, text, axis, protected=False):
-        color = None
-        if self.dissonance(axis):
-            color = 'red'
-        elif self.used(axis):
-            color = 'cyan'
-        elif self.resonance(axis):
-            color = 'gold'
-        elif self.active(axis):
-            color = 'green'
-        if color is None:
-            return text
-        else:
-            return encolor_text(text, color, protected)
-
-    def _translate(self, axis, value=None):
-        if value is not None:
-            return store.relations_translation[axis][value]
-        return store.relations_translation[axis][self._axis[axis]]
+    def set_distance(self, value):
+        self._sides['distance'] = value
 
     @property
-    def congruence(self):
-        value = self._axis['congruence']
-        if self.is_player_relations():
-            return value
-        congruence = value + \
-            self.persons[0].alignment.morality + \
-            self.persons[1].alignment.morality
-        if congruence < -1:
-            congruence = -1
-        elif congruence > 1:
-            congruence = 1
-        return congruence
+    def affection(self, value):
+        return self._sides['affection']
 
-    def congruence_str(self):
-        return Relations._congruence[self.congruence]
+    def set_affection(self, value):
+        self._sides['affection'] = value
 
-    def show_congruence(self, colorise=False, protected=False, value=None):
-        text = self._translate('congruence', value)
-        if colorise:
-            return self._colorise(text, 'congruence', protected)
-        else:
-            return text
+    def antagonism(self):
+        return self._compare_alignment(self._antagonism)
 
-    def description(self, colorise=False, protected=False):
-        return (self.show_fervor(colorise, protected), self.show_distance(colorise, protected),
-                self.show_congruence(colorise, protected))
+    def comprehension(self):
+        return self._compare_alignment(self._comprehension)
 
-    def set_axis(self, axis, value):
-        if value in range(-1, 2):
-            self._axis[axis] = value
+    def resonance(self):
+        return self._compare_alignment(self._resonance)
 
-    def change(self, axis, direction):
-        if not self.is_player_relations():
-            return
-        ax = self.axis[axis]
-        if direction == "+":
-            ax += 1
-            if ax > 1:
-                ax = 1
-        elif direction == '-':
-            ax -= 1
-            if ax < -1:
-                ax = -1
-        self.set_axis(axis, ax)
+    def harmony(self):
+        # affects amount of events, relations checks and favor/respect
+        # consumption
+        return self.comprehension() + 2 * self.resonance() - self.antagonism()
 
-    def dissonance(self, axis):
-        value = self._axis[axis]
-        alignment_value = getattr(
-            self.npc.alignment, getattr(self, '_%s_alignment' % (axis)))
-        if value == 0 or alignment_value == 0:
+    def show_sides(self, protected=False):
+        sides = []
+        for i in self._sides.keys():
+            side_alignment = self._target.feature_by_slot(
+                getattr(self, '_%s_alignment' % i))
+            side_alignment = side_alignment and side_alignment.id
+            side = self._sides[i]
+            if self._antagonism(side_alignment, side):
+                color = 'red'
+            elif self._comprehension(side_alignment, side):
+                color = 'green'
+            elif self._resonance(side_alignment, side):
+                color = 'gold'
+            if side is not None:
+                sides.append(
+                    encolor_text(store.relations_sides[side], color, protected))
+        return sides
+
+    # favor methods
+    @property
+    def favor(self):
+        return self._favor
+
+    def gain_favor(self, value):
+        for i in self._sides.values():
+            if i in ('submissive', 'personal', 'supporter'):
+                value += 1
+            elif i in ('dominant', 'formal', 'hater'):
+                value -= 1
+        self._set_favor(self._favor + value)
+
+    def use_favor(self, value):
+        self._set_favor(self._favor - value)
+
+    def has_favor(self, value):
+        return self._favor >= value
+
+    def show_favor(self):
+        # visual representation of favor
+        return
+
+    def _set_favor(self, value):
+        self._favor = max(0, min(value, 5))
+
+    # respect methods
+    @property
+    def respect(self):
+        return self._respect
+
+    def gain_respect(self, value):
+        for i in self._sides.values():
+            if i in ('submissive', 'personal', 'supporter'):
+                value -= 1
+            elif i in ('dominant', 'formal', 'hater'):
+                value += 1
+        self._set_respect(self._respect + value)
+
+    def use_respect(self, value):
+        self._set_respect(self._respect - value)
+
+    def has_respect(self, value):
+        return self._respect >= value
+
+    def _set_respect(self, value):
+        self._respect = max(0, min(5, value))
+
+    def bias(self):
+        sides = dict()
+        for i in self._sides.keys():
+            side_alignment = self._target.feature_by_slot(
+                getattr(self, '_%s_alignment' % i))
+            side_alignment = side_alignment and side_alignment.id
+            side = self._sides[i]
+            if side_alignment is None:
+                if side is not None:
+                    sides[i] = side
+                else:
+                    sides[i] = None
+            else:
+                sides[i] = self._sides_alignments[side_alignment]
+        return sides
+
+    def _compare_alignment(self, check_func):
+        value = 0
+        for i in self._sides.keys():
+            side_alignment = self._target.feature_by_slot(
+                getattr(self, '_%s_alignment' % i))
+            side_alignment = side_alignment and side_alignment.id
+            side = self._sides[i]
+            if check_func(side_alignment, side):
+                value += 1
+        return value
+
+    def _antagonism(self, side_alignment, side):
+        if side is None or side_alignment is None:
             return False
+        else:
+            if self._sides_alignments[side] != side_alignment:
+                return True
+        return False
 
-        if value != alignment_value:
+    def _comprehension(self, side_alignment, side):
+        if side is not None and side_alignment is None:
             return True
+        return False
+
+    def _resonance(self, side_alignment, side):
+        if side is None:
+            return False
         else:
-            return False
+            if self._sides_alignments[side] == side_alignment:
+                return True
+        return False
 
-    def resonance(self, axis):
-        value = self._axis[axis]
-        alignment_value = getattr(
-            self.npc.alignment, getattr(self, '_%s_alignment' % (axis)))
-        if value == 0 or alignment_value == 0:
-            return False
 
-        return not self.dissonance(axis)
+class Bond(object):
 
-    def used(self, axis):
-        return (axis, self._axis[axis]) in self._used
+    def __init__(self, target, id):
+        self.id = id
+        self._target = target
 
-    def use(self, axis):
-        self._used.add((axis, self._axis[axis]))
+    def value(self):
+        return self._get_data('value', 0)
 
-    def active(self, axis):
-        return (self._axis[axis] != 0 and not self.dissonance(axis) and
-                not self.used(axis))
+    def name(self):
+        return self._get_data('name', 'No name')
 
-    def neutral(self, axis):
-        return self._axis[axis] == 0
+    def description(self):
+        return self._get_data('description', 'No description')
+
+    def _get_data(self, key, value=None):
+        return store.bonds_data.get(key, value)

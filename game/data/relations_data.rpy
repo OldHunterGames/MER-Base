@@ -1,5 +1,5 @@
 
-python:
+init python:
 
     stances = {
         (None, None, None): __('indifferent'),
@@ -29,4 +29,12 @@ python:
         ('submissive', 'formal', None): __('Subordinate'),
         ('submissive', 'formal', 'supporter'): __('Loyal'),
         ('submissive', 'formal', 'hater'): __('Diminished'),
+    }
+    relations_sides = {
+        'dominant': __('Dominant'),
+        'submissive': __('Submissive'),
+        'formal': __('Formal'),
+        'personal': __('Personal'),
+        'supporter': __('Supporter'),
+        'hater': __('Hater')
     }

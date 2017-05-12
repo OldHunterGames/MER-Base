@@ -1,4 +1,4 @@
-﻿# -*- coding: UTF-8 -*-
+# -*- coding: UTF-8 -*-
 from random import *
 import copy
 import collections
@@ -534,7 +534,7 @@ class DescriptionMaker(object):
     def __init__(self, person):
         self.person = person
 
-    def description(self):
+    def description(self, relations_with=None):
         person = self.person
         pronoun = self.get_pronoun1()
         pronoun2 = self.get_pronoun2()
@@ -563,6 +563,8 @@ class DescriptionMaker(object):
         start_text += homeworld
         start_text += person.feature_by_slot('occupation').description()
         start_text += '. '
+        if relations_with is not None:
+            start_text = self.relations_text(relations_with, start_text)
         start_text = self.alignment_text(start_text)
         start_text += ' and sexually {pronoun} is {sex_type} {sex_orientation}.'
         # start_text += self.relations_text()
@@ -626,15 +628,21 @@ class DescriptionMaker(object):
             weapon_txt += '. {cap_pronoun} wears a {person.armor.name}'
         return weapon_txt
 
-    def relations_text(self, colorize=True, protected=True):
-        if not self.person.know_player():
-            return ''
-        relations = self.person.player_relations()
-        stance_type = relations.colored_stance(protected)
-
-        return '{stance_type} ({relations[0]}, {relations[1]}, {relations[2]}) towards you. '.format(
-            stance_type=stance_type, relations=relations.description(colorize, protected))
-
+    def relations_text(self, person, text):
+        relations = person.relations(self.person)
+        text += relations.stance(True)
+        sides = relations.show_sides(True)
+        if any(sides):
+            text += '('
+            
+            for i in sides:
+                text += i
+                if i != sides[-1]:
+                    text += ','
+            text += ') '
+        else:
+            text += ' '
+        return text
 
 class FoodSystem(object):
 
@@ -796,6 +804,33 @@ class Person(InventoryWielder, PsyModel):
         self._active_quest = None
         self._sexual_orientation = None
         self._sexual_type = None
+        self._bonds = dict()
+
+    def add_bond(self, slot, connection):
+        # you can not have more than 1 bond of each type
+        # but any number of persons can have bonds with you
+        self._connections[slot] = connection
+
+    def remove_bond(self, bond):
+        for key, value in self._bonds:
+            if value == bond:
+                self.remove_bond_by_slot(key)
+                return
+
+    def remove_bond_by_slot(self, slot):
+        try:
+            del self._bonds[slot]
+        except KeyError:
+            pass
+
+    def count_bonds(self, target):
+        # used to get your influenct in faction
+        return sum(
+            [i.value for i in self._bonds.values() if i.target == target])
+
+    def get_bonds_with(self, target):
+        # get list of bonds with specified target
+        return [i for i in self._bonds.values() if i.target == target]
 
     def change_genus(self, genus):
         self.genus.on_remove(self)
@@ -1081,13 +1116,8 @@ class Person(InventoryWielder, PsyModel):
         self.genus = Genus(genus)
         self.genus.apply(self)
 
-    @property
     def known_characters(self):
-        list_ = []
-        for r in self._relations:
-            persons = [p for p in r.persons if p != self]
-            list_ += persons
-        return list_
+        return [i.target for i in self._relations]
 
     def get_buff_storage(self):
         return self._buffs
@@ -1293,7 +1323,7 @@ class Person(InventoryWielder, PsyModel):
         self.schedule.use(self)
 
     def know_person(self, person):
-        if person in self.known_characters:
+        if person in self.known_characters():
             return True
         return False
 
@@ -1328,8 +1358,9 @@ class Person(InventoryWielder, PsyModel):
             return [i for i in self._known_factions if i.type == type]
 
     def _set_relations(self, person):
-        relations = Relations(self, person)
-        person._relations.append(relations)
+        relations = Relations(person)
+        relations2 = Relations(self)
+        person._relations.append(relations2)
         self._relations.append(relations)
         return relations
 
@@ -1340,23 +1371,15 @@ class Person(InventoryWielder, PsyModel):
     def relations(self, person):
         if person == self:
             raise Exception("relations: target and caller is same person")
-        if isinstance(person, Faction):
-            self.discover_faction(person)
-            if self.know_person(person.owner):
-                return self.relations(person.owner)
-            else:
-                return
-        elif isinstance(person, Person):
-            if person.faction is not None:
-                self.discover_faction(person.faction)
-        else:
-            raise Exception("relations called with not valid arg: %s" % person)
         if not self.know_person(person):
             relations = self._set_relations(person)
             return relations
         for rel in self._relations:
-            if self in rel.persons and person in rel.persons:
+            if person == rel.target:
                 return rel
+
+    def all_relations(self):
+        return [i for i in self._relations]
 
     def use_token(self):
         if self.token == 'power':
@@ -1423,7 +1446,7 @@ class Person(InventoryWielder, PsyModel):
     def gain_favor(self, value):
         if self.player_controlled:
             return
-        if self.game_ref.player not in self.known_characters:
+        if self.game_ref.player not in self.known_characters():
             return
         value = self.favor + value
         if value < 0:
@@ -1512,7 +1535,7 @@ class Person(InventoryWielder, PsyModel):
         self.features = []
 
     def remove_relations(self):
-        characters = [i for i in self.known_characters]
+        characters = [i for i in self.known_characters()]
         for i in characters:
             self.forget_person(i)
 
