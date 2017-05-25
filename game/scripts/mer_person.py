@@ -752,11 +752,8 @@ class Person(InventoryWielder, PsyModel):
         self.ap = 1
         self.schedule = Schedule()
         # init starting features
-
-        self.allowance = 0         # Sparks spend each turn on a lifestyle
+        # Sparks spend each turn on a lifestyle
         self.sparks = 0
-        self.discipline = 0
-
         self.money = 0
         self._determination = 0
         self._anxiety = 0
@@ -805,6 +802,9 @@ class Person(InventoryWielder, PsyModel):
         self._sexual_orientation = None
         self._sexual_type = None
         self._bonds = dict()
+
+    def remove_money(self, value):
+        pass
 
     def add_bond(self, slot, connection):
         # you can not have more than 1 bond of each type
@@ -1289,7 +1289,10 @@ class Person(InventoryWielder, PsyModel):
         # if self.energy < 0:
         #    self.add_buff('exhausted')
         self.food_system.fatness_change()
-        self.remove_money(self.decade_bill())
+        if self.master is None:
+            self.remove_money(self.decade_bill())
+        else:
+            self.spend_favor(self.decade_bill())
 
         if self.pocket_money > 0:
             self.satisfy_need('prosperity', self.pocket_money)
@@ -1298,11 +1301,6 @@ class Person(InventoryWielder, PsyModel):
         self._stimul = 0
         self.success = 0
         self.purporse = 0
-        self.productivity_raised = False
-        for key, value in self.tokens_relations.items():
-            skill = self.skill(key)
-            if skill > 0:
-                self.add_chance(skill, value, attributed=key)
 
     @utilities.Observable
     def tick_time(self):
