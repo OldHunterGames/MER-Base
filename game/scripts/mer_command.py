@@ -129,3 +129,18 @@ class SatisfySex(Command):
     @Observable
     def run(self):
         pass
+
+
+class Skillcheck(Command):
+
+    def __init__(self, person, motivation, difficulty):
+
+        self.person = person
+        self.motivation = motivation
+        self.difficulty = difficulty
+
+    def run(self):
+        return self.difficulty < self.effort()
+
+    def effort(self):
+        return 0
