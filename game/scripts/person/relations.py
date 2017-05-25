@@ -135,7 +135,11 @@ class Relations(object):
                 value += 1
             elif i in ('dominant', 'formal', 'hater'):
                 value -= 1
-        self._set_favor(self._favor + value)
+        if value == self._favor:
+            value = self._favor + 1
+        elif value < self._favor:
+            value = self._favor
+        self._set_favor(value)
 
     def use_favor(self, value):
         self._set_favor(self._favor - value)
@@ -161,7 +165,11 @@ class Relations(object):
                 value -= 1
             elif i in ('dominant', 'formal', 'hater'):
                 value += 1
-        self._set_respect(self._respect + value)
+        if value == self._respect:
+            value = self._respect + 1
+        elif value < self._respect:
+            value = self._respect
+        self._set_respect(value)
 
     def use_respect(self, value):
         self._set_respect(self._respect - value)
