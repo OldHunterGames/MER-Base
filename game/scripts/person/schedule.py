@@ -82,11 +82,6 @@ class ScheduleObject(MenuCard):
 
 class ScheduleJob(ScheduleObject):
 
-    def __init__(self, *args, **kwargs):
-        super(ScheduleJob, self).__init__(*args, **kwargs)
-        # job's focus controlled by person
-        self.focus = 0
-
     def full_description(self):
         string = self.name()
         string += '\n current effort: %s' % utilities.encolor_text(
@@ -122,6 +117,8 @@ class Schedule(object):
         self._default_job = None
         self._default_accommdation = None
         self._default_ration = None
+        self.focus = 0
+        self._focus_buffer = 0
 
     def set_default(self, type, obj, **kwargs):
         setattr(self, '_default_' + type, obj)
@@ -191,17 +188,19 @@ class Schedule(object):
             if obj == self._job_buffer:
                 self._job = self._job_buffer
                 self._job_buffer = None
+                self.focus = self._focus_buffer
                 return
-
-        obj.focus = 0
+            else:
+                self.focus = 0
+        else:
+            self.focus = 0
 
         if self._job is None:
-
             self._job = obj
-            return
 
-        if self._job.productivity > 0:
+        if self.focus > 0:
             self._job_buffer = self._job
+            self._focus_buffer = focus
         else:
             self._job_buffer = None
 
