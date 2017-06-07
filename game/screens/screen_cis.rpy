@@ -1,12 +1,12 @@
 style char_info_window is window:
     background Color((0, 0, 0, 255))
+    xfill True
+    yfill True
+    xsize 1280
+    ysize 720
 screen sc_cis(person, controlled=False, creation=False, relations=None):
 
     window:
-        xfill True
-        yfill True
-        xsize 1280
-        ysize 720
         style 'char_info_window'
         hbox:
             vbox:

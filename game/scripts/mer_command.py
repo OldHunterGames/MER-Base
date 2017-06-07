@@ -133,14 +133,15 @@ class SatisfySex(Command):
 
 class Skillcheck(Command):
 
-    def __init__(self, person, motivation, difficulty):
+    def __init__(self, person, attribute, motivation, difficulty):
 
         self.person = person
         self.motivation = motivation
         self.difficulty = difficulty
+        self.attribute = attribute
 
     def run(self):
         return self.difficulty < self.effort()
 
     def effort(self):
-        return 0
+        return getattr(self.person, self.attribute)()

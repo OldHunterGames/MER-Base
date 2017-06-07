@@ -802,6 +802,21 @@ class Person(InventoryWielder, PsyModel):
         self._sexual_orientation = None
         self._sexual_type = None
         self._bonds = dict()
+        self._intrigue = None
+
+    def set_intrigue(self, intrigue):
+        self._intrigue = intrigue
+
+    @property
+    def intrigue(self):
+        return self._intrigue
+
+    def has_intrigue(self):
+        return self._intrigue is not None
+
+    def end_intrigue(self):
+        self._intrigue.end()
+        self._intrigue = None
 
     def remove_money(self, value):
         pass
@@ -1508,7 +1523,7 @@ class Person(InventoryWielder, PsyModel):
             self._conditions)
 
     @utilities.Observable
-    def die(self, destroy=False):
+    def die(self, reason=None, destroy=False):
         self.remove_relations()
         if destroy:
             self.destroy()
