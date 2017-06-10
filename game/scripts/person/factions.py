@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-import renpy.store as store
 
 
 class Faction(object):
@@ -7,18 +6,22 @@ class Faction(object):
 
     def __init__(self, owner):
         self._size = 15
-        self._slots = dict()
-        self.add_member('king', owner)
+        self._slots = []
+        self.add_member(owner)
 
-    def add_member(self, slot, person):
-        slots = self._slots.keys()
-        if slot not in slots and len(slots) == 15:
+    def add_member(self, person):
+        slots = self._slots
+        if len(slots) == 15:
             raise Exception("Faction can't handle more members")
         person.die.add_callback(self._remove_member_callback)
-        self._slots[slot] = person
+        self._slots.append(person)
+
+    def get_members(self):
+        return sorted(self._slots,
+                      key=lambda person: self.get_influence(person))
 
     def has_slots(self):
-        return len(self._slots.keys()) < 15
+        return len(self._slots) < 15
 
     def get_influence(self, person):
         return 0
@@ -27,20 +30,13 @@ class Faction(object):
         self.remove_member(person)
 
     def remove_member(self, person):
-        for key, value in self._slots.items():
-            if value == person:
-                person.die.remove_callback(self._remove_member_callback)
-                self._remove_member(key)
-                return
-
-    def _remove_member(self, slot):
         try:
-            del self._slots[slot]
-        except KeyError:
+            self._slots.remove(person)
+        except ValueError:
             pass
 
     def make_intrigues(self):
         pass
 
-    def framed_avatar(self, person):
-        return person.avatar
+    def get_frame_color(self, person):
+        return '#00ff00'

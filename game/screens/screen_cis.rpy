@@ -36,3 +36,8 @@ screen gen_button():
         xalign 0.6
         yalign 0.6
         action Return()
+
+    textbutton 'Random faction':
+        xalign 0.6
+        yalign 0.5
+        action Function(renpy.call_in_new_context, 'show_random_faction')

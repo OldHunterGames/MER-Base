@@ -13,6 +13,8 @@ init -10 python:
     from mer_utilities import *
     from mer_item import Item, init_default_items_data
     from mer_command import *
+    from intrigue import Intrigue
+    from factions import Faction
     import collections
 # The game starts here.
 
@@ -60,3 +62,15 @@ label generate:
     $ random_relations(player)
     call screen sc_cis(player, creation=True, controlled=True, relations=None)
     jump generate
+
+label show_random_faction:
+    python:
+        player = PersonCreator().gen_random_person()
+        initiator = PersonCreator().gen_random_person()
+        target = PersonCreator().gen_random_person()
+        assassination = Intrigue('assassination', initiator, target, player)
+        faction = Faction(initiator)
+        for i in range(14):
+            faction.add_member(PersonCreator().gen_random_person())
+    call screen sc_faction(faction)
+    return
