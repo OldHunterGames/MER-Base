@@ -4,6 +4,10 @@ style char_info_window is window:
     yfill True
     xsize 1280
     ysize 720
+
+label lbl_cis_glue(person, controlled=False, creation=False, relations=None):
+    call screen sc_cis(person, controlled, creation, relations)
+    return
 screen sc_cis(person, controlled=False, creation=False, relations=None):
 
     window:

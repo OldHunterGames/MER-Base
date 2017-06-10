@@ -2,7 +2,6 @@ init python:
 
     def avatar_with_intrigue(person):
         if person.has_intrigue():
-            print(person)
             size = (200, 200)
             return LiveComposite(size,
                 (0, 0), im.Scale(person.avatar, 200, 200),
@@ -19,20 +18,26 @@ screen sc_faction(faction):
         frame:
             xalign 0.5
             background faction.get_frame_color(members[0])
-            image avatar_with_intrigue(members[0])
+            imagebutton:
+                idle avatar_with_intrigue(members[0])
+                action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=members[0])
         hbox:
             spacing 10
             for i in members[1:3]:
                 frame:
                     background faction.get_frame_color(i)
-                    image avatar_with_intrigue(i)
+                    imagebutton:
+                        idle avatar_with_intrigue(i)
+                        action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=i)
         hbox:
             spacing 10
             xalign 1.0
             for i in members[3:5]:
                 frame:
                     background faction.get_frame_color(i)
-                    image avatar_with_intrigue(i)
+                    imagebutton:
+                        idle avatar_with_intrigue(i)
+                        action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=i)
 
         textbutton 'Leave':
             yalign 0.35
@@ -46,4 +51,6 @@ screen sc_faction(faction):
             for i in members[5:]:
                 frame:
                     background faction.get_frame_color(i)
-                    image avatar_with_intrigue(i)
+                    imagebutton:
+                        idle avatar_with_intrigue(i)
+                        action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=i)
