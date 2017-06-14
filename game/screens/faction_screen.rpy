@@ -20,7 +20,7 @@ screen sc_faction(faction):
             background faction.get_frame_color(members[0])
             imagebutton:
                 idle avatar_with_intrigue(members[0])
-                action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=members[0])
+                action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=members[0], relations=player)
         hbox:
             spacing 10
             for i in members[1:3]:
@@ -28,7 +28,7 @@ screen sc_faction(faction):
                     background faction.get_frame_color(i)
                     imagebutton:
                         idle avatar_with_intrigue(i)
-                        action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=i)
+                        action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=i, relations=player)
         hbox:
             spacing 10
             xalign 1.0
@@ -37,7 +37,7 @@ screen sc_faction(faction):
                     background faction.get_frame_color(i)
                     imagebutton:
                         idle avatar_with_intrigue(i)
-                        action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=i)
+                        action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=i, relations=player)
 
         textbutton 'Leave':
             yalign 0.35
@@ -53,4 +53,4 @@ screen sc_faction(faction):
                     background faction.get_frame_color(i)
                     imagebutton:
                         idle avatar_with_intrigue(i)
-                        action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=i)
+                        action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=i, relations=player)
