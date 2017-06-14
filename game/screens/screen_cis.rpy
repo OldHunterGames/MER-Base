@@ -20,6 +20,11 @@ screen sc_cis(person, controlled=False, creation=False, relations=None):
             text DescriptionMaker(person).description(relations)
         if creation:
             use gen_button
+        if person.has_intrigue():
+            textbutton 'Intrigue':
+                action Show('sc_intrigue_info', person=person)
+                xalign 0.6
+                yalign 0.6
         textbutton 'Items':
             xalign 0.6
             yalign 0.7
@@ -34,6 +39,21 @@ screen sc_cis(person, controlled=False, creation=False, relations=None):
                 xalign 0.6
                 yalign 0.8
                 action Return()
+    on 'hide':
+        action Hide('sc_intrigue_info')
+
+screen sc_intrigue_info(person):
+    window:
+        vbox:
+            text 'Intrigue name: ' + person.intrigue.name
+            hbox:
+                vbox:
+                    text 'Intigue target: '
+                    text person.intrigue.target.name
+                imagebutton:
+                    idle im.Scale(person.intrigue.target.avatar, 50, 50)
+                    action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=person.intrigue.target, relations=player)
+            textbutton 'Close' action Hide('sc_intrigue_info')
 
 screen gen_button():
     textbutton 'Generate':
