@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+import copy
 
 
 class Faction(object):
@@ -9,6 +10,10 @@ class Faction(object):
         self._slots = []
         self.add_member(owner)
 
+    @property
+    def max_intrigues(self):
+        return self._max_ingrigues
+
     def add_member(self, person):
         slots = self._slots
         if len(slots) == 15:
@@ -16,9 +21,12 @@ class Faction(object):
         person.die.add_callback(self._remove_member_callback)
         self._slots.append(person)
 
-    def get_members(self):
-        return sorted(self._slots,
-                      key=lambda person: self.get_influence(person))
+    def get_members(self, sort=False):
+        if sort:
+            return sorted(self._slots,
+                          key=lambda person: self.get_influence(person))
+        else:
+            return copy.copy(self._slots)
 
     def has_slots(self):
         return len(self._slots) < 15
@@ -34,9 +42,6 @@ class Faction(object):
             self._slots.remove(person)
         except ValueError:
             pass
-
-    def make_intrigues(self):
-        pass
 
     def get_frame_color(self, person):
         return '#00ff00'

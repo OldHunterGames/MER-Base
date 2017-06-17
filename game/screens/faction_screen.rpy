@@ -9,6 +9,31 @@ init python:
         else:
             return im.Scale(person.avatar, 200, 200)
 
+    def make_intrigues(faction, player):
+        members = copy.copy(faction.get_members())
+        random.shuffle(members)
+        intrigues_made = 0
+        for i in members:
+            if i.has_intrigue():
+                continue
+            result = _make_intrigue(faction, i, player)
+            if result:
+                intrigues_made += 1
+            if intrigues_made >= faction.max_intrigues:
+                return
+
+    def _make_intrigue(faction, person, player):
+        for i in faction.get_members():
+            if i != person:
+                return _get_intrigue(person, i, player)
+    
+    def _get_intrigue(initiator, target, player):
+        for i in store.intrigues_data:
+            intrigue = Intrigue(i, initiator, target, player).is_available()
+            if intrigue:
+                return True
+        return False
+
 
 screen sc_faction(faction):
     python:
@@ -43,6 +68,11 @@ screen sc_faction(faction):
             yalign 0.35
             xalign 0.5
             action Return()
+        textbutton 'Roll intrigues':
+            yalign 0.40
+            xalign 0.5
+            action Function(make_intrigues, faction, player), SensitiveIf(
+                    not all([i.has_intrigue() for i in faction.get_members()]))
         hbox:
             box_wrap True
             spacing 15

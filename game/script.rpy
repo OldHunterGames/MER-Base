@@ -16,6 +16,7 @@ init -10 python:
     from intrigue import Intrigue
     from factions import Faction
     import collections
+
 # The game starts here.
 
 label start:
@@ -65,11 +66,8 @@ label generate:
 
 label show_random_faction:
     python:
-        player = PersonCreator().gen_random_person()
-        initiator = PersonCreator().gen_random_person()
-        target = PersonCreator().gen_random_person()
-        assassination = Intrigue('assassination', initiator, target, player)
-        faction = Faction(initiator)
+        leader = PersonCreator().gen_random_person()
+        faction = Faction(leader)
         for i in range(14):
             faction.add_member(PersonCreator().gen_random_person())
     call screen sc_faction(faction)
