@@ -16,6 +16,7 @@ init python:
                 intrigue.player_influence = True
             target.die.remove_callback(die_callback)
             intrigue.initiator.end_intrigue()
+        intrigue.callback = die_callback
         return die_callback
 
 label lbl_intrigue_assassination_on_init(intrigue):
@@ -23,7 +24,11 @@ label lbl_intrigue_assassination_on_init(intrigue):
     return
 
 label lbl_intrigue_assassination_end(intrigue):
+    if not intrigue.target.is_dead():
+        $ intrigue.target.die.remove_callback(intrigue.callback)
+        $ intrigue.target.die()
     '[intrigue.name] ended'
+    "[intrigue.target.name] is dead"
     return
 
 label lbl_intrigue_assassination_check(intrigue):

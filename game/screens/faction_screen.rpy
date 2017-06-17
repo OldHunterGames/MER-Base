@@ -10,7 +10,7 @@ init python:
             return im.Scale(person.avatar, 200, 200)
 
     def make_intrigues(faction, player):
-        members = copy.copy(faction.get_members())
+        members = faction.get_members()
         random.shuffle(members)
         intrigues_made = 0
         for i in members:
@@ -23,7 +23,9 @@ init python:
                 return
 
     def _make_intrigue(faction, person, player):
-        for i in faction.get_members():
+        members = faction.get_members()
+        random.shuffle(members)
+        for i in members:
             if i != person:
                 return _get_intrigue(person, i, player)
     

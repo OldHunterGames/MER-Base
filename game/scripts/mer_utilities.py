@@ -105,7 +105,10 @@ class Observable(object):
         self.observers[self.instance].append(callback)
 
     def remove_callback(self, callback):
-        self.observers[self.instance].remove(callback)
+        try:
+            self.observers[self.instance].remove(callback)
+        except ValueError:
+            pass
 
 
 """class DefaultObservable(object):

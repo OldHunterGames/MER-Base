@@ -815,7 +815,8 @@ class Person(InventoryWielder, PsyModel):
         return self._intrigue is not None
 
     def end_intrigue(self):
-        self._intrigue.end()
+        if self.has_intrigue():
+            self._intrigue.end()
         self._intrigue = None
 
     def remove_money(self, value):
@@ -1524,6 +1525,8 @@ class Person(InventoryWielder, PsyModel):
 
     @utilities.Observable
     def die(self, reason=None, destroy=False):
+        if self.is_dead():
+            return
         self.remove_relations()
         if destroy:
             self.destroy()
