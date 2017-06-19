@@ -8,7 +8,7 @@ It is noncommercial copyleft product, strictly for adult users.
 
 This is a standalone character generator for a MER-project, meant as a technical demo version of early random character generation. User interface is a placeholder.
 
-The version is unstable.
+The version is stable.
 
 ----Bugtracking----
 
