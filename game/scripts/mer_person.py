@@ -313,16 +313,13 @@ class PersonCreator(object):
     def random_alignment(self, person):
         alignments = [
             ('chaotic', 'lawful'), ('evil', 'good'), ('ardent', 'timid')]
-        no_alignment = 0
         for i in alignments:
             dice = randint(1, 10)
             if dice <= 2:
                 person.add_feature(i[0])
             elif dice >= 9:
                 person.add_feature(i[1])
-            else:
-                no_alignment += 1
-        if no_alignment == 3:
+        if len(person.alignment()) < 1:
             person.add_feature('unaligned')
 
     def random_homeworld(self):
@@ -870,6 +867,9 @@ class Person(InventoryWielder, PsyModel):
 
     def morality(self):
         return self.feature_by_slot('morality')
+
+    def alignment(self):
+        return (self.orderliness(), self.activity(), self.morality())
 
     @property
     def sexual_orientation(self):
