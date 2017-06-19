@@ -1350,15 +1350,10 @@ class Person(InventoryWielder, PsyModel):
         return False
 
     def forget_person(self, person):
-        to_remove = []
         for i in self._relations:
-            if person in i.persons:
-                to_remove.append(i)
-        for i in to_remove:
-            self._relations.remove(i)
-            person._relations.remove(i)
-        for i in to_remove:
-            i.persons = []
+            if i.target == person:
+                self._relations.remove(i)
+                return
 
     def know_faction(self, faction):
         if faction in self.known_factions():
@@ -1554,6 +1549,7 @@ class Person(InventoryWielder, PsyModel):
         characters = [i for i in self.known_characters()]
         for i in characters:
             self.forget_person(i)
+            i.forget_person(self)
 
     def is_dead(self):
         if self.feature('dead') is not None:
