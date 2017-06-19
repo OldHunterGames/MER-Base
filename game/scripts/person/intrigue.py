@@ -10,9 +10,9 @@ class Intrigue(object):
         self.target = target
         self.player = player
         self.player_influence = False
-        if self.is_available():
-            self._on_init()
-            initiator.set_intrigue(self)
+
+    def apply(self):
+        self._on_init()
 
     def data(self):
         return store.intrigues_data[self.id]

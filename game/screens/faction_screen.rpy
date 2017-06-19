@@ -31,8 +31,9 @@ init python:
     
     def _get_intrigue(initiator, target, player):
         for i in store.intrigues_data:
-            intrigue = Intrigue(i, initiator, target, player).is_available()
-            if intrigue:
+            intrigue = Intrigue(i, initiator, target, player)
+            if intrigue.is_available():
+                initiator.set_intrigue(intrigue)
                 return True
         return False
 

@@ -805,7 +805,10 @@ class Person(InventoryWielder, PsyModel):
         self._intrigue = None
 
     def set_intrigue(self, intrigue):
+        if self._intrigue == intrigue:
+            return
         self._intrigue = intrigue
+        intrigue.apply()
 
     @property
     def intrigue(self):
