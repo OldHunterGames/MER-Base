@@ -55,16 +55,18 @@ label lbl_intrigue_befriend_check(intrigue):
     return True
 
 
-label lbl_intrigue_assassination_end(intrigue):
+label lbl_intrigue_befriend_end(intrigue):
     if intrigue.initiator.charisma() > intrigue.target.charisma():
-        bond = Bond(intrigue.target, 'friend')
-        intrigue.initiator.add_bond(bond)
-        bond = Bond(intrigue.initiator, 'friend')
-        intrigue.target.add_bond(bond)
+        python:
+            bond = Bond(intrigue.target, 'friend')
+            intrigue.initiator.add_bond(bond)
+            bond = Bond(intrigue.initiator, 'friend')
+            intrigue.target.add_bond(bond)
         '[intrigue.initiator.name] befriended [intrigue.target.name]'
     else:
-        bond = Bond(intrigue.target, 'rejected')
-        intrigue.initiator.add_bond(bond)
+        python:        
+            bond = Bond(intrigue.target, 'rejected')
+            intrigue.initiator.add_bond(bond)
         '[intrigue.target.name] rejected [intrigue.initiator.name]'
     return
 
