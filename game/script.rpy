@@ -63,6 +63,7 @@ label start:
 label generate:
     $ player = PersonCreator().gen_random_person()
     $ random_relations(player)
+    $ core.set_player(player)
     call screen sc_cis(player, creation=True, controlled=True, relations=None)
     jump generate
 

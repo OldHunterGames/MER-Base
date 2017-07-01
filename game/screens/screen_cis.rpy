@@ -17,6 +17,7 @@ screen sc_cis(person, controlled=False, creation=False, relations=None):
                 image im.Scale(person.avatar, 200, 200)
                 for key, value in person.show_stats().items():
                     text encolor_text(key, value)
+                text 'Money: %s'%person.money
             text DescriptionMaker(person).description(relations)
         if creation:
             use gen_button
@@ -38,12 +39,19 @@ screen sc_cis(person, controlled=False, creation=False, relations=None):
                 xalign 0.6
                 yalign 0.8
                 action Function(renpy.call_in_new_context, 'lbl_contacts', person)
+            textbutton 'Skip turn':
+                xalign 1.0
+                yalign 1.0
+                action Function(core.skip_turn), SensitiveIf(core.can_skip_turn())
+                hovered ShowTransient('sc_text_popup', 'You have no money')
+                unhovered Hide('sc_text_popup')
         
         else:
             textbutton 'Leave':
                 xalign 0.6
                 yalign 0.8
                 action Return()
+
     on 'hide':
         action Hide('sc_intrigue_info')
 

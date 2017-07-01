@@ -15,3 +15,9 @@ class MERCore(object):
     @property
     def world(self):
         return self._world
+
+    def skip_turn(self):
+        pass
+
+    def can_skip_turn(self):
+        return self._player.can_tick()
