@@ -6,7 +6,24 @@ init python:
                 'end_label': 'lbl_intrigue_assassination_end',
                 'on_init_label': 'lbl_intrigue_assassination_on_init',
                 'check_label': 'lbl_intrigue_assassination_check'
-            }
+            },
+        
+#        'seduction'            
+#            {
+#                'name': __("Seduction"), 
+#                'end_label': 'lbl_intrigue_seduction_end',
+#                'on_init_label': 'lbl_intrigue_seduction_on_init',
+#                'check_label': 'lbl_intrigue_seduction_check'
+#            },
+
+        'befriend': 
+            {
+                'name': __("Befriend"), 
+                'end_label': 'lbl_intrigue_befriend_end',
+                'on_init_label': None,
+                'check_label': 'lbl_intrigue_befriend_check'
+            },
+
     }
 
     def assassination_callback(intrigue):
@@ -32,5 +49,22 @@ label lbl_intrigue_assassination_end(intrigue):
     "[intrigue.target.name] is dead"
     return
 
-label lbl_intrigue_assassination_check(intrigue):
+label lbl_intrigue_befriend_check(intrigue):
+    if 'evil' in intrigue.target.alignment():
+        return False
     return True
+
+
+label lbl_intrigue_assassination_end(intrigue):
+    if intrigue.initiator.charisma() > intrigue.target.charisma():
+        bond = Bond(intrigue.target, 'friend')
+        intrigue.initiator.add_bond(bond)
+        bond = Bond(intrigue.initiator, 'friend')
+        intrigue.target.add_bond(bond)
+        '[intrigue.initiator.name] befriended [intrigue.target.name]'
+    else:
+        bond = Bond(intrigue.target, 'rejected')
+        intrigue.initiator.add_bond(bond)
+        '[intrigue.target.name] rejected [intrigue.initiator.name]'
+    return
+

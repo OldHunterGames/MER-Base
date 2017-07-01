@@ -30,6 +30,7 @@ init python:
         ('submissive', 'formal', 'supporter'): __('Loyal'),
         ('submissive', 'formal', 'hater'): __('Diminished'),
     }
+
     relations_sides = {
         'dominant': __('Dominant'),
         'submissive': __('Submissive'),
@@ -37,4 +38,13 @@ init python:
         'personal': __('Personal'),
         'supporter': __('Supporter'),
         'hater': __('Hater')
+    }
+
+    bonds_data = {'lover': {"name": __('lover'), 'description': __("description"), 'value': 1},
+        'friend': {"name": __('friend'), 'description': __("description"), 'value': 1},
+        'supporter': {"name": __('supporter'), 'description': __("description"), 'value': 1},
+        'underling': {"name": __('underling'), 'description': __("description"), 'value': 1},
+        'humiliated': {"name": __('humiliated'), 'description': __("description"), 'value': -1},
+        'rejected': {"name": __('rejected'), 'description': __("description"), 'value': -1},
+        'senior': {"name": __('senior'), 'description': __("description"), 'value': 0},               
     }
