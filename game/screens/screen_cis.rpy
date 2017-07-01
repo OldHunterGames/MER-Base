@@ -43,7 +43,7 @@ screen sc_cis(person, controlled=False, creation=False, relations=None):
                 xalign 1.0
                 yalign 1.0
                 action Function(core.skip_turn), SensitiveIf(core.can_skip_turn())
-                hovered ShowTransient('sc_text_popup', 'You have no money')
+                hovered ShowTransient('sc_text_popup', text='You have no money')
                 unhovered Hide('sc_text_popup')
         
         else:
