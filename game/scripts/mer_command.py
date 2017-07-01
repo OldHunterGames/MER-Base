@@ -173,7 +173,9 @@ class CardMenu(object):
 
         def show(self, call=True, x_size=200, y_size=300, spacing=5):
             call = True
-            renpy.call_in_new_context('_lbl_card_menu', self, call, x_size, y_size, spacing, self.cancel)
+            renpy.call_in_new_context(
+                '_lbl_card_menu', self, call, x_size, y_size, spacing,
+                self.cancel)
 
         def run(self):
             card = self.current_card

@@ -15,6 +15,7 @@ init -10 python:
     from mer_command import *
     from intrigue import Intrigue
     from factions import Faction
+    from mer_core import *
     import collections
 
 # The game starts here.
@@ -22,6 +23,7 @@ init -10 python:
 label start:
     $ renpy.block_rollback()
     $ init_default_items_data()
+    $ core = MERCore()
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.

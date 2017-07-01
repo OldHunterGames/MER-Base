@@ -9,7 +9,7 @@ import renpy.exports as renpy
 from features import Feature, HomeWorld
 from anatomy import Anatomy
 from psymodel import PsyModel
-from schedule import Schedule
+from schedule import Schedule, ScheduleObject, ScheduleJob
 from relations import Relations
 from genus import available_genuses, Genus
 from mer_item import Item
@@ -188,6 +188,16 @@ class PersonCreator(object):
         self.weights = collections.defaultdict(dict)
         self.stats = dict()
         self.add_stats(**kwargs)
+
+    def _default_schedule(self, person):
+        schedule = person.schedule
+        schedule.set_default(
+            'job', ScheduleObject('idle', store.basic_jobs))
+        schedule.set_default(
+            'accommodation', ScheduleObject('appartment',
+                                            store.basic_accommodations))
+        schedule.set_default(
+            'ration', ScheduleObject('cooked', store.basic_rations))
 
     def _weighted_random(self, data):
         data = copy.copy(data)
@@ -426,6 +436,7 @@ class PersonCreator(object):
                                             random_sex_orientation))
         self.equip_person(p)
         self.get_nickname(p)
+        self._default_schedule(p)
         return p
 
     def equip_person(self, person):
@@ -801,6 +812,8 @@ class Person(InventoryWielder, PsyModel):
         self._sexual_type = None
         self._bonds = dict()
         self._intrigue = None
+        # civil income is a free money for each citizen of ER
+        self.civil_income = 0
 
     def add_motivation(self, card):
         self._motivations.append(card)
