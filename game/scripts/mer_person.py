@@ -368,11 +368,11 @@ class PersonCreator(object):
         elif gender == 'female':
             del dict_['gay']
             del dict_['straight_male']
-        return [(i[1]['name'], i[0]) for i in dict_.items()]
+        return [(value['name'], key) for key, value in dict_.items()]
 
     def get_sex_traits(self):
         dict_ = store.sexual_type
-        return [(i[1]['name'], i[0]) for i in dict_.items()]
+        return [(value['name'], key) for key, value in dict_.items()]
 
     def gen_random_person(self, **kwargs):
         "Creates fully random person if no agruments specified"
@@ -761,6 +761,7 @@ class Person(InventoryWielder, PsyModel):
         # points, current points]
         self._relations = []
         self.conditions = []
+        self._motivations = []
         if isinstance(genus, Genus):
             self.genus = genus
         else:
@@ -801,6 +802,18 @@ class Person(InventoryWielder, PsyModel):
         self._bonds = dict()
         self._intrigue = None
 
+    def add_motivation(self, card):
+        self._motivations.append(card)
+
+    def remove_motivation(card):
+        self._motivations.remove(card)
+
+    def get_motivaitions(self):
+        return copy.copy(self._motivations)
+
+    def has_motivation(self):
+        return len(self._motivations) > 0
+
     def set_intrigue(self, intrigue):
         if self._intrigue == intrigue:
             return
@@ -822,10 +835,10 @@ class Person(InventoryWielder, PsyModel):
     def remove_money(self, value):
         pass
 
-    def add_bond(self, slot, connection):
+    def add_bond(self, connection):
         # you can not have more than 1 bond of each type
         # but any number of persons can have bonds with you
-        self._connections[slot] = connection
+        self._connections[connection.id] = connection
 
     def remove_bond(self, bond):
         for key, value in self._bonds:
