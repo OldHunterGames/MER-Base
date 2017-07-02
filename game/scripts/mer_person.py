@@ -851,7 +851,7 @@ class Person(InventoryWielder, PsyModel):
     def add_bond(self, connection):
         # you can not have more than 1 bond of each type
         # but any number of persons can have bonds with you
-        self._connections[connection.id] = connection
+        self._bonds[connection.id] = connection
 
     def remove_bond(self, bond):
         for key, value in self._bonds:

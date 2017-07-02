@@ -30,7 +30,9 @@ init python:
                 return _get_intrigue(person, i, player)
     
     def _get_intrigue(initiator, target, player):
-        for i in store.intrigues_data:
+        intrigues = store.intrigues_data.keys()
+        random.shuffle(intrigues)
+        for i in intrigues:
             intrigue = Intrigue(i, initiator, target, player)
             if intrigue.is_available():
                 initiator.set_intrigue(intrigue)

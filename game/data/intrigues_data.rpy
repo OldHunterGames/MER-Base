@@ -36,6 +36,9 @@ init python:
         intrigue.callback = die_callback
         return die_callback
 
+label lbl_intrigue_assassination_check(intrigue):
+    return True
+
 label lbl_intrigue_assassination_on_init(intrigue):
     $ intrigue.target.die.add_callback(assassination_callback(intrigue))
     return

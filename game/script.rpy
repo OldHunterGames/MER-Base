@@ -15,6 +15,7 @@ init -10 python:
     from mer_command import *
     from intrigue import Intrigue
     from factions import Faction
+    from relations import Bond
     from mer_core import *
     import collections
 
