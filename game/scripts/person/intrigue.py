@@ -28,8 +28,9 @@ class Intrigue(object):
         return self.data().get('check_label')
 
     def _on_init(self):
-        return renpy.call_in_new_context(
-            self.data().get('on_init_label'), self)
+        lbl = self.data().get('on_init_label')
+        if lbl is not None:
+            return renpy.call_in_new_context(lbl, self)
 
     def is_available(self):
         return renpy.call_in_new_context(self._check_label(), self)

@@ -21,10 +21,7 @@ screen sc_cis(person, controlled=False, creation=False, relations=None):
             text DescriptionMaker(person).description(relations)
         if creation:
             use gen_button
-        textbutton 'Schedule':
-            xalign 0.6
-            yalign 0.4
-            action ShowTransient('sc_schedule', person=person)
+        
         if person.has_intrigue():
             textbutton 'Intrigue':
                 action Show('sc_intrigue_info', person=person)
@@ -35,6 +32,10 @@ screen sc_cis(person, controlled=False, creation=False, relations=None):
             yalign 0.7
             action Show('sc_simple_equip', person=person)
         if controlled:
+            textbutton 'Schedule':
+                xalign 0.6
+                yalign 0.4
+                action ShowTransient('sc_schedule', person=person)
             textbutton 'Contacts':
                 xalign 0.6
                 yalign 0.8
