@@ -67,7 +67,7 @@ class ScheduleObject(MenuCard):
         return self._data.get('name', 'No name')
 
     def use(self, person, type):
-        self._use(person)
+        self.on_use(person)
         lbl = self.world + '_%s' % type + '_%s' % self.id
         if renpy.has_label(lbl):
             renpy.call_in_new_context(lbl, person)
@@ -76,7 +76,7 @@ class ScheduleObject(MenuCard):
     def lock(self):
         self.locked = True
 
-    def _use(self, person):
+    def on_use(self, person):
         return
 
 
@@ -91,14 +91,14 @@ class ScheduleJob(ScheduleObject):
                 store.effort_quality[self.focus + 1]
         return string
 
-    def _use(self, person):
-        if self.skill is not None:
-            if person.player_controlled:
-                renpy.call_in_new_context(
-                    'lbl_jobcheck', person=person, attribute=self.skill)
-            else:
-                renpy.call_in_new_context(
-                    'lbl_jobcheck_npc', person=person, attribute=self.skill)
+    # def on_use(self, person):
+    #     if self.skill is not None:
+    #         if person.player_controlled:
+    #             renpy.call_in_new_context(
+    #                 'lbl_jobcheck', person=person, attribute=self.skill)
+    #         else:
+    #             renpy.call_in_new_context(
+    #                 'lbl_jobcheck_npc', person=person, attribute=self.skill)
 
 
 class Schedule(object):

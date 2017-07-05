@@ -784,7 +784,6 @@ class Person(InventoryWielder, PsyModel):
         self.resources_storage = None
         self.deck = None
         self._calculatable = False
-        self.faction = None
         self.food_system = FoodSystem(self)
         if shape is not None:
             self.food_system.set_shape(shape)
@@ -792,6 +791,7 @@ class Person(InventoryWielder, PsyModel):
         self.card_storage = None
         self.decks = []
         self.communications_done = []
+        self._faction = None
 
         self._renpy_character = store.Character(self.firstname)
 
@@ -814,6 +814,13 @@ class Person(InventoryWielder, PsyModel):
         self._intrigue = None
         # civil income is a free money for each citizen of ER
         self.civil_income = 0
+
+    def set_faction(self, faction):
+        self._faction = faction
+
+    @property
+    def faction(self):
+        return self._faction
 
     def add_motivation(self, card):
         self._motivations.append(card)
@@ -848,6 +855,9 @@ class Person(InventoryWielder, PsyModel):
     def remove_money(self, value):
         pass
 
+    def get_bonds(self):
+        return copy.copy(self._bonds)
+
     def add_bond(self, connection):
         # you can not have more than 1 bond of each type
         # but any number of persons can have bonds with you
@@ -858,6 +868,10 @@ class Person(InventoryWielder, PsyModel):
             if value == bond:
                 self.remove_bond_by_slot(key)
                 return
+
+    def remove_all_bonds_with(self, target):
+        for i in self.get_bonds_with(target):
+            self.remove_bond(i)
 
     def remove_bond_by_slot(self, slot):
         try:
@@ -873,6 +887,12 @@ class Person(InventoryWielder, PsyModel):
     def get_bonds_with(self, target):
         # get list of bonds with specified target
         return [i for i in self._bonds.values() if i.target == target]
+
+    def has_bonds_with(self, target):
+        return any(self.get_bonds_with(target))
+
+    def has_positive_bonds_with(self, target):
+        return any([i.value > 0 for i in self.get_bonds_with(target)])
 
     def change_genus(self, genus):
         self.genus.on_remove(self)
@@ -1013,12 +1033,6 @@ class Person(InventoryWielder, PsyModel):
 
         return False
 
-    def owned_faction(self):
-        if self.faction is not None:
-            if self.faction.owner == self:
-                return self.faction
-        return None
-
     def count_modifiers(self, attribute):
         value = self.inventory.count_modifiers(attribute)
         for i in self.get_features():
@@ -1104,18 +1118,8 @@ class Person(InventoryWielder, PsyModel):
         self.background = background
         background.apply(self)
 
-    def set_faction(self, faction):
-        if self.faction is not None:
-            self.faction.remove_member(self)
-        self.faction = faction
-
     def has_faction(self):
         return self.faction is not None
-
-    def remove_faction(self, faction):
-        if self.faction is not None:
-            self.faction.remove_member(self)
-        self.faction = None
 
     def eat(self, amount, quality):
         self.food_system.set_food(amount, quality)
@@ -1325,22 +1329,23 @@ class Person(InventoryWielder, PsyModel):
 
     @utilities.Observable
     def rest(self):
-        self._favor.tick_time()
-        self.favor_income()
+        #self._favor.tick_time()
+        #self.favor_income()
 
         if not self.calculatable:
             return
 
         # if self.energy < 0:
         #    self.add_buff('exhausted')
-        self.food_system.fatness_change()
+        self.tick_schedule()
+        self.food_system.rest()
         if self.master is None:
             self.remove_money(self.decade_bill())
         else:
             self.spend_favor(self.decade_bill())
 
-        if self.pocket_money > 0:
-            self.satisfy_need('prosperity', self.pocket_money)
+        #if self.pocket_money > 0:
+        #    self.satisfy_need('prosperity', self.pocket_money)
 
         self.ap = 1
         self._stimul = 0

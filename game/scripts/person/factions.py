@@ -20,6 +20,7 @@ class Faction(object):
             raise Exception("Faction can't handle more members")
         person.die.add_callback(self._remove_member_callback)
         self._slots.append(person)
+        person.set_faction(self)
 
     def get_members(self, sort=False):
         if sort:

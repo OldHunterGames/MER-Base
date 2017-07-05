@@ -22,18 +22,26 @@ class Intrigue(object):
         return self.data().get('name', 'No name')
 
     def _end_label(self):
-        return self.data().get('end_label')
+        return 'lbl_intrigue_%s_end' % self.id
 
     def _check_label(self):
-        return self.data().get('check_label')
+        return 'lbl_intrigue_%s_check' % self.id
 
     def _on_init(self):
-        lbl = self.data().get('on_init_label')
-        if lbl is not None:
+        lbl = 'lbl_intrigue_%s_on_init' % self.id
+        try:
             return renpy.call_in_new_context(lbl, self)
+        except:
+            return
 
     def is_available(self):
-        return renpy.call_in_new_context(self._check_label(), self)
+        try:
+            return renpy.call_in_new_context(self._check_label(), self)
+        except:
+            return True
 
     def end(self):
-        renpy.call_in_new_context(self._end_label(), self)
+        try:
+            renpy.call_in_new_context(self._end_label(), self)
+        except:
+            raise Exception('intrigue %s has no end label' % self.id)

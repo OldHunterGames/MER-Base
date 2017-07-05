@@ -52,7 +52,7 @@ class Need(object):
         self.name = name
         self.tokens = []
         self.tension_points = []
-        self.satiscation_points = []
+        self.satisfaction_points = []
         self._saturation = 0
         self.satisfied = False
 
@@ -238,7 +238,7 @@ class PsyModel(object):
         if name in self.inactive_needs:
             return
         need_obj = self.needs[name]
-        need_obj.set_satisfaction(value)
+        need_obj.set_satisfaction(point, value)
 
     def reset_psych(self):
         self._motivations = []

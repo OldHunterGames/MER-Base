@@ -6,7 +6,7 @@ class MERCore(object):
     def __init__(self):
 
         self._player = None
-        self._world = None
+        self._world = 'core'
 
     def set_player(self, person):
         self._player = person
@@ -17,7 +17,7 @@ class MERCore(object):
         return self._world
 
     def skip_turn(self):
-        pass
+        self._player.rest()
 
     def can_skip_turn(self):
         return self._player.can_tick()
