@@ -22,7 +22,7 @@ screen sc_card_menu(card_menu, called=True, x_size=200, y_size=300, spacing_=5, 
         yfill True
         xsize 1280
         ysize 720
-        style 'character_info_window'
+        style 'char_info_window'
 
         viewport:
             scrollbars 'vertical'
