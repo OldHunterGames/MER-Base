@@ -60,6 +60,13 @@ screen sc_schedule(person):
                                     for k in schedule.available('optional', core.world)],
                                     current=item, cancel=True).show)
                     text txt
+        vbox:
+            xalign 1.0
+            text 'Decade bill: %s' % person.decade_bill()
+            text 'Income %s' % person.civil_income
+            text 'Sparks: %s' % person.money
+            if not person.can_tick():
+                text encolor_text('You have no money to skip turn', 'red')
         textbutton 'Leave':
             yalign 1.0
             xalign 1.0

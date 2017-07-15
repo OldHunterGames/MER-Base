@@ -1528,14 +1528,16 @@ class Person(InventoryWielder, PsyModel):
             return True
         # return self._favor.can_tick() and \
         #     self.has_money(self.decade_bill())
-        return self.has_money(self.decade_bill())
+        return self.has_money(self.decade_bill()-self.civil_income)
 
     def has_money(self, value):
         return self.money > value
 
     def decade_bill(self):
-        value = self.schedule.get_cost()
-        return value - self.civil_income
+        return self.schedule.get_cost()
+
+    def money_change(self):
+        return self._decade_bill() - self.civil_income
 
     # methods for conditions, person.conditions list cleared after person.rest
     def add_condition(self, condition):
