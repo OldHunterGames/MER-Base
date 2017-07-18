@@ -2,7 +2,7 @@
 init python:
 
     stances = {
-        (None, None, None): __('indifferent'),
+        (None, None, None): __('Indifferent'),
         (None, None, 'supporter'): __('Amiable'),
         (None, None, 'hater'): __('Offensive'),
         (None, 'personal', None): __('Familiar'),
