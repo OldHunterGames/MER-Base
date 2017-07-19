@@ -8,7 +8,7 @@ style char_info_window is window:
 label lbl_cis_glue(person, controlled=False, creation=False, relations=None):
     call screen sc_cis(person, controlled, creation, relations)
     return
-screen sc_cis(person, controlled=False, creation=False, relations=None):
+screen sc_cis(person, controlled=False, relations=None):
 
     window:
         style 'char_info_window'
@@ -19,23 +19,25 @@ screen sc_cis(person, controlled=False, creation=False, relations=None):
                     text encolor_text(key, value)
                 text 'Money: %s'%person.money
             text DescriptionMaker(person).description(relations)
-        if creation:
-            use gen_button
         
         if person.has_intrigue():
             textbutton 'Intrigue':
                 action Show('sc_intrigue_info', person=person)
                 xalign 0.6
                 yalign 0.6
-        textbutton 'Items':
-            xalign 0.6
-            yalign 0.7
-            action Show('sc_simple_equip', person=person)
+        # textbutton 'Items':
+        #     xalign 0.6
+        #     yalign 0.7
+        #     action Show('sc_simple_equip', person=person)
         if controlled:
             textbutton 'Schedule':
                 xalign 0.6
                 yalign 0.4
                 action ShowTransient('sc_schedule', person=person)
+            textbutton 'Faction':
+                xalign 0.6
+                yalign 0.5
+                action Function(renpy.call_in_new_context, 'lbl_faction', faction=core.faction)
             textbutton 'Contacts':
                 xalign 0.6
                 yalign 0.8
@@ -71,13 +73,22 @@ screen sc_intrigue_info(person):
             textbutton 'End intrigue':
                 action Hide('sc_intrigue_info'), Function(person.end_intrigue)
 
-screen gen_button():
-    textbutton 'Generate':
-        xalign 0.6
-        yalign 0.6
-        action Return()
+screen sc_gen_player():
+    $ person = core.player
+    window:
+        style 'char_info_window'
+        hbox:
+            vbox:
+                image im.Scale(person.avatar, 200, 200)
+                for key, value in person.show_stats().items():
+                    text encolor_text(key, value)
+            text DescriptionMaker(person).description(None)
+        textbutton 'Generate':
+            xalign 0.6
+            yalign 0.6
+            action Function(core.create_player)
 
-    textbutton 'Random faction':
-        xalign 0.6
-        yalign 0.5
-        action Function(renpy.call_in_new_context, 'show_random_faction')
+        textbutton 'Start':
+            xalign 0.6
+            yalign 0.5
+            action Return()

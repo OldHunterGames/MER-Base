@@ -39,6 +39,9 @@ init python:
                 return True
         return False
 
+label lbl_faction(faction):
+    call screen sc_faction(faction)
+    return
 
 screen sc_faction(faction):
     python:
@@ -73,11 +76,6 @@ screen sc_faction(faction):
             yalign 0.35
             xalign 0.5
             action Return()
-        textbutton 'Roll intrigues':
-            yalign 0.40
-            xalign 0.5
-            action Function(make_intrigues, faction, player), SensitiveIf(
-                    not all([i.has_intrigue() for i in faction.get_members()]))
         hbox:
             box_wrap True
             spacing 15
@@ -89,3 +87,4 @@ screen sc_faction(faction):
                     imagebutton:
                         idle avatar_with_intrigue(i)
                         action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=i, relations=player)
+

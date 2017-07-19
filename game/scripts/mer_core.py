@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-
+from mer_person import PersonCreator
 
 class MERCore(object):
 
@@ -7,6 +7,10 @@ class MERCore(object):
 
         self._player = None
         self._world = 'core'
+
+    @property
+    def player(self):
+        return self._player
 
     def set_player(self, person):
         self._player = person
@@ -21,3 +25,8 @@ class MERCore(object):
 
     def can_skip_turn(self):
         return self._player.can_tick()
+
+    def create_player(self):
+        player = PersonCreator().gen_random_person()
+        self.set_player(player)
+        player.civil_income = 100
