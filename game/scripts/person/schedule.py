@@ -68,7 +68,7 @@ class ScheduleObject(MenuCard):
 
     def use(self, person, type):
         self.on_use(person)
-        lbl = self.world + '_%s' % type + '_%s' % self.id
+        lbl = str(self.world).lower() + '_%s' % type + '_%s' % self.id
         if renpy.has_label(lbl):
             renpy.call_in_new_context(lbl, person)
         self.locked = False
@@ -213,12 +213,20 @@ class Schedule(object):
             self.set_job(obj, single, **kwargs)
         else:
             setattr(self, '_' + attr_name, obj)
+        if obj not in self.available(attr_name, obj.world):
+            self.unlock(attr_name, obj)
 
     def get(self, attr_name, id):
         return getattr(self, '_available_' + attr_name + 's')[id]
 
     def unlock(self, attr_name, value):
-        getattr(self, '_available_' + attr_name + 's')[value.id] = value
+        dict_ = getattr(self, '_available_' + attr_name + 's')
+        try:
+            world = dict_[value.world]
+        except KeyError:
+            dict_[value.world] = dict()
+            world = dict_[value.world]
+        world[value.id] = value
 
     def remove(self, id_, attr_name):
         try:
@@ -226,16 +234,20 @@ class Schedule(object):
         except KeyError:
             pass
 
-    def available_optionals(self, current_world):
-        return [i for i in self._available_optionals.values()
-                if i.world == current_world and
-                i not in self._optional.values()]
+    def available_optionals(self, world):
+        return [i for i in self._available_optionals.get(world, dict()).values()
+                if i not in self._optional.values()]
 
     def available(self, attr_name, world):
         if attr_name == 'optional':
             return self.available_optionals(world)
         value = getattr(self, '_available_' + attr_name + 's')
-        return [i for i in value.values() if i.world == world]
+        try:
+            items = value.get(world, dict()).values()
+            items += value.get(None, dict()).values()
+        except KeyError:
+            items = []
+        return items
 
     def get_schedule_object(self, type, world, id):
         return getattr(self, '_available_' + type + 's')(world).get(id)
