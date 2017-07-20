@@ -1,5 +1,7 @@
 # -*- coding: UTF-8 -*-
 from mer_person import PersonCreator
+import renpy.exports as renpy
+
 
 class MERCore(object):
 
@@ -22,6 +24,7 @@ class MERCore(object):
 
     def skip_turn(self):
         self._player.rest()
+        renpy.call_in_new_context('lbl_turn_end')
 
     def can_skip_turn(self):
         return self._player.can_tick()

@@ -71,4 +71,5 @@ label lbl_game:
 
 label lbl_turn_end:
     python:
-        make_intrigues(core.faction)
+        make_intrigues(core.faction, core.player)
+    return
