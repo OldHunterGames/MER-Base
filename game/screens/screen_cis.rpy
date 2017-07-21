@@ -5,9 +5,10 @@ style char_info_window is window:
     xsize 1280
     ysize 720
 
-label lbl_cis_glue(person, controlled=False, creation=False, relations=None):
-    call screen sc_cis(person, controlled, creation, relations)
+label lbl_cis_glue(person, controlled=False, relations=None):
+    call screen sc_cis(person, controlled, relations)
     return
+
 screen sc_cis(person, controlled=False, relations=None):
 
     window:
@@ -48,6 +49,10 @@ screen sc_cis(person, controlled=False, relations=None):
                 action Function(core.skip_turn), SensitiveIf(core.can_skip_turn())
                 hovered If(not core.can_skip_turn(), ShowTransient('sc_text_popup', text='You have no money'))
                 unhovered Hide('sc_text_popup')
+            textbutton 'Journal':
+                xalign 0.8
+                yalign 0.6
+                action Show('sc_player_journal')
         
         else:
             textbutton 'Leave':

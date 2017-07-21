@@ -45,6 +45,13 @@ screen sc_schedule(person):
             for i in (0, 1, 2):
                 python:
                     item = schedule.get_optional(i)
+                    if item is not None:
+                        for key, value in schedule.optional.items():
+                            if value == item:
+                                slot = key
+                        current_item = SetScheduleItem(person, 'optional', item, key)
+                    else:
+                        current_item = None
                     if item is None:
                         img = im.Scale(card_back(), 200, 300)
                         txt = 'Optional'
@@ -58,7 +65,7 @@ screen sc_schedule(person):
                                 CardMenu(
                                     [SetScheduleItem(person, 'optional', k, i)
                                     for k in schedule.available('optional', core.world)],
-                                    current=item, cancel=True).show)
+                                    current=current_item, cancel=True).show)
                     text txt
         vbox:
             xalign 1.0

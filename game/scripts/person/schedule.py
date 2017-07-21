@@ -146,6 +146,10 @@ class Schedule(object):
     def ration(self):
         return self._ration
 
+    @property
+    def optional(self):
+        return self._optional
+
     def description(self, key):
         return getattr(self, '_' + key).description
 
