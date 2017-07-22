@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 from mer_person import PersonCreator
-from schedule import ScheduleObject
+from schedule import ScheduleObject, ScheduleJob
 import renpy.exports as renpy
 import renpy.store as store
 import copy
@@ -45,10 +45,18 @@ class MERCore(object):
         self.set_player(player)
         player.civil_income = 100
 
-    def unlock_optionals(self, person):
-        for i in store.basic_extras:
-            person.schedule.unlock(
-                'optional', ScheduleObject(i, store.basic_extras))
+    def unlock_schedule(self, person):
+        basic_schedule = {
+            'job': store.basic_jobs,
+            'accommodation': store.basic_accommodations,
+            'ration': store.basic_rations,
+            'optional': store.basic_extras}
+        for key, data in basic_schedule.items():
+            for i in data:
+                if key == 'job':
+                    person.schedule.unlock(key, ScheduleJob(i, data))
+                else:
+                    person.schedule.unlock(key, ScheduleJob(i, data))
 
 
 class EventsBook(object):

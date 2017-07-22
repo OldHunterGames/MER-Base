@@ -52,7 +52,7 @@ label generate:
     $ core.create_player()
     call screen sc_gen_player()
     $ player = core.player
-    $ core.unlock_optionals(player)
+    $ core.unlock_schedule(player)
     # call screen sc_gen_faction()
     call lbl_make_faction
     jump lbl_game

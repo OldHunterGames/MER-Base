@@ -225,12 +225,22 @@ class Schedule(object):
 
     def unlock(self, attr_name, value):
         dict_ = getattr(self, '_available_' + attr_name + 's')
+        if self._already_know(attr_name, value.id, value.world):
+            return
         try:
             world = dict_[value.world]
         except KeyError:
             dict_[value.world] = dict()
             world = dict_[value.world]
         world[value.id] = value
+
+    def _already_know(self, attr_name, id, world):
+        dict_ = getattr(self, '_available_' + attr_name + 's')
+        try:
+            obj = dict_[world][id]
+            return True
+        except KeyError:
+            return False
 
     def remove(self, id_, attr_name):
         try:
