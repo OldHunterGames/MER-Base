@@ -11,6 +11,7 @@ init python:
                 'image': 'miscards', 
             },
     }
+
     basic_accommodations = {
         'appartment': 
             {
@@ -76,7 +77,37 @@ init python:
             'world': 'core'
             },
     }
+
     basic_rations = {
+        'famish': 
+            {
+            "name": __("Famish (0)"), 
+            'description': __("Eat what you can get for free (basicaly nothing)."), 
+            'cost': 0, 
+            'world': 'core'
+            },
+        'canned_half': 
+            {
+            "name": __("Canned food (5)"), 
+            'description': __("5 sparks/decade"), 
+            'cost': 5, 
+            'world': 'core'
+            },
+        'canned': 
+            {
+            "name": __("Canned food (10)"), 
+            'description': __("10 sparks/decade"), 
+            'cost': 10, 
+            'world': 'core'
+            },
+        'canned_double': 
+            {
+            "name": __("Canned food (15)"), 
+            'description': __("20 sparks/decade"), 
+            'cost': 20, 
+            'world': 'core'
+            },
+
         'cooked': 
             {
             "name": __("Cooked food (20)"), 
@@ -191,7 +222,7 @@ init python:
 ## RATIONS
 
 label core_ration_cooked(person):
-    $ person.satisfy_need('nutrition', 'point', 3)
+    $ person.satisfy_need('nutrition', 'taste', 3)
     # '[person.name] eats coocked food'
     return
 
@@ -250,7 +281,8 @@ label core_extras_shopping(person):
 ## ACCOMODATION
 
 label core_accommodation_appartment(person):
-    $ person.satisfy_need('comfort', 'point', 3)
+    $ person.satisfy_need('safety', 'shelter', 2)
+    $ person.satisfy_need('comfort', 'pleasure', 2)
     # '[person.name] sleeps in good appartments'
     return
 
