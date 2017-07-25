@@ -4,10 +4,6 @@ import renpy.store as store
 import renpy.exports as renpy
 import mer_utilities
 
-
-needs_names = ["nutrition", "wellness", "comfort", "activity", "communication",
-               "amusement", "prosperity", "authority", "ambition", "eros"]
-
 satisfy_chances = {
     'nutrition': 'taste',
     'wellness': 'health',
@@ -25,8 +21,8 @@ needs_default_points = {}
 
 def init_needs():
     dict_ = {}
-    for name in needs_names:
-        dict_[name] = (Need(name))
+    for id, name in store.needs_names.items():
+        dict_[id] = (Need(id, name))
     return dict_
 
 
@@ -48,7 +44,7 @@ class Motivation(object):
 
 
 class Need(object):
-    def __init__(self, name):
+    def __init__(self, id, name):
         self.name = name
         self.tokens = []
         self.tension_points = []
