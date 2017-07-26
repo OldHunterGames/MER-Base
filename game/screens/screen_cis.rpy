@@ -75,8 +75,8 @@ screen sc_intrigue_info(person):
                     idle im.Scale(person.intrigue.target.avatar, 50, 50)
                     action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=person.intrigue.target, relations=player)
             textbutton 'Close' action Hide('sc_intrigue_info')
-            textbutton 'End intrigue':
-                action Hide('sc_intrigue_info'), Function(person.end_intrigue)
+            textbutton 'Intervene intrigue':
+                action Hide('sc_intrigue_info'), Function(person.intervene_intrigue)
 
 screen sc_gen_player():
     $ person = core.player

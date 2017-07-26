@@ -852,6 +852,14 @@ class Person(InventoryWielder, PsyModel):
             self._intrigue.end()
         self._intrigue = None
 
+    def intervene_intrigue(self):
+        if self.has_intrigue():
+            self._intrigue.intervene()
+        self._intrigue = None
+
+    def remove_intrigue(self):
+        self._intrigue = None
+
     def remove_money(self, value):
         pass
 
