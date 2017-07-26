@@ -49,6 +49,10 @@ init python:
 label lbl_intrigue_assassination_check(intrigue):
     return True
 
+label lbl_intrigue_assassination_intervene(intrigue):
+    'intervened'
+    return
+
 label lbl_intrigue_assassination_end(intrigue):
     if not intrigue.target.is_dead():
         $ intrigue.target.die.remove_callback(intrigue.callback)

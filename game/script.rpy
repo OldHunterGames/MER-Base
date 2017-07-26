@@ -67,6 +67,7 @@ label lbl_make_faction:
     return
 
 label lbl_game:
+    $ make_intrigues(core.faction, core.player)
     call screen sc_cis(player, controlled=True)
     return
 
