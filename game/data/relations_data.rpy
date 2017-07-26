@@ -40,11 +40,11 @@ init python:
         'hater': __('Hater')
     }
 
-    bonds_data = {'lover': {"name": __('lover'), 'description': __("description"), 'value': 1},
-        'friend': {"name": __('friend'), 'description': __("description"), 'value': 1},
-        'supporter': {"name": __('supporter'), 'description': __("description"), 'value': 1},
-        'underling': {"name": __('underling'), 'description': __("description"), 'value': 1},
-        'humiliated': {"name": __('humiliated'), 'description': __("description"), 'value': -1},
-        'rejected': {"name": __('rejected'), 'description': __("description"), 'value': -1},
-        'senior': {"name": __('senior'), 'description': __("description"), 'value': 0},               
+    bonds_data = {'lover': {"name": __('lover'), 'description': __("{actor.fullname} is in love with {target.full_name}."), 'value': 1},
+        'friend': {"name": __('friend'), 'description': __("{target.full_name} is {possesive} best friend."), 'value': 1},
+        'supporter': {"name": __('supporter'), 'description': __("{target.full_name} betows {pronoun} a full support."), 'value': 1},
+        'underling': {"name": __('underling'), 'description': __("{target.full_name} is {possesive} most promient underling."), 'value': 1},
+        'humiliated': {"name": __('humiliated'), 'description': __("Hummiliated by {target.full_name}."), 'value': -1},
+        'rejected': {"name": __('rejected'), 'description': __("Rejected by {target.full_name}."), 'value': -1},
+        'senior': {"name": __('senior'), 'description': __("{actor.full_name} sees {target.full_name} as a senior."), 'value': 0},               
     }

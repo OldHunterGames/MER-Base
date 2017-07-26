@@ -235,6 +235,10 @@ class Bond(object):
         self.id = id
         self._target = target
 
+    @property
+    def target(self):
+        return self._target
+
     def value(self):
         return self._get_data('value', 0)
 
@@ -245,4 +249,4 @@ class Bond(object):
         return self._get_data('description', 'No description')
 
     def _get_data(self, key, value=None):
-        return store.bonds_data.get(key, value)
+        return store.bonds_data[self.id].get(key, value)

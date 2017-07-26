@@ -580,6 +580,10 @@ class DescriptionMaker(object):
         start_text = self.features_text(start_text)
         start_text += '\n'
         start_text = self.needs_text(start_text)
+        start_text += '\n'
+        for i in person.get_bonds().values():
+            start_text += i.description().format(actor=person, target=i.target, **locals())
+            start_text += ' '
         start_text = start_text.format(**locals())
         return start_text
 
@@ -1320,6 +1324,7 @@ class Person(InventoryWielder, PsyModel):
     def unlock_slot(self, slot):
         self.blocked_slots.remove(slot)
 
+    @property
     def full_name(self):
         return self.firstname + ' "' + self.nickname + '" ' + self.surname
 
