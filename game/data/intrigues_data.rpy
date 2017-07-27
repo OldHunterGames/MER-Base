@@ -56,9 +56,9 @@ label lbl_intrigue_assassination_intervene(intrigue):
 label lbl_intrigue_assassination_end(intrigue):
     if not intrigue.target.is_dead():
         $ intrigue.target.die()
-    $ core.add_record('[intrigue.name] ended')
+    $ core.add_record('{intrigue.name} ended'.format(intrigue=intrigue))
     show expression im.Scale(intrigue.target.avatar, 200, 200) at truecenter
-    $ core.add_record("[intrigue.target.name] is dead")
+    $ core.add_record("{intrigue.target.name} is dead".format(intrigue=intrigue))
     return
 
 label lbl_intrigue_befriend_check(intrigue):
@@ -74,12 +74,12 @@ label lbl_intrigue_befriend_end(intrigue):
             intrigue.initiator.add_bond(bond)
             bond = Bond(intrigue.initiator, 'friend')
             intrigue.target.add_bond(bond)
-        $ core.add_record('[intrigue.initiator.name] befriended [intrigue.target.name]')
+        $ core.add_record('{intrigue.initiator.name} befriended {intrigue.target.name}'.format(intrigue=intrigue))
     else:
         python:        
             bond = Bond(intrigue.target, 'rejected')
             intrigue.initiator.add_bond(bond)
-        $ core.add_record('[intrigue.target.name] rejected [intrigue.initiator.name]')
+        $ core.add_record('{intrigue.target.name} rejected {intrigue.initiator.name}'.format(intrigue=intrigue))
     return
 
 label lbl_intrigue_seduction_check(intrigue):
@@ -91,10 +91,10 @@ label lbl_intrigue_seduction_end(intrigue):
     if check:
         $ intrigue.target.add_bond(Bond(intrigue.initiator, 'lover'))
         $ intrigue.initiator.add_bond(Bond(intrigue.target, 'lover'))
-        $ core.add_record('[intrigue.initiator.name] seduced [intrigue.target.name]')
+        $ core.add_record('{intrigue.initiator.name} seduced {intrigue.target.name}'.format(intrigue=intrigue))
     else:
         $ intrigue.initiator.add_bond(Bond(intrigue.target, 'rejected'))
-        $ core.add_record('[intrigue.target.name] rejected [intrigue.initiator.name] seducation')
+        $ core.add_record('{intrigue.target.name} rejected {intrigue.initiator.name} seducation'.format(intrigue=intrigue))
     return
 
 label lbl_intrigue_harassment_check(intrigue):
@@ -104,10 +104,10 @@ label lbl_intrigue_harassment_end(intrigue):
     $ check = True #should be success check
     if check:
         $ intrigue.target.add_bond(Bond(intrigue.initiator, 'humiliated'))
-        $ core.add_record('[intrigue.target.name] humiliated by [intrigue.initiator.name]')
+        $ core.add_record('{intrigue.target.name} humiliated by {intrigue.initiator.name}'.format(intrigue=intrigue))
     else:
         $ intrigue.initiator.add_bond(Bond(intrigue.target, 'humiliated'))
-        $ core.add_record('[intrigue.initiator.name] humiliated by [intrigue.target.name]')
+        $ core.add_record('{intrigue.initiator.name} humiliated by {intrigue.target.name}'.format(intrigue=intrigue))
     return
 
 label lbl_intrigue_support_check(intrigue):
@@ -117,10 +117,10 @@ label lbl_intrigue_support_end(intrigue):
     $ check = True #should be success check
     if check:
         $ intrigue.initiator.add_bond(Bond(intrigue.target, 'supporter'))
-        $ core.add_record('[intrigue.initiator.name] is now supporter of [intrigue.target.name]')
+        $ core.add_record('{intrigue.initiator.name} is now supporter of {intrigue.target.name}'.format(intrigue=intrigue))
     else:
         $ intrigue.target.add_bond(Bond(intrigue.initiator, 'supporter'))
-        $ core.add_record('[intrigue.target.name] is now supporter of [intrigue.initiator.name]')
+        $ core.add_record('{intrigue.target.name} is now supporter of {intrigue.initiator.name}'.format(intrigue=intrigue))
 
     return
 
@@ -137,10 +137,10 @@ label lbl_intrigue_breakup_end(intrigue):
         check = True # should be success check
     if check:
         $ intrigue.target.add_bond(Bond(intrigue.initiator, 'rejected'))
-        $ core.add_record('[intrigue.initiator.name] broke with [intrigue.target.name]')
+        $ core.add_record('{intrigue.initiator.name} broke with {intrigue.target.name}'.format(intrigue=intrigue))
     else:
         $ intrigue.initiator.add_bond(Bond(intrigue.target, 'rejected'))
-        $ core.add_record('[intrigue.target.name] broke with [intrigue.initiator.name]')
+        $ core.add_record('{intrigue.target.name} broke with {intrigue.initiator.name}'.format(intrigue=intrigue))
     return
 
 label lbl_intrigue_vendetta_check(intrigue):
@@ -161,13 +161,13 @@ label lbl_intrigue_vendetta_end(intrigue):
             intrigue.target.remove_all_bonds_with(intrigue.other)
             intrigue.other.remove_all_bonds_with(intrigue.target)
             intrigue.target.add_bond(Bond(intrigue.initiator, 'humiliated'))
-            core.add_record('[intrigue.initiator.name] successfully commited a vendetta over [intrigue.target.name]')
+            core.add_record('{intrigue.initiator.name} successfully commited a vendetta over {intrigue.target.name}'.format(intrigue=intrigue))
     else:
         python:
             intrigue.initiator.remove_all_bonds_with(intrigue.target)
             intrigue.target.remove_all_bonds_with(intrigue.initiator)
             intrigue.initiator.add_bond(Bond(intrigue.target, 'humiliated'))
-            core.add_record('[intrigue.initiatore.name] failed vendetta over [intrigue.target.name]')
+            core.add_record('{intrigue.initiatore.name} failed vendetta over {intrigue.target.name}'.format(intrigue=intrigue))
 
     return
 
@@ -181,11 +181,11 @@ label lbl_intrigue_recruitment_end(intrigue):
     if check:
         $ intrigue.target.add_bond(Bond(intrigue.initiator, 'mentor'))
         $ intrigue.initiator.add_bond(Bond(intrigue.target, 'underling'))
-        $ core.add_record('[intrigue.initiator.name] successfully recruited [intrigue.target.name]')
+        $ core.add_record('{intrigue.initiator.name} successfully recruited {intrigue.target.name}'.format(intrigue=intrigue))
 
     else:
         $ intrigue.initiator.add_bond(Bond(intrigue.target, 'rejected'))
-        $ core.add_record('[intrigue.initiator.name] failed recruitment of [intrigue.target.name]')
+        $ core.add_record('{intrigue.initiator.name} failed recruitment of {intrigue.target.name}'.format(intrigue=intrigue))
 
     return
 
@@ -197,9 +197,9 @@ label lbl_intrigue_submission_end(intrigue):
     $ check = True # should be success check
     if check:
         $ intrigue.target.add_bond(Bond(intrigue.initiator, 'underling'))
-        $ core.add_record('[intrigue.initiator.name] submissed [intrigue.target.name]')
+        $ core.add_record('{intrigue.initiator.name} submissed {intrigue.target.name}'.format(intrigue=intrigue))
     else:
         $ intrigue.initiator.add_bond(Bond(intrigue.target, 'rejected'))
-        $ core.add_record('[intrigue.initiator.name] failed submission of [intrigue.target.name]')
+        $ core.add_record('{intrigue.initiator.name} failed submission of {intrigue.target.name}'.format(intrigue=intrigue))
 
     return

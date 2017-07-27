@@ -15,8 +15,7 @@ screen sc_player_journal():
                 box_wrap True
                 
                 for i in core.get_records():
-                    text i:
-                        layout 'greedy'
+                    text i
 
         textbutton 'Leave':
             action Hide('sc_player_journal')

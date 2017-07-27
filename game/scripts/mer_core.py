@@ -33,9 +33,9 @@ class MERCore(object):
         return self._world
 
     def skip_turn(self):
+        self._journal.skip_turn()
         for i in self.faction.get_members():
             i.end_intrigue()
-        self._journal.skip_turn()
         self._player.rest()
         renpy.call_in_new_context('lbl_turn_end')
 
