@@ -55,7 +55,6 @@ label lbl_intrigue_assassination_intervene(intrigue):
 
 label lbl_intrigue_assassination_end(intrigue):
     if not intrigue.target.is_dead():
-        $ intrigue.target.die.remove_callback(intrigue.callback)
         $ intrigue.target.die()
     $ core.add_record('[intrigue.name] ended')
     show expression im.Scale(intrigue.target.avatar, 200, 200) at truecenter

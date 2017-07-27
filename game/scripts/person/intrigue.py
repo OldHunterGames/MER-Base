@@ -62,7 +62,7 @@ class Intrigue(object):
     def can_intervene(self):
         return renpy.has_label(self._intervene_label())
 
-    def _die_callback(self):
+    def _die_callback(self, *args, **kwargs):
         self.initiator.remove_intrigue()
         self.initiator.die.remove_callback(self._die_callback)
         self.target.die.remove_callback(self._die_callback)
