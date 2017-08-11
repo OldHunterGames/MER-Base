@@ -74,4 +74,5 @@ label lbl_game:
 label lbl_turn_end:
     python:
         make_intrigues(core.faction, core.player)
+    call screen sc_player_journal(called=True)
     return

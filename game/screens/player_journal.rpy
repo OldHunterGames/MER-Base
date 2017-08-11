@@ -1,4 +1,5 @@
-screen sc_player_journal():
+screen sc_player_journal(called=False):
+    modal True
     window:
         style 'char_info_window'
 
@@ -18,6 +19,6 @@ screen sc_player_journal():
                     text i
 
         textbutton 'Leave':
-            action Hide('sc_player_journal')
+            action If(called, Return(), false=Hide('sc_player_journal'))
             xalign 1.0
             yalign 1.0
