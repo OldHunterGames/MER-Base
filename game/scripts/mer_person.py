@@ -786,6 +786,11 @@ class Person(InventoryWielder, PsyModel):
         self.set_avatar()
         self._buffs = []
         self.resources_storage = None
+        self._resources = {
+            'cash': 0,
+            'info': 0,
+            'power': 0
+        }
         self.deck = None
         self._calculatable = False
         self.food_system = FoodSystem(self)
@@ -816,8 +821,46 @@ class Person(InventoryWielder, PsyModel):
         self._sexual_type = None
         self._bonds = dict()
         self._intrigue = None
+        self._wishes = list()
         # civil income is a free money for each citizen of ER
         self.civil_income = 0
+
+    def resource(self, name):
+        return self._resources[name]
+
+    def add_resource(self, name, value):
+        self._resources[name] += value
+
+    def use_resource(self, name, value):
+        self._resources[name] -= value
+
+    def has_resource(self, name, value):
+        return self._resources[name] >= value
+
+    def add_wish(self, wish):
+        self._wishes.append(wish)
+
+    def wishes(self):
+        return copy.copy(self._wishes)
+
+    def remove_wish(self, wish):
+        self._wishes.remove(wish)
+
+    def has_wish(self, id):
+        for i in self._wishes:
+            if i.id == id:
+                return True
+        return False
+
+    def activate_wish(self, wish):
+        wish.activate(self)
+        self._wishes.remove(wish)
+
+    def wishes_turn_end(self):
+        for i in self._wishes:
+            i.turn_end(self)
+            if i.fulfilled(self):
+                self.activate_wish(i)
 
     def set_faction(self, faction):
         self._faction = faction
@@ -892,7 +935,7 @@ class Person(InventoryWielder, PsyModel):
             pass
 
     def count_bonds(self, target):
-        # used to get your influenct in faction
+        # used to get your influence in faction
         return sum(
             [i.value for i in self._bonds.values() if i.target == target])
 

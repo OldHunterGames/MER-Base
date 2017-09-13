@@ -44,15 +44,15 @@ def empty_sex_image():
 
 
 def weighted_random(pairs):
+    try:
+        pairs = pairs.items()
+    except AttributeError:
+        pass
     for i in pairs:
         try:
             iter(i)
         except TypeError:
             raise ValueError('weighted random takes pairs or dict as arg')
-    try:
-        pairs = pairs.items()
-    except AttributeError:
-        pass
     total = sum(w for c, w in pairs)
     r = random.uniform(0, total)
     upto = 0

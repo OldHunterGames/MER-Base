@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from mer_person import PersonCreator
 from schedule import ScheduleObject, ScheduleJob
+from wishes import WishesGenerator
 import renpy.exports as renpy
 import renpy.store as store
 import copy
@@ -13,6 +14,12 @@ class MERCore(object):
         self._player = None
         self._world = 'core'
         self._journal = EventsBook()
+        self._wish_maker = WishesGenerator()
+
+    def process_wishes(self):
+        for i in self.faction.get_members():
+            i.wishes_turn_end()
+            self._wish_maker.make_wishes(i)
 
     def add_record(self, value):
         self._journal.add_entry(value)
@@ -34,8 +41,7 @@ class MERCore(object):
 
     def skip_turn(self):
         self._journal.skip_turn()
-        for i in self.faction.get_members():
-            i.end_intrigue()
+        self.process_wishes()
         self._player.rest()
         renpy.call_in_new_context('lbl_turn_end')
 

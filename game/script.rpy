@@ -67,12 +67,12 @@ label lbl_make_faction:
     return
 
 label lbl_game:
-    $ make_intrigues(core.faction, core.player)
+    # $ make_intrigues(core.faction, core.player)
     call screen sc_cis(player, controlled=True)
     return
 
 label lbl_turn_end:
-    python:
-        make_intrigues(core.faction, core.player)
+    # python:
+        # make_intrigues(core.faction, core.player)
     call screen sc_player_journal(called=True)
     return

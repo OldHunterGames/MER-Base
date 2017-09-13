@@ -33,10 +33,17 @@ class Relations(object):
     def __init__(self, target):
         self._target = target
         self._sides = {'authority': None, 'distance': None, 'affection': None}
-        self._favor = 0
-        self._respect = 0
+        self._influence = 0
         self._soulmate = False
         self._special_stance = None
+
+    @property
+    def influence(self):
+        return self._influence
+
+    @influence.setter
+    def influence(self, value):
+        self._influence = max(0, min(5, value))
 
     @property
     def target(self):
@@ -123,62 +130,6 @@ class Relations(object):
                 sides.append(
                     encolor_text(store.relations_sides[side], color, protected))
         return sides
-
-    # favor methods
-    @property
-    def favor(self):
-        return self._favor
-
-    def gain_favor(self, value):
-        for i in self._sides.values():
-            if i in ('submissive', 'personal', 'supporter'):
-                value += 1
-            elif i in ('dominant', 'formal', 'hater'):
-                value -= 1
-        if value == self._favor:
-            value = self._favor + 1
-        elif value < self._favor:
-            value = self._favor
-        self._set_favor(value)
-
-    def use_favor(self, value):
-        self._set_favor(self._favor - value)
-
-    def has_favor(self, value):
-        return self._favor >= value
-
-    def show_favor(self):
-        # visual representation of favor
-        return
-
-    def _set_favor(self, value):
-        self._favor = max(0, min(value, 5))
-
-    # respect methods
-    @property
-    def respect(self):
-        return self._respect
-
-    def gain_respect(self, value):
-        for i in self._sides.values():
-            if i in ('submissive', 'personal', 'supporter'):
-                value -= 1
-            elif i in ('dominant', 'formal', 'hater'):
-                value += 1
-        if value == self._respect:
-            value = self._respect + 1
-        elif value < self._respect:
-            value = self._respect
-        self._set_respect(value)
-
-    def use_respect(self, value):
-        self._set_respect(self._respect - value)
-
-    def has_respect(self, value):
-        return self._respect >= value
-
-    def _set_respect(self, value):
-        self._respect = max(0, min(5, value))
 
     def bias(self):
         sides = dict()
