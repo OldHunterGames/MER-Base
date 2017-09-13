@@ -13,7 +13,7 @@ class MERCore(object):
 
         self._player = None
         self._world = 'core'
-        self._journal = EventsBook()
+        self._journal = EventsBook(0)
         self._wish_maker = WishesGenerator()
 
     def process_wishes(self):
@@ -71,7 +71,7 @@ class EventsBook(object):
 
     def __init__(self, turns_to_store=1):
         self._events = list()
-        self._turns_to_store = 1
+        self._turns_to_store = turns_to_store
         self._turns_passed = 0
 
     def skip_turn(self):
