@@ -1,4 +1,5 @@
 init python:
+    
     intrigues_data = {
         'assassination': 
             {
