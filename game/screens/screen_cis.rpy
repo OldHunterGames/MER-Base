@@ -9,6 +9,13 @@ label lbl_cis_glue(person, controlled=False, relations=None):
     call screen sc_cis(person, controlled, relations)
     return
 
+
+label lbl_new_meeting(person):
+    $ new_person = core.person_creator.gen_random_person()
+    $ person.relations(core.person_creator.gen_random_person())\
+    $ core.faction.add_member(new_person)
+    return
+
 screen sc_cis(person, controlled=False, relations=None):
 
     window:
@@ -21,11 +28,6 @@ screen sc_cis(person, controlled=False, relations=None):
                 text 'Money: %s'%person.money
             text DescriptionMaker(person).description(relations)
         
-        if person.has_intrigue():
-            textbutton 'Intrigue':
-                action Show('sc_intrigue_info', person=person)
-                xalign 0.6
-                yalign 0.6
         # textbutton 'Items':
         #     xalign 0.6
         #     yalign 0.7
@@ -35,10 +37,10 @@ screen sc_cis(person, controlled=False, relations=None):
                 xalign 0.6
                 yalign 0.4
                 action ShowTransient('sc_schedule', person=person)
-            textbutton 'Faction':
+            textbutton 'New meeting':
                 xalign 0.6
                 yalign 0.5
-                action Function(renpy.call_in_new_context, 'lbl_faction', faction=core.faction)
+                action Function(renpy.call_in_new_context, 'lbl_new_meeting', person=person)
             textbutton 'Contacts':
                 xalign 0.6
                 yalign 0.8
@@ -62,21 +64,6 @@ screen sc_cis(person, controlled=False, relations=None):
 
     on 'hide':
         action Hide('sc_intrigue_info')
-
-screen sc_intrigue_info(person):
-    window:
-        vbox:
-            text 'Intrigue name: ' + person.intrigue.name
-            hbox:
-                vbox:
-                    text 'Intigue target: '
-                    text person.intrigue.target.name
-                imagebutton:
-                    idle im.Scale(person.intrigue.target.avatar, 50, 50)
-                    action Function(renpy.call_in_new_context, 'lbl_cis_glue', person=person.intrigue.target, relations=player)
-            textbutton 'Close' action Hide('sc_intrigue_info')
-            textbutton 'Intervene intrigue':
-                action Hide('sc_intrigue_info'), Function(person.intervene_intrigue)
 
 screen sc_gen_player():
     $ person = core.player

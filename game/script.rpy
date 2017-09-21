@@ -54,20 +54,18 @@ label generate:
     $ player = core.player
     $ core.unlock_schedule(player)
     # call screen sc_gen_faction()
-    call lbl_make_faction
     jump lbl_game
 
 label lbl_make_faction:
     python:
         leader = PersonCreator().gen_random_person()
         faction = Faction(leader)
-        for i in range(14):
-            faction.add_member(PersonCreator().gen_random_person())
         core.faction = faction
     return
 
 label lbl_game:
     # $ make_intrigues(core.faction, core.player)
+    call lbl_make_faction
     call screen sc_cis(player, controlled=True)
     return
 

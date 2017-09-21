@@ -1,48 +1,45 @@
 # -*- coding: UTF-8 -*-
-import copy
 
 
 class Faction(object):
     _max_ingrigues = 3
 
     def __init__(self, owner):
-        self._size = 15
-        self._slots = []
-        self.add_member(owner)
+        self._slots = dict()
+        self.add_member(owner, role='leader')
 
     @property
     def max_intrigues(self):
         return self._max_ingrigues
 
-    def add_member(self, person):
-        slots = self._slots
-        if len(slots) == 15:
-            raise Exception("Faction can't handle more members")
+    def add_member(self, person, role='patrician'):
+        # adds member, each role but pratician is unique
+        # if faction have this role, sets new member to it and
+        # old member to patrician
+        if role != 'patrician' and role in self._slots.values():
+            old_person = self._remove_role(role)
+            self.add_member(old_person)
+            return
+        person.occupation = 'basic'
+        person.occupation_level = 1
         person.die.add_callback(self._remove_member_callback)
-        self._slots.append(person)
+        self._slots[person] = role
         person.set_faction(self)
 
+    def _remove_role(self, role):
+        for person, r in self._slots.items():
+            if r == role:
+                self.remove_member(person)
+                return person
+
     def get_members(self, sort=False):
-        if sort:
-            return sorted(self._slots,
-                          key=lambda person: self.get_influence(person))
-        else:
-            return copy.copy(self._slots)
-
-    def has_slots(self):
-        return len(self._slots) < 15
-
-    def get_influence(self, person):
-        return 0
+        return self._slots.keys()
 
     def _remove_member_callback(self, person, *args):
         self.remove_member(person)
 
     def remove_member(self, person):
         try:
-            self._slots.remove(person)
-        except ValueError:
+            del self._slots[person]
+        except KeyError:
             pass
-
-    def get_frame_color(self, person):
-        return '#00ff00'

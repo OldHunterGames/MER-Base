@@ -2,6 +2,7 @@
 from mer_person import PersonCreator
 from schedule import ScheduleObject, ScheduleJob
 from wishes import WishesGenerator
+import random
 import renpy.exports as renpy
 import renpy.store as store
 import copy
@@ -15,11 +16,46 @@ class MERCore(object):
         self._world = 'core'
         self._journal = EventsBook(0)
         self._wish_maker = WishesGenerator()
+        self.person_creator = PersonCreator()
+
+    def _get_active_persons(self):
+        return self.faction.get_members()
 
     def process_wishes(self):
-        for i in self.faction.get_members():
+        for i in self._get_active_persons():
             i.wishes_turn_end()
             self._wish_maker.make_wishes(i)
+
+    def process_bonds(self):
+        for i in self._get_active_persons():
+            bonds = i.get_bonds()
+            for n in range(0, i.occupation_level) and len(bonds) > 0:
+                bond = random.choice(bonds)
+                bonds.remove(bond)
+                bond.target.resources_bonus += 1
+
+    def process_resources(self):
+        for person in self._get_active_persons():
+            if person.resources_bonus > 0:
+                for i in range(0, person.resources_bonus):
+                    try:
+                        resource = random.choice(
+                            [r for r in person.resources() if person.resource(r) < 5])
+                    except IndexError:
+                        person.resources_bonus = 0
+                    else:
+                        person.add_resource(resource, 1)
+            elif person.resources_bonus < 0:
+                for i in range(0, abs(person.resources_bonus)):
+                    try:
+                        resource = random.choice(
+                            [r for r in person.resources() if person.resource(r) > 0])
+                    except IndexError:
+                        person.resources_bonus = 0
+                    else:
+                        person.use_resource(resource, 1)
+            person.resources_bonus = 9
+
 
     def add_record(self, value):
         self._journal.add_entry(value)

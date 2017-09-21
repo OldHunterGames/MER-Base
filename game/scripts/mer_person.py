@@ -791,6 +791,7 @@ class Person(InventoryWielder, PsyModel):
             'info': 0,
             'power': 0
         }
+        self.resources_bonus = 0
         self.deck = None
         self._calculatable = False
         self.food_system = FoodSystem(self)
@@ -822,6 +823,8 @@ class Person(InventoryWielder, PsyModel):
         self._bonds = dict()
         self._intrigue = None
         self._wishes = list()
+        self.occupation = None
+        self.occupation_level = 0
         # civil income is a free money for each citizen of ER
         self.civil_income = 0
 
@@ -842,6 +845,9 @@ class Person(InventoryWielder, PsyModel):
 
     def wishes(self):
         return copy.copy(self._wishes)
+
+    def resources(self):
+        return self._resources.keys()
 
     def remove_wish(self, wish):
         self._wishes.remove(wish)
