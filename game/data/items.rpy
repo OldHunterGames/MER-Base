@@ -29,7 +29,7 @@ init python:
             'quality': 1,  
             'size': 1,  
             'condition': 5, 
-            'modifiers': {'hardiness': +1, 'refinement': -1, 'menace': +1, 'subtlety': -1, 'competence': +1, 'charisma': -1, 'extravagance': +1, 'purity': -1},
+            'modifiers': {'hardiness': +1, 'competence': -1, 'grace': +1, 'subtlety': -1, 'willpower': +1, 'creativity': -1, },
             'tags': ['accessory', ],                             
         },
     }
@@ -55,7 +55,7 @@ init python:
             'quality': 0,  
             'size': 0,  
             'condition': 5, 
-            'modifiers': {'menace': -1, 'hardiness': -1, 'refinement': -1, },
+            'modifiers': {'hardiness': -1, },
             'tags': ['garment', ],                             
         },
 
@@ -65,7 +65,7 @@ init python:
             'quality': 0,  
             'size': 0,  
             'condition': 5, 
-            'modifiers': {'extravagance': +1},
+            'modifiers': {},
             'tags': ['garment', ],                             
         },
                         
@@ -80,7 +80,7 @@ init python:
             'quality': 2,  
             'size': 10,  
             'condition': 5, 
-            'modifiers': {'refinement': -1, 'menace': +2, 'subtlety': -99, 'purity': -1},
+            'modifiers': {'grace': -1, 'subtlety': -1,},
             'tags': ['lethal', 'heavy', ],                             
         },
 
@@ -90,7 +90,7 @@ init python:
             'quality': 1,  
             'size': 5,  
             'condition': 5, 
-            'modifiers': {'refinement': -99, 'menace': +1, 'subtlety': -99, 'extravagance': +1, 'purity': -1},
+            'modifiers': {'subtlety': -1, 'grace': -1},
             'tags': ['lethal', 'heavy', ],                             
         },
 
@@ -147,7 +147,7 @@ init python:
             'quality': 1,  
             'size': 1,  
             'condition': 0, 
-            'modifiers': {'refinement': -99, 'charisma': -99, 'menace': -2, 'purity': -1},
+            'modifiers': {'grace': -1, 'hardiness': -1, 'purity': -1},
             'tags': ['garment', ],                             
         },
 
@@ -157,7 +157,7 @@ init python:
             'quality': 2,  
             'size': 3,  
             'condition': 5, 
-            'modifiers': {'menace': -1},
+            'modifiers': {'hardiness': -1},
             'tags': ['garment', ],                             
         },
         
@@ -167,7 +167,7 @@ init python:
             'quality': 1,  
             'size': 1,  
             'condition': 5, 
-            'modifiers': {'refinement': -99, 'menace': -2, 'subtlety': +1, 'extravagance': +1, 'purity': -1},
+            'modifiers': {'hardiness': -1, },
             'tags': ['garment', ],                             
         },
         
@@ -177,7 +177,7 @@ init python:
             'quality': 2,  
             'size': 2,  
             'condition': 5, 
-            'modifiers': {'refinement': -1, 'menace': -2, 'charisma': +1, 'competence': -1, 'extravagance': +1, 'purity': -1},
+            'modifiers': {'hardiness': -1,},
             'tags': ['garment', ],                             
         },
         
@@ -187,7 +187,7 @@ init python:
             'quality': 2,  
             'size': 4,  
             'condition': 5, 
-            'modifiers': {'hardiness': +1, 'refinement': -1, 'menace': -1, },
+            'modifiers': {'hardiness': +1, 'grace': -1,},
             'tags': ['garment', ],                             
         },
         
@@ -197,7 +197,7 @@ init python:
             'quality': 2,  
             'size': 4,  
             'condition': 5, 
-            'modifiers': {'purity': -1},
+            'modifiers': {'grace': -1},
             'tags': ['garment', ],                             
         },
        
