@@ -1658,15 +1658,50 @@ class Person(InventoryWielder, PsyModel):
         if self.feature('dead') is not None:
             return True
         return False
+    # attributes
+    def hardiness(self):
+        value = self.count_modifiers('hardiness')
+        return max(0, min(value, 5))
 
+    def competence(self):
+        value = self.count_modifiers('competence')
+        return max(0, min(value, 5))
+
+    def grace(self):
+        value = self.count_modifiers('grace')
+        return max(0, min(value, 5))
+
+    def subtlety(self):
+        item = self.get_slot('load').get_item()
+        if item is not None:
+            if 'accessory' not in item.tags:
+                return 0
+        value = self.count_modifiers('subtlety')
+        return max(0, min(value, 5))
+
+    def willpower(self):
+        value = self.count_modifiers('willpower')
+        return max(0, min(value, 5))
+
+    def creativity(self):
+        value = self.count_modifiers('creativity')
+        return max(0, min(value, 5))
+
+    def show_attributes(self):
+        attributes = store.person_attributes.items()
+        dict_ = dict()
+        for key, value in attributes:
+            attribute = getattr(self, key)()
+            if attribute > 0:
+                dict_[value] = attribute
+
+        return dict_
     # rating methods
     def allure(self):
         value = self.count_modifiers('allure')
         return max(0, min(value, 5))
 
-    def hardiness(self):
-        value = self.count_modifiers('hardiness')
-        return max(0, min(value, 5))
+    
 
     def succulence(self):
         value = 3 + self.count_modifiers('succulence')
@@ -1680,13 +1715,7 @@ class Person(InventoryWielder, PsyModel):
         value = self.count_modifiers('menace')
         return max(0, min(value, 5))
 
-    def subtlety(self):
-        item = self.get_slot('load').get_item()
-        if item is not None:
-            if 'accessory' not in item.tags:
-                return 0
-        value = self.count_modifiers('subtlety')
-        return max(0, min(value, 5))
+
 
     def refinement(self):
         item = self.get_slot('load').get_item()

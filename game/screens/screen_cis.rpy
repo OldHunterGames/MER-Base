@@ -23,7 +23,7 @@ screen sc_cis(person, controlled=False, relations=None):
         hbox:
             vbox:
                 image im.Scale(person.avatar, 200, 200)
-                for key, value in person.show_stats().items():
+                for key, value in person.show_attributes().items():
                     text encolor_text(key, value)
                 text 'Money: %s'%person.money
             text DescriptionMaker(person).description(relations)
@@ -72,7 +72,7 @@ screen sc_gen_player():
         hbox:
             vbox:
                 image im.Scale(person.avatar, 200, 200)
-                for key, value in person.show_stats().items():
+                for key, value in person.show_attributes().items():
                     text encolor_text(key, value)
             text DescriptionMaker(person).description(None)
         textbutton 'Generate':

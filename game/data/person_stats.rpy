@@ -11,3 +11,12 @@ init python:
         'charisma': __("Charisma"),
         'extravagance': __("Extravagance")
     }
+
+    person_attributes = {
+        'hardiness': __("Hardy"),
+        'competence': __('Competent'),
+        'grace': __('Graceful'),
+        'subtlety': __('Cunning'),
+        'willpower': __('Gutsy'),
+        'creativity': __('Extravagant')
+    }
