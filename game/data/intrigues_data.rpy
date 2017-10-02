@@ -1,51 +1,5 @@
 init python:
-    
-    intrigues_data = {
-        'assassination': 
-            {
-                'name': __("Assassination"), 
-            },
 
-        'befriend': 
-            {
-                'name': __("Befriend"), 
-            },
-
-        'seduction':
-            {
-                'name': __("Seduction"),
-            },
-
-        'harassment':
-            {
-                'name': __("Harassment"),
-            },
-        'support':
-            {
-                'name': __("Support"),
-            },
-
-        'breakup':
-            {
-                'name': __("Breakup"),
-            },
-
-        'vendetta':
-            {
-                'name': __("Vendetta"),
-            },
-
-        'recruitment':
-            {
-                'name': __("Recruitment"),
-            },
-
-        'submission':
-            {
-                'name': __("Submission"),
-            },
-
-    }
 
 label lbl_intrigue_assassination_check(intrigue):
     return True
