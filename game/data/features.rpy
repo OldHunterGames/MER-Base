@@ -1,4 +1,4 @@
-﻿В####################################
+﻿####################################
 #
 #   Basic features data
 #
@@ -9,7 +9,7 @@
     'male': {'name': __('male'), 'description': __(" male"), 'slot': 'gender', 'modifiers': {'hardiness': +1, 'willpower': +1, 'subtlety': -1, 'grace': -1, 'succulence': -1}, 'image': 'miscards'},
     'female': {'name': __('female'), 'description': __(" female"), 'slot': 'gender', 'modifiers': {'hardiness': -1, 'willpower': -1, 'subtlety': +1, 'grace': +1,'succulence': +1}, 'image': 'miscards'},
     'shemale': {'name': __('shemale'), 'description': __(" shemale"), 'slot': 'gender', 'modifiers': {}, 'image': 'miscards'},
-    'transmale': {'name': __('trans'), 'description': __(" transmale"), 'slot': 'gender', 'modifiers': {'hardiness': +1, 'grace': -1, 'succulence': -1},
+    'transmale': {'name': __('trans'), 'description': __(" transmale"), 'slot': 'gender', 'modifiers': {'hardiness': +1, 'grace': -1, 'succulence': -1}},
     'transfemale': {'name': __('androgyn'), 'description': __(" transfemale"), 'slot': 'gender', 'modifiers': {'hardiness': -1, 'grace': +1, 'succulence': +1}, 'image': 'miscards'},   
 
     ## AGE
@@ -163,7 +163,7 @@
             'description': __('furry'),
             'slot': 'genus', 
             'image': 'miscards',  
-            'modifiers': {'menace': +1, 'willpower' +1, 'creativity' -1, 'grace': -1, },             
+            'modifiers': {'menace': +1, 'willpower': +1, 'creativity': -1, 'grace': -1, },             
             'tags': ['ageless'], 
             'features': [],
             'default_items': {'secondary_implement': 'bare_hands', 'garment': 'fur', }, 

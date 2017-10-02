@@ -12,7 +12,7 @@ label lbl_cis_glue(person, controlled=False, relations=None):
 
 label lbl_new_meeting(person):
     $ new_person = core.person_creator.gen_random_person()
-    $ person.relations(core.person_creator.gen_random_person())\
+    $ person.relations(core.person_creator.gen_random_person())
     $ core.faction.add_member(new_person)
     return
 
