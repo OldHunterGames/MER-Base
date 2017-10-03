@@ -542,7 +542,7 @@ class DescriptionMaker(object):
     def __init__(self, person):
         self.person = person
 
-    def description(self, relations_with=None):
+    def make_enviroment(self):
         person = self.person
         pronoun = self.get_pronoun1()
         pronoun2 = self.get_pronoun2()
@@ -554,6 +554,13 @@ class DescriptionMaker(object):
         sex_orientation = person.sexual_orientation['name']
         name = person.name
         nickname = person.nickname
+        return locals()
+
+    def description(self, relations_with=None):
+        person = self.person
+        genus = person.genus.description()
+        homeworld = person.homeworld.description()
+        occupation = person.feature_by_slot('occupation').description()
         age = person.feature_by_slot('age')
         if age is None:
             age = ''
@@ -564,9 +571,6 @@ class DescriptionMaker(object):
             gender = ''
         else:
             gender = gender.description()
-        genus = person.genus.description()
-        homeworld = person.homeworld.description()
-        occupation = person.feature_by_slot('occupation').description()
         start_text = "{name} {nickname} is a {age} {genus} {gender}. "
         start_text += homeworld
         start_text += person.feature_by_slot('occupation').description()
@@ -581,10 +585,12 @@ class DescriptionMaker(object):
         start_text += '\n'
         start_text = self.needs_text(start_text)
         start_text += '\n'
+        format_env = self.make_enviroment()
+        format_env.update(**locals())
         for i in person.get_bonds().values():
-            start_text += i.description().format(actor=person, target=i.target, **locals())
+            start_text += i.description().format(actor=person, target=i.target, **format_env)
             start_text += ' '
-        start_text = start_text.format(**locals())
+        start_text = start_text.format(**format_env)
         return start_text
 
     def features_text(self, text):
