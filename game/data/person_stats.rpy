@@ -20,3 +20,9 @@ init python:
         'willpower': __('Gutsy'),
         'creativity': __('Extravagant')
     }
+
+    person_resources = {
+        'cash': __("Cash"),
+        'info': __("Info"),
+        'power': __("Power")
+    }

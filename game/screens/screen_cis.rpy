@@ -25,6 +25,11 @@ screen sc_cis(person, controlled=False, relations=None):
                 image im.Scale(person.avatar, 200, 200)
                 for key, value in person.show_attributes().items():
                     text encolor_text(key, value)
+                if person.occupation_level > 0:
+                    text encolor_text(person.show_occupation(), person.occupation_level)
+                if not controlled:
+                    for key, value in person.show_resources().items():
+                        text encolor_text(key, value)
                 text 'Money: %s'%person.money
             text DescriptionMaker(person).description(relations)
         

@@ -822,11 +822,17 @@ class Person(InventoryWielder, PsyModel):
         self._sexual_type = None
         self._bonds = dict()
         self._intrigue = None
-        self._wishes = list()
         self.occupation = None
         self.occupation_level = 0
         # civil income is a free money for each citizen of ER
         self.civil_income = 0
+
+    def show_occupation(self):
+        return store.faction_occupations[self.occupation]['name']
+
+    def show_resources(self):
+        return dict((store.person_resources[key], value)
+            for key, value in self._resources.items() if value > 0)
 
     def resource(self, name):
         return self._resources[name]
@@ -840,33 +846,8 @@ class Person(InventoryWielder, PsyModel):
     def has_resource(self, name, value):
         return self._resources[name] >= value
 
-    def add_wish(self, wish):
-        self._wishes.append(wish)
-
-    def wishes(self):
-        return copy.copy(self._wishes)
-
     def resources(self):
         return self._resources.keys()
-
-    def remove_wish(self, wish):
-        self._wishes.remove(wish)
-
-    def has_wish(self, id):
-        for i in self._wishes:
-            if i.id == id:
-                return True
-        return False
-
-    def activate_wish(self, wish):
-        wish.activate(self)
-        self._wishes.remove(wish)
-
-    def wishes_turn_end(self):
-        for i in self._wishes:
-            i.turn_end(self)
-            if i.fulfilled(self):
-                self.activate_wish(i)
 
     def set_faction(self, faction):
         self._faction = faction

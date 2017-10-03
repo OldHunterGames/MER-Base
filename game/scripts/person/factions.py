@@ -1,4 +1,6 @@
 # -*- coding: UTF-8 -*-
+import random
+import renpy.store as store
 
 
 class Faction(object):
@@ -20,7 +22,7 @@ class Faction(object):
             old_person = self._remove_role(role)
             self.add_member(old_person)
             return
-        person.occupation = 'basic'
+        person.occupation = random.choice(store.faction_occupations.keys())
         person.occupation_level = 1
         person.die.add_callback(self._remove_member_callback)
         self._slots[person] = role

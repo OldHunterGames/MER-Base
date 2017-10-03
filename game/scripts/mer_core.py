@@ -17,7 +17,7 @@ class MERCore(object):
         self._world = 'core'
         self._journal = EventsBook()
         self._personized_journal = PersonalBook()
-        self._wish_maker = WishesGenerator()
+        self.wish_maker = WishesGenerator()
         self.person_creator = PersonCreator()
 
     def _get_active_persons(self):
@@ -25,8 +25,7 @@ class MERCore(object):
 
     def process_wishes(self):
         for i in self._get_active_persons():
-            i.wishes_turn_end()
-            self._wish_maker.make_wishes(i)
+            self.wish_maker.process_wishes(i)
 
     def process_bonds(self):
         for i in self._get_active_persons():
