@@ -2,6 +2,7 @@
 from mer_person import PersonCreator
 from schedule import ScheduleObject, ScheduleJob
 from wishes import WishesGenerator
+from collections import defaultdict
 import random
 import renpy.exports as renpy
 import renpy.store as store
@@ -14,7 +15,8 @@ class MERCore(object):
 
         self._player = None
         self._world = 'core'
-        self._journal = EventsBook(0)
+        self._journal = EventsBook()
+        self._personized_journal = PersonalBook()
         self._wish_maker = WishesGenerator()
         self.person_creator = PersonCreator()
 
@@ -56,12 +58,17 @@ class MERCore(object):
                         person.use_resource(resource, 1)
             person.resources_bonus = 9
 
-
     def add_record(self, value):
         self._journal.add_entry(value)
 
     def get_records(self):
         return self._journal.get_records()
+
+    def add_personal_record(self, person, value):
+        self._personized_journal.add_entry(person, value)
+
+    def get_personal_records(self, person):
+        return self._personized_journal.get_records(person)
 
     @property
     def player(self):
@@ -105,7 +112,7 @@ class MERCore(object):
 
 class EventsBook(object):
 
-    def __init__(self, turns_to_store=1):
+    def __init__(self, turns_to_store=0):
         self._events = list()
         self._turns_to_store = turns_to_store
         self._turns_passed = 0
@@ -113,11 +120,30 @@ class EventsBook(object):
     def skip_turn(self):
         self._turns_passed += 1
         if self._turns_passed > self._turns_to_store:
-            self._events = list()
+            self._clear_events()
             self._turns_passed = 0
+
+    def _clear_events(self):
+        self._events = list()
 
     def add_entry(self, value):
         self._events.append(value)
 
     def get_records(self):
         return copy.copy(self._events)
+
+
+class PersonalBook(EventsBook):
+
+    def __init__(self, turns_to_store=0):
+        super(PersonalBook, self).__init__(turns_to_store)
+        self._events = defaultdict(list)
+
+    def add_entry(self, person, value):
+        self._events[person].append(value)
+
+    def get_records(self, person):
+        return copy.copy(self._events[person])
+
+    def _clear_events(self):
+        self._events = defaultdict(list)

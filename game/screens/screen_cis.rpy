@@ -12,7 +12,7 @@ label lbl_cis_glue(person, controlled=False, relations=None):
 
 label lbl_new_meeting(person):
     $ new_person = core.person_creator.gen_random_person()
-    $ person.relations(core.person_creator.gen_random_person())
+    $ person.relations(new_person)
     $ core.faction.add_member(new_person)
     return
 
@@ -54,13 +54,17 @@ screen sc_cis(person, controlled=False, relations=None):
             textbutton 'Journal':
                 xalign 0.8
                 yalign 0.6
-                action Show('sc_player_journal')
+                action Show('sc_journal', None, core.get_records())
         
         else:
             textbutton 'Leave':
                 xalign 0.6
                 yalign 0.8
                 action Return()
+            textbutton 'Journal':
+                xalign 0.8
+                yalign 0.6
+                action Show('sc_journal', None, core.get_personal_records(person))
 
     on 'hide':
         action Hide('sc_intrigue_info')
