@@ -1,4 +1,4 @@
-screen sc_player_journal(called=False):
+screen sc_journal(records_list, called=False):
     modal True
     window:
         style 'char_info_window'
@@ -15,10 +15,10 @@ screen sc_player_journal(called=False):
                 spacing 5
                 box_wrap True
                 
-                for i in core.get_records():
+                for i in records_list:
                     text i
 
         textbutton 'Leave':
-            action If(called, Return(), false=Hide('sc_player_journal'))
+            action If(called, Return(), false=Hide('sc_journal'))
             xalign 1.0
             yalign 1.0
