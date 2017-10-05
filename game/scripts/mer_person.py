@@ -842,6 +842,10 @@ class Person(InventoryWielder, PsyModel):
     def show_occupation(self):
         return store.faction_occupations[self.occupation]['name']
 
+    @property
+    def occupation_name(self):
+        return self.show_occupation()
+
     def occupation_attribute_value(self):
         attr = store.faction_occupations[self.occupation]['attribute']
         return getattr(self, attr)()
