@@ -74,3 +74,31 @@ label lbl_turn_end:
         # make_intrigues(core.faction, core.player)
     call screen sc_journal(core.get_records(), called=True)
     return
+
+label lbl_wish_test():
+    # for wish system testing
+    python:
+        person = core.person_creator.gen_random_person()
+        core.faction.add_member(person)
+        for i in range(0, 10):
+            new = core.person_creator.gen_random_person()
+            if i == 5:
+                person.add_bond(Bond(new, 'friend'))
+            if i == 7:
+                person.add_bond(Bond(new, 'ally'))
+            new.add_bond(Bond(person, 'friend'))
+        for i in range(0, 10):
+            new = core.person_creator.gen_random_person()
+            if i == 5:
+                person.add_bond(Bond(new, 'rival'))
+            if i == 7:
+                person.add_bond(Bond(new, 'traitor'))
+            if i == 9:
+                person.add_bond(Bond(new, 'offender'))
+            new.add_bond(Bond(person, 'rival'))
+
+        player.relations(person)
+        for key in wishes_data.keys():
+            core.wish_maker.reserve_wish(person, key)
+            core.wish_maker.process_wishes(person)
+    return

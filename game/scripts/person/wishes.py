@@ -43,11 +43,20 @@ class WishesGenerator(object):
 
     def __init__(self, max_wishes=1):
         self.max_wishes = max_wishes
+        self._reserved_wishes = dict()
+
+    def reserve_wish(self, person, wish_id):
+        self._reserved_wishes[person] = wish_id
 
     def _get_wishes(self):
         return store.wishes_data.keys()
 
     def process_wishes(self, person):
+        reserved = self._reserved_wishes.get(person)
+        if reserved is not None:
+            Wish(reserved).activate(person)
+            del self._reserved_wishes[person]
+            return
         available_wishes = [Wish(i) for i in self._get_wishes()]
         pairs = {}
         for i in available_wishes:

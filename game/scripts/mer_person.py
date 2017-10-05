@@ -833,8 +833,18 @@ class Person(InventoryWielder, PsyModel):
         # civil income is a free money for each citizen of ER
         self.civil_income = 0
 
+    def is_phantom(self):
+        return not (self.player_controlled or self.know_player())
+
+    def know_player(self):
+        return any([i.player_controlled for i in self.known_characters()])
+
     def show_occupation(self):
         return store.faction_occupations[self.occupation]['name']
+
+    def occupation_attribute_value(self):
+        attr = store.faction_occupations[self.occupation]['attribute']
+        return getattr(self, attr)()
 
     def show_resources(self):
         return dict((store.person_resources[key], value)
@@ -853,7 +863,7 @@ class Person(InventoryWielder, PsyModel):
         return self._resources[name] >= value
 
     def resources(self):
-        return self._resources.keys()
+        return copy.copy(self._resources)
 
     def set_faction(self, faction):
         self._faction = faction
@@ -909,21 +919,24 @@ class Person(InventoryWielder, PsyModel):
     def add_bond(self, connection):
         # you can not have more than 1 bond of each type
         # but any number of persons can have bonds with you
+        self.relations(connection.target)
+        self.remove_all_bonds_with(connection.target)
         self._bonds[connection.id] = connection
 
     def remove_bond(self, bond):
-        for key, value in self._bonds:
+        for key, value in self._bonds.items():
             if value == bond:
                 self.remove_bond_by_slot(key)
                 return
 
     def remove_all_bonds_with(self, target):
-        for i in self.get_bonds_with(target):
-            self.remove_bond(i)
+        return self.remove_bond(self.get_bond_with(target))
 
     def remove_bond_by_slot(self, slot):
         try:
+            target = self._bonds[slot].target
             del self._bonds[slot]
+            return target
         except KeyError:
             pass
 
@@ -932,15 +945,44 @@ class Person(InventoryWielder, PsyModel):
         return sum(
             [i.value for i in self._bonds.values() if i.target == target])
 
-    def get_bonds_with(self, target):
-        # get list of bonds with specified target
-        return [i for i in self._bonds.values() if i.target == target]
+    def get_bond_with(self, target):
+        # get bond with specified target
+        for i in self._bonds.values():
+            if i.target == target:
+                return i
+
+    def get_bond(self, target, id):
+        bond = self.get_bond_with(target)
+        try:
+            if bond.id == id:
+                return bond
+        except AttributeError:
+            pass
+        return None
+
+    def has_bond(self, id):
+        return id in self._bonds.keys()
 
     def has_bonds_with(self, target):
-        return any(self.get_bonds_with(target))
+        return self.get_bond_with(target) is not None
 
     def has_positive_bonds_with(self, target):
-        return any([i.value > 0 for i in self.get_bonds_with(target)])
+        bond = self.get_bond_with(target)
+        try:
+            if bond.value > 0:
+                return True
+        except AttributeError:
+            pass
+        return False
+
+    def has_negative_bonds_with(self, target):
+        bond = self.get_bond_with(target)
+        try:
+            if bond.value < 0:
+                return True
+        except AttributeError:
+            pass
+        return False
 
     def change_genus(self, genus):
         self.genus.on_remove(self)
@@ -964,6 +1006,9 @@ class Person(InventoryWielder, PsyModel):
 
     def alignment(self):
         return (self.orderliness(), self.activity(), self.morality())
+
+    def orientation_fit(self, person):
+        return self.sexual_orientation.get(person.gender, 0)
 
     @property
     def sexual_orientation(self):
@@ -1460,6 +1505,7 @@ class Person(InventoryWielder, PsyModel):
         if not self.know_faction(faction):
             self._known_factions.append(faction)
 
+    @Observable
     def relations(self, person):
         if person == self:
             raise Exception("relations: target and caller is same person")

@@ -190,6 +190,7 @@ class Bond(object):
     def target(self):
         return self._target
 
+    @property
     def value(self):
         return self._get_data('value', 0)
 

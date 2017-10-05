@@ -16,19 +16,24 @@ class MERCore(object):
         self._player = None
         self._world = 'core'
         self._journal = EventsBook()
+        self._active_npcs = set()
         self._personized_journal = PersonalBook()
         self.wish_maker = WishesGenerator()
         self.person_creator = PersonCreator()
 
-    def _get_active_persons(self):
-        return self.faction.get_members()
+    def get_active_persons(self, exclude=None):
+        npcs = list(self._active_npcs)
+        npcs.extend(self._player.known_characters())
+        if exclude is not None:
+            npcs.remove(exclude)
+        return npcs
 
     def process_wishes(self):
-        for i in self._get_active_persons():
+        for i in self.get_active_persons():
             self.wish_maker.process_wishes(i)
 
     def process_bonds(self):
-        for i in self._get_active_persons():
+        for i in self.get_active_persons():
             bonds = i.get_bonds()
             for n in range(0, i.occupation_level) and len(bonds) > 0:
                 bond = random.choice(bonds)
@@ -36,7 +41,7 @@ class MERCore(object):
                 bond.target.resources_bonus += 1
 
     def process_resources(self):
-        for person in self._get_active_persons():
+        for person in self.get_active_persons():
             if person.resources_bonus > 0:
                 for i in range(0, person.resources_bonus):
                     try:
@@ -76,6 +81,9 @@ class MERCore(object):
     def set_player(self, person):
         self._player = person
         person.player_controlled = True
+
+    def reveal_npc(self, person):
+        self._active_npcs.add(person)
 
     @property
     def world(self):
