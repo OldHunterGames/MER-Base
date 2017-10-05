@@ -835,7 +835,7 @@ class Person(InventoryWielder, PsyModel):
 
     def is_phantom(self):
         return not (self.player_controlled or self.know_player())
-
+    
     def know_player(self):
         return any([i.player_controlled for i in self.known_characters()])
 
@@ -1173,6 +1173,8 @@ class Person(InventoryWielder, PsyModel):
 
     @property
     def firstname(self):
+        if self.is_phantom():
+            return 'Unknown'
         return self._firstname
 
     @firstname.setter
@@ -1182,6 +1184,8 @@ class Person(InventoryWielder, PsyModel):
 
     @property
     def nickname(self):
+        if self.is_phantom():
+            return ''
         return self._nickname
 
     @nickname.setter
@@ -1191,6 +1195,8 @@ class Person(InventoryWielder, PsyModel):
 
     @property
     def surname(self):
+        if self.is_phantom():
+            return 'Person'
         return self._surname
 
     @surname.setter
@@ -1477,7 +1483,7 @@ class Person(InventoryWielder, PsyModel):
         if self.player_controlled:
             return False
         for i in self._relations:
-            if i.is_player_relations():
+            if i.target.player_controlled:
                 return True
         return False
 
