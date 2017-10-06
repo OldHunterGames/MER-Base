@@ -9,11 +9,11 @@ init python:
     'concubine': {'name': __('concubine'), 'attribute': 'grace',},   
     }
 
-    faction_occupation_lvl = [__('incompetent'),
-    __('novice'),
-    __('competent'),
-    __('established'),
-    __('elite'),
-    __('famous'),
+    faction_occupation_lvl = [__('an incompetent'),
+    __('a novice'),
+    __('a competent'),
+    __('an established'),
+    __('an elite'),
+    __('a famous'),
     ]
 
