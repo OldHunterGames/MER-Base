@@ -29,8 +29,9 @@ screen sc_cis(person, controlled=False, relations=None):
                     text encolor_text(person.show_occupation(), person.occupation_level)
                 if not controlled:
                     for key, value in person.show_resources().items():
-                        text encolor_text(key, value)
-                text 'Money: %s'%person.money
+                        text '%s: %s' % (key.capitalize(), value)
+                if controlled:
+                    text 'Money: %s'%person.money
             text DescriptionMaker(person).description(relations)
         
         # textbutton 'Items':

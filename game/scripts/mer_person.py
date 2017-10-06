@@ -329,7 +329,7 @@ class PersonCreator(object):
                 person.add_feature(i[0])
             elif dice >= 9:
                 person.add_feature(i[1])
-        if len(person.alignment()) < 1:
+        if all([i is None for i in person.alignment()]):
             person.add_feature('unaligned')
 
     def random_homeworld(self):
@@ -561,6 +561,7 @@ class DescriptionMaker(object):
         genus = person.genus.description()
         homeworld = person.homeworld.description()
         occupation = person.feature_by_slot('occupation').description()
+
         age = person.feature_by_slot('age')
         if age is None:
             age = ''
@@ -572,6 +573,12 @@ class DescriptionMaker(object):
         else:
             gender = gender.description()
         start_text = "{name} {nickname} is a {age} {genus} {gender}. "
+        if person.occupation is not None:
+            faction_occupation = utilities.encolor_text(
+                person.show_occupation(), person.occupation_level)
+            faction_occupation_level = utilities.encolor_text(
+                person.show_occupation_level(), person.occupation_level)
+            start_text += "{cap_pronoun} is {faction_occupation_level} {faction_occupation}."
         start_text += homeworld
         start_text += person.feature_by_slot('occupation').description()
         start_text += '. '
@@ -845,6 +852,9 @@ class Person(InventoryWielder, PsyModel):
     @property
     def occupation_name(self):
         return self.show_occupation()
+
+    def show_occupation_level(self):
+        return store.faction_occupation_lvl[self.occupation_level]
 
     def occupation_attribute_value(self):
         attr = store.faction_occupations[self.occupation]['attribute']

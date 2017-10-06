@@ -29,11 +29,49 @@ init python:
         
         def run(self):
             renpy.call_in_new_context('_contacts_glue',
-                self.person, True, True, self.player)       
+                self.person, True, True, self.player)
+
+    class CardNewContact(Card, Command):
+        def __init__(self, player, generator):
+            self.player = player
+            self.generator = generator
+
+        def image(self):
+            return 'images/tarot/arcana_world.jpg'
+
+        def name(self):
+            return 'New meeting'
+
+        def description(self):
+            return 'No description'
+
+        def run(self):
+            self.player.relations(self.generator.gen_random_person())
+
+
+    class CardSkipTurn(Card, Command):
+
+        def __init__(self, core):
+            self.core = core
+
+        def image(self):
+            return 'images/tarot/arcana_moon.jpg'
+
+        def name(self):
+            return 'Skip Turn'
+
+        def description(self):
+            return 'No description'
+
+        def run(self):
+            self.core.skip_turn()
 
 label lbl_contacts(player):
     $ char_cards = [CardPerson(person, player) for person in player.known_characters()]
-    $ CardMenu(char_cards, cancel=True).show(True, 150, 150, 10)
+    $ char_cards.append(CardNewContact(player, core.person_creator))
+    $ char_cards.append(CardSkipTurn(core))
+    $ CardMenu(char_cards).show(True, 150, 150, 10)
+    call lbl_contacts(player)
     return
 
 label _contacts_glue(person, _return=True, communicate=True, relations=None):

@@ -50,7 +50,7 @@ label start:
 
 label generate:
     $ core.create_player()
-    call screen sc_gen_player()
+    # call screen sc_gen_player()
     $ player = core.player
     $ core.unlock_schedule(player)
     # call screen sc_gen_faction()
@@ -66,7 +66,8 @@ label lbl_make_faction:
 label lbl_game:
     # $ make_intrigues(core.faction, core.player)
     call lbl_make_faction
-    call screen sc_cis(player, controlled=True)
+    # call screen sc_cis(player)
+    call lbl_contacts(player)
     return
 
 label lbl_turn_end:
