@@ -69,6 +69,7 @@ class MERCore(object):
         return self._journal.get_records()
 
     def add_personal_record(self, person, value):
+        self.add_record(value)
         self._personized_journal.add_entry(person, value)
 
     def get_personal_records(self, person):

@@ -241,6 +241,7 @@ label lbl_wish_reciprocity_end(person):
         if old_target is not None:
             old_target.add_bond(Bond(person, 'traitor'))
         person.add_bond(Bond(target, bond.id))
+    $ core.add_personal_record(person, "{person.name} reciprokes.".format(person=person))
     return
 
 label lbl_wish_reciprocity_chance(person):
@@ -258,7 +259,7 @@ label lbl_wish_reciprocity_chance(person):
             target_bond = i.has_bonds_with(person)
             if not our_bond and target_bond:
                 value += bonus
-    $ core.add_personal_record(person, "{person.name} reciprokes.".format(person=person))
+    
     return value
 
 label lbl_wish_conflict_end(person):
@@ -287,6 +288,7 @@ label lbl_wish_loyality_end(person):
         bond = random.choice([i for i in person.get_bonds().values() if i.value > 0])
         bond.target.add_resource(random.choice(('power', 'info', 'cash')), person.occupation_level)
         bond.target.add_bond(Bond(person, bond.id))
+        target = bond.target
         core.add_personal_record(person, "{person.name} helps {target.name} out pf loyalty.".format(person=person, target=target))
     return
 
