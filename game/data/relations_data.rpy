@@ -40,15 +40,10 @@ init python:
         'hater': __('Hater')
     }
 
-    bonds_data = {'lover': {"name": __('lover'), 'description': __("{actor.full_name} is in love with {target.full_name}."), 'value': 1},
-        'friend': {"name": __('friend'), 'description': __("{target.full_name} is {possesive} best friend."), 'value': 1},
-        'supporter': {"name": __('supporter'), 'description': __("{target.full_name} betows {pronoun} a full support."), 'value': 1},
-        'underling': {"name": __('underling'), 'description': __("{target.full_name} is {possesive} most promient underling."), 'value': 1},
-        'humiliated': {"name": __('humiliated'), 'description': __("Hummiliated by {target.full_name}."), 'value': -1},
-        'rejected': {"name": __('rejected'), 'description': __("Rejected by {target.full_name}."), 'value': -1},
-        'senior': {"name": __('senior'), 'description': __("{actor.full_name} sees {target.full_name} as a senior."), 'value': 0},
-        'ally': {'name': __("Ally"), 'description': __("Description"), 'value': 1},   
-        'rival': {'name': __("Rival"), 'description': __("Description"), 'value': -1},
-        'traitor': {'name': __("Traitor"), 'description': __("Description"), 'value': -1},
-        'offender': {'name': __("Offender"), 'description': __("Description"), 'value': -1}            
+    bonds_data = {'lover': {"name": __('lover'), 'description': __("In love with {target.full_name}."), 'value': 1},
+        'friend': {"name": __('friend'), 'description': __("Considers {target.full_name} as a best friend."), 'value': 1},
+        'ally': {"name": __('ally'), 'description': __("{target.full_name} is a trusted parnter."), 'value': 1},
+        'rival': {'name': __("Rival"), 'description': __("Riavals {target.full_name}"), 'value': -1},
+        'traitor': {'name': __("Traitor"), 'description': __("Betrayed by {target.full_name} and seeks for revenge."), 'value': -1},
+        'offender': {'name': __("Offender"), 'description': __("Severely offended by {target.full_name}."), 'value': -1}            
     }
