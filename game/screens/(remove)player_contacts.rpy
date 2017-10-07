@@ -32,9 +32,9 @@ init python:
                 self.person, True, True, self.player)
 
     class CardNewContact(Card, Command):
-        def __init__(self, player, generator):
+        def __init__(self, player, core):
             self.player = player
-            self.generator = generator
+            self.core = core
 
         def image(self):
             return 'images/tarot/arcana_world.jpg'
@@ -46,7 +46,9 @@ init python:
             return 'No description'
 
         def run(self):
-            self.player.relations(self.generator.gen_random_person())
+            person = self.core.person_creator.gen_random_person()
+            self.core.faction.add_member(person)
+            self.player.relations(person)
 
 
     class CardSkipTurn(Card, Command):
@@ -68,7 +70,7 @@ init python:
 
 label lbl_contacts(player):
     $ char_cards = [CardPerson(person, player) for person in player.known_characters()]
-    $ char_cards.append(CardNewContact(player, core.person_creator))
+    $ char_cards.append(CardNewContact(player, core))
     $ char_cards.append(CardSkipTurn(core))
     $ CardMenu(char_cards).show(True, 150, 150, 10)
     call lbl_contacts(player)

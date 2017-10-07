@@ -594,11 +594,16 @@ class DescriptionMaker(object):
         start_text += '\n'
         format_env = self.make_enviroment()
         format_env.update(**locals())
-        for i in person.get_bonds().values():
-            start_text += i.description().format(actor=person, target=i.target, **format_env)
-            start_text += ' '
+       
         start_text = start_text.format(**format_env)
         return start_text
+
+    def bonds_text(self):
+        format_env = self.make_enviroment()
+        bonds = list()
+        for i in self.person.get_bonds().values():
+            bonds.append(i.description().format(actor=self.person, target=i.target, **format_env))
+        return bonds
 
     def features_text(self, text):
         text += self.person.name

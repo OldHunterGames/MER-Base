@@ -32,6 +32,8 @@ screen sc_cis(person, controlled=False, relations=None):
                         text '%s: %s' % (key.capitalize(), value)
                 if controlled:
                     text 'Money: %s'%person.money
+                for i in DescriptionMaker(person).bonds_text():
+                    text i
             text DescriptionMaker(person).description(relations)
         
         # textbutton 'Items':
