@@ -21,6 +21,19 @@ class MERCore(object):
         self.wish_maker = WishesGenerator()
         self.person_creator = PersonCreator()
 
+    def _find_phantoms(self):
+        actives = set(self.get_active_persons())
+        phantoms = set()
+        for i in actives:
+            phantoms.update(
+                set(i.known_characters()).difference(actives))
+        return phantoms
+
+    def get_phantom(self):
+        phantoms = self._find_phantoms()
+        if len(phantoms) > 1:
+            return random.choice(list(phantoms))
+
     def get_active_persons(self, exclude=None):
         npcs = list(self._active_npcs)
         npcs.extend(self._player.known_characters())

@@ -46,7 +46,9 @@ init python:
             return 'No description'
 
         def run(self):
-            person = self.core.person_creator.gen_random_person()
+            person = core.get_phantom()
+            if person is None:
+                person = self.core.person_creator.gen_random_person()
             self.core.faction.add_member(person)
             self.player.relations(person)
 

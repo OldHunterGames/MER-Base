@@ -1432,7 +1432,11 @@ class Person(InventoryWielder, PsyModel):
 
     @property
     def full_name(self):
-        return self.firstname + ' "' + self.nickname + '" ' + self.surname
+        value = self.firstname
+        if self.nickname != '':
+            value += ' "' + self.nickname + '" '
+        value += self.surname
+        return value
 
     def description(self):
         txt = self.firstname + ' "' + self.nickname + '" ' + self.surname
