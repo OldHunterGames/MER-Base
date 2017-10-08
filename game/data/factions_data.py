@@ -2,7 +2,7 @@ init python:
 
     faction_occupations = {
     'breter': {'name': __('breter'), 'attribute': 'hardiness',},
-    'poet': {'name': __('poet'), 'attribute': 'creativity',},   
+    'artist': {'name': __('artist'), 'attribute': 'creativity',},   
     'wisperer': {'name': __('wisperer'), 'attribute': 'subtlety',},      
     'engineer': {'name': __('engineer'), 'attribute': 'competence',},
     'trainer': {'name': __('slave trainer'), 'attribute': 'willpower',},
