@@ -23,17 +23,18 @@ screen sc_cis(person, controlled=False, relations=None):
         hbox:
             vbox:
                 image im.Scale(person.avatar, 200, 200)
-                for key, value in person.show_attributes().items():
-                    text encolor_text(key, value)
-                if not controlled:
-                    for key, value in person.show_resources().items():
-                        text '%s: %s' % (key.capitalize(), value)
-                if controlled:
-                    text 'Money: %s'%person.money
+                
             text DescriptionMaker(person).description(relations)
 
         vbox:
-            yalign 0.6
+            ypos 201
+            for key, value in person.show_attributes().items():
+                text encolor_text(key, value)
+            if not controlled:
+                for key, value in person.show_resources().items():
+                    text '%s: %s' % (key.capitalize(), value)
+            if controlled:
+                text 'Money: %s'%person.money
             for i in DescriptionMaker(person).bonds_text():
                 text i
         
