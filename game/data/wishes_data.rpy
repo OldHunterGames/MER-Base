@@ -113,7 +113,11 @@ label lbl_wish_promotion_end(person):
     return
 
 label lbl_wish_promotion_chance(person):
-    return max(person.resources().values()) + person.need_level("ambition")
+    if person.occupation_level == 5:
+        return 0
+    elif all([i < 5 for i in person.resources().values()]):
+        return 0
+    return 6 + person.need_level('ambitions') * 2
 
 label lbl_wish_fall_in_love_end(person):
     python:

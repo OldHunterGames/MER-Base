@@ -39,6 +39,8 @@ class Faction(object):
                     occupations.append((key, value))
             else:
                 occupations.append((key, value))
+        stats = list(stats)
+        random.shuffle(stats)
         max_stat = max(stats, key=lambda x: getattr(person, x)())
         random.shuffle(occupations)
         for key, value in occupations:
