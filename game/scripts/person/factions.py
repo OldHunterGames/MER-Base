@@ -22,11 +22,28 @@ class Faction(object):
             old_person = self._remove_role(role)
             self.add_member(old_person)
             return
-        person.occupation = random.choice(store.faction_occupations.keys())
+        person.occupation = self.get_occupation(person)
         person.occupation_level = 1
         person.die.add_callback(self._remove_member_callback)
         self._slots[person] = role
         person.set_faction(self)
+
+    def get_occupation(self, person):
+        occupations = list()
+        stats = set()
+        for key, value in store.faction_occupations.items():
+            stats.add(value['attribute'])
+            exclusivenes = value.get('gender_exclusive')
+            if exclusivenes is not None:
+                if exclusivenes == person.appearance_type():
+                    occupations.append((key, value))
+            else:
+                occupations.append((key, value))
+        max_stat = max(stats, key=lambda x: getattr(person, x)())
+        random.shuffle(occupations)
+        for key, value in occupations:
+            if value['attribute'] == max_stat:
+                return key
 
     def _remove_role(self, role):
         for person, r in self._slots.items():

@@ -1434,8 +1434,8 @@ class Person(InventoryWielder, PsyModel):
     def full_name(self):
         value = self.firstname
         if self.nickname != '':
-            value += ' "' + self.nickname + '" '
-        value += self.surname
+            value += self.nickname 
+        value +=  ' ' + self.surname
         return value
 
     def description(self):
