@@ -578,7 +578,7 @@ class DescriptionMaker(object):
                 person.show_occupation(), person.occupation_level)
             faction_occupation_level = utilities.encolor_text(
                 person.show_occupation_level(), person.occupation_level)
-            start_text += "{cap_pronoun} is {faction_occupation_level} {faction_occupation}."
+            start_text += "{cap_pronoun} is {faction_occupation_level} {faction_occupation}. "
         start_text += homeworld
         start_text += person.feature_by_slot('occupation').description()
         start_text += '. '
