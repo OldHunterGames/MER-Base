@@ -66,7 +66,7 @@ init python:
         return [core.person_creator.gen_random_person() for i in range(0, amount)]
 
 label lbl_wish_wealth_end(person):
-    $ core.add_personal_record(person, "{person.name} focuses on business and gain additional cash.".format(person=person))
+    $ core.add_personal_record(person, "{person.fullname} focuses on business and gain additional cash.".format(person=person))
     $ person.add_resource('cash', 1)
     return
 
@@ -74,14 +74,14 @@ label lbl_wish_wealth_chance(person):
     return 5 - person.resource('cash') + person.need_level('prosperity')
 
 label lbl_wish_vacation_end(person):
-    $ core.add_personal_record(person, "{person.name} enjoying idleness.".format(person=person))
+    $ core.add_personal_record(person, "{person.fullname} enjoying idleness.".format(person=person))
     return
 
 label lbl_wish_vacation_chance(person):
     return 1 + person.need_level('comfort')
 
 label lbl_wish_curiosity_end(person):
-    $ core.add_personal_record(person, "{person.name} learned an important secret and has more information now.".format(person=person))
+    $ core.add_personal_record(person, "{person.fullname} learned an important secret and has more information now.".format(person=person))
     $ person.add_resource('info', 1)
     return 
 
@@ -89,7 +89,7 @@ label lbl_wish_curiosity_chance(person):
     return 5 - person.resource('info') + person.need_level('communication')
 
 label lbl_wish_agency_end(person):
-    $ core.add_personal_record(person, "{person.name} considers some possibilities to gain more power.".format(person=person))
+    $ core.add_personal_record(person, "{person.fullname} considers some possibilities to gain more power.".format(person=person))
     $ person.add_resource('power', 1)
     return 
 
@@ -105,10 +105,10 @@ label lbl_wish_promotion_end(person):
         else:
             resource = None
         if person.occupation_level < person.occupation_attribute_value() and resource is not None:
-            core.add_personal_record(person, "{person.name} leveled up as a {person.occupation_name}.".format(person=person))
+            core.add_personal_record(person, "{person.fullname} leveled up as a {person.occupation_name}.".format(person=person))
             person.occupation_level += 1
         else:
-            core.add_personal_record(person, "{person.name} can't get a progress as a {person.occupation_name} andd needs to blame someone.".format(person=person))
+            core.add_personal_record(person, "{person.fullname} can't get a progress as a {person.occupation_name} andd needs to blame someone.".format(person=person))
             core.wish_maker.reserve_wish(person, 'power_struggle')
     return
 
@@ -135,7 +135,7 @@ label lbl_wish_fall_in_love_end(person):
         additional_persons += 1
         persons.update(make_phantoms(additional_persons))
         target = make_bond(person, 'lover', clear_targets(person, 'lover', persons))
-        core.add_personal_record(person, "{person.name} fall in love with {target.name}.".format(person=person, target=target))
+        core.add_personal_record(person, "{person.fullname} fall in love with {target.fullname}.".format(person=person, target=target))
 
     return
 
@@ -166,7 +166,7 @@ label lbl_wish_amity_end(person):
         additional_persons += 1
         persons.update(make_phantoms(additional_persons))
         target = make_bond(person, 'friend', clear_targets(person, 'friend', persons))
-        core.add_personal_record(person, "{person.name} now considers {target.name} as a friend.".format(person=person, target=target))        
+        core.add_personal_record(person, "{person.fullname} now considers {target.fullname} as a friend.".format(person=person, target=target))        
     return
 
 label lbl_wish_amity_chance(person):
@@ -197,7 +197,7 @@ label lbl_wish_ally_end(person):
         additional_persons += 1
         persons.update(make_phantoms(additional_persons))
         target = make_bond(person, 'ally', clear_targets(person, 'ally', persons))
-        core.add_personal_record(person, "{person.name} makes alliance with {target.name}.".format(person=person, target=target))        
+        core.add_personal_record(person, "{person.fullname} makes alliance with {target.fullname}.".format(person=person, target=target))        
     return
 
 label lbl_wish_ally_chance(person):
@@ -226,7 +226,7 @@ label lbl_wish_power_struggle_end(person):
                 additional_persons -= 1
         persons.update(make_phantoms(1))
         target = make_bond(person, 'rival', clear_targets(person, 'rival', persons))
-        core.add_personal_record(person, "{person.name} considers {target.name} as a rival.".format(person=person, target=target))        
+        core.add_personal_record(person, "{person.fullname} considers {target.fullname} as a rival.".format(person=person, target=target))        
     return
 
 label lbl_wish_power_struggle_chance(person):
@@ -245,7 +245,7 @@ label lbl_wish_reciprocity_end(person):
         if old_target is not None:
             old_target.add_bond(Bond(person, 'traitor'))
         person.add_bond(Bond(target, bond.id))
-    $ core.add_personal_record(person, "{person.name} reciprokes.".format(person=person))
+    $ core.add_personal_record(person, "{person.fullname} reciprocates on {target.fullname} attitude.".format(person=person))
     return
 
 label lbl_wish_reciprocity_chance(person):
@@ -279,7 +279,7 @@ label lbl_wish_conflict_end(person):
         bond_id = random.choice([key for key, value in bonds_data.items() if value['value'] < 0])
         target = random.choice(list(persons))
         person.add_bond((Bond(target, bond_id)))
-        core.add_personal_record(person, "{person.name} conflicts with {target.name}.".format(person=person, target=target))        
+        core.add_personal_record(person, "{person.fullname} conflicts with {target.fullname}.".format(person=person, target=target))        
     return
 
 label lbl_wish_conflict_chance(person):
@@ -293,7 +293,7 @@ label lbl_wish_loyality_end(person):
         bond.target.add_resource(random.choice(('power', 'info', 'cash')), person.occupation_level)
         bond.target.add_bond(Bond(person, bond.id))
         target = bond.target
-        core.add_personal_record(person, "{person.name} helps {target.name} out pf loyalty.".format(person=person, target=target))
+        core.add_personal_record(person, "{person.fullname} helps {target.fullname} out of loyalty.".format(person=person, target=target))
     return
 
 label lbl_wish_loyality_chance(person):
@@ -312,7 +312,7 @@ label lbl_wish_independence_end(person):
         bond = random.choice([i for i in person.get_bonds().values()])
         target = bond.target
         person.remove_bond(bond)
-    $ core.add_personal_record(person, "{person.name} is not interested in {target.name} anymore.".format(person=person, target=target))        
+    $ core.add_personal_record(person, "{person.fullname} is not interested in {target.fullname} anymore.".format(person=person, target=target))        
     return
 
 label lbl_wish_independence_chance(person):
@@ -337,7 +337,7 @@ label lbl_wish_atonement_end(person):
         target = random.choice(list(persons))
         target.remove_all_bonds_with(person)
         target.add_resource(random.choice(('power', 'cash', 'info')), person.occupation_level)
-    $ core.add_personal_record(person, "{person.name} pays off for a grudge with a {target.name}".format(person=person, target=target))
+    $ core.add_personal_record(person, "{person.fullname} pays off for a grudge with a {target.fullname}".format(person=person, target=target))
     return
 
 label lbl_wish_atonement_chance(person):
@@ -364,7 +364,7 @@ label lbl_wish_malice_end(person):
         target.remove_all_bonds_with(person)
         target.add_bond(Bond(person, 'traitor'))
         person.add_resource(random.choice(('power', 'cash', 'info')), target.occupation_level)
-    $ core.add_personal_record(person, "{person.name} betrays {target.name} feelings.".format(person=person, target=target))
+    $ core.add_personal_record(person, "{person.fullname} betrays {target.fullname} feelings.".format(person=person, target=target))
     return
 
 label lbl_wish_malice_chance(person):
@@ -396,7 +396,7 @@ label lbl_wish_agression_end(person):
             except IndexError:
                 target.occupation_level -= 1
                 break
-    $ core.add_personal_record(person, "{person.name} undermines {target.name} resources.".format(person=person, target=target))
+    $ core.add_personal_record(person, "{person.fullname} undermines {target.fullname} resources.".format(person=person, target=target))
     return
 
 label lbl_wish_agression_chance(person):
@@ -416,7 +416,7 @@ label lbl_wish_serenity_end(person):
         bond = random.choice(bonds)
         target = bond.target
         person.remove_bond(bond)
-    $ core.add_personal_record(person, "{person.name} ceases hostility towards the {target.name}.".format(person=person, target=target))
+    $ core.add_personal_record(person, "{person.fullname} ceases hostility towards the {target.fullname}.".format(person=person, target=target))
     return
 
 label lbl_wish_serenity_chance(person):
