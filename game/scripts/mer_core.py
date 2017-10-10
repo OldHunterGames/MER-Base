@@ -23,6 +23,7 @@ class MERCore(object):
 
     def _find_phantoms(self):
         actives = set(self.get_active_persons())
+        actives.add(self.player)
         phantoms = set()
         for i in actives:
             phantoms.update(

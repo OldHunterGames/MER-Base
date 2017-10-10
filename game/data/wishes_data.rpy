@@ -245,7 +245,7 @@ label lbl_wish_reciprocity_end(person):
         if old_target is not None:
             old_target.add_bond(Bond(person, 'traitor'))
         person.add_bond(Bond(target, bond.id))
-    $ core.add_personal_record(person, "{person.full_name} reciprocates on {target.full_name} attitude.".format(person=person))
+    $ core.add_personal_record(person, "{person.full_name} reciprocates on {target.full_name} attitude.".format(person=person, target=target))
     return
 
 label lbl_wish_reciprocity_chance(person):
