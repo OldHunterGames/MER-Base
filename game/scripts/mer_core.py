@@ -32,7 +32,7 @@ class MERCore(object):
 
     def get_phantom(self):
         phantoms = self._find_phantoms()
-        if len(phantoms) > 1:
+        if len(phantoms) > 0:
             return random.choice(list(phantoms))
 
     def get_active_persons(self, exclude=None):
