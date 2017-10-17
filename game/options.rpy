@@ -12,7 +12,7 @@
 ##
 ## The _() surrounding the string marks it as eligible for translation.
 
-define config.name = _("MER Character generation")
+define config.name = _("MER NPC relations")
 define config.rollback_enabled = False
 
 ## Determines if the title given above is shown on the main menu screen. Set
@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.2.1"
+define config.version = "0.3.0"
 
 
 ## Text that is placed on the game's about screen. To insert a blank line
@@ -36,7 +36,7 @@ define gui.about = _("It is noncommercial copyleft product, strictly for adult u
 ## distribution. This must be ASCII-only, and must not contain spaces, colons,
 ## or semicolons.
 
-define build.name = "MER_chargen"
+define build.name = "MER_relations"
 
 
 ## Sounds and music ############################################################
