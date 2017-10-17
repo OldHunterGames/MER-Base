@@ -72,6 +72,10 @@ screen sc_schedule(person):
             text 'Sparks: %s' % person.money
             if not person.can_tick():
                 text encolor_text('You have no money to skip turn', 'red')
+        textbutton 'Skip Turn':
+            yalign 0.8
+            xalign 1.0
+            action Function(core.skip_turn)
         textbutton 'Leave':
             yalign 1.0
             xalign 1.0
