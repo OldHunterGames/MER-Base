@@ -5,7 +5,7 @@ init python:
             {
                 'name': __('Idle'), 
                 'description': 'Idle\nJust rest and take your time for yourself.\n(Timid deed. Well rested - gain green action card.  Stagnation tenses your ambitions)', 
-                'skill': None, 
+                'attribute': 'hardiness', 
                 'difficulty': 0, 
                 'world': None, 
                 'image': 'miscards', 

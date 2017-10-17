@@ -18,10 +18,10 @@ init python:
             return self._schedule_obj.description()
 
         def run(self):
-            if self._type == 'optional':
-                self._person.schedule.set_optional(self._slot, self._schedule_obj)
+            if self._type == 'extra':
+                self._person.schedule.set_extra(self._slot, self._schedule_obj)
             else:
-                self._person.schedule.set(self._type, self._schedule_obj)
+                self._person.schedule.set_current(self._type, self._schedule_obj)
 
 
 screen sc_schedule(person):
@@ -31,30 +31,28 @@ screen sc_schedule(person):
         hbox:
             spacing 10
             for i in ('job', 'ration', 'accommodation'):
+                $ current = schedule.get_current(i)
                 vbox:
                     imagebutton:
-                        idle getattr(schedule, i).image()
+                        idle current.image()
                         action Function(
                                 CardMenu(
                                     [SetScheduleItem(person, i, k)
-                                    for k in schedule.available(i, core.world)],
-                                    current=SetScheduleItem(person, i, getattr(schedule, i))).show)
-                    text getattr(schedule, i).name()
+                                    for k in schedule.get_available(i, core.world)],
+                                    current=SetScheduleItem(person, i, current)).show)
+                    text current.name()
         hbox:
             yalign 1.0
             for i in (0, 1, 2):
                 python:
-                    item = schedule.get_optional(i)
+                    item = schedule.get_extra(i)
                     if item is not None:
-                        for key, value in schedule.optional.items():
-                            if value == item:
-                                slot = key
-                        current_item = SetScheduleItem(person, 'optional', item, key)
+                        current_item = SetScheduleItem(person, 'extra', item, i)
                     else:
                         current_item = None
                     if item is None:
                         img = im.Scale(card_back(), 200, 300)
-                        txt = 'Optional'
+                        txt = 'Extra'
                     else:
                         img = item.image()
                         txt = item.name()
@@ -63,8 +61,8 @@ screen sc_schedule(person):
                         idle img
                         action Function(
                                 CardMenu(
-                                    [SetScheduleItem(person, 'optional', k, i)
-                                    for k in schedule.available('optional', core.world)],
+                                    [SetScheduleItem(person, 'extra', k, i)
+                                    for k in schedule.get_available('extra', core.world)],
                                     current=current_item, cancel=True).show)
                     text txt
         vbox:

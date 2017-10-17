@@ -25,6 +25,7 @@ label start:
     $ renpy.block_rollback()
     $ init_default_items_data()
     $ core = MERCore()
+    $ house = core.get_house('inn')
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.
@@ -50,7 +51,7 @@ label start:
 
 label generate:
     $ core.create_player()
-    # call screen sc_gen_player()
+    call screen sc_gen_player()
     $ player = core.player
     $ core.unlock_schedule(player)
     # call screen sc_gen_faction()
@@ -66,7 +67,7 @@ label lbl_make_faction:
 label lbl_game:
     # $ make_intrigues(core.faction, core.player)
     call lbl_make_faction
-    # call screen sc_cis(player)
+    call screen sc_cis(player, True)
     call lbl_contacts(player)
     return
 
@@ -100,4 +101,16 @@ label lbl_wish_test():
         for key in wishes_data.keys():
             core.wish_maker.reserve_wish(person, key)
             core.wish_maker.process_wishes(person)
+    return
+
+label lbl_jobcheck(schedule_obj, person):
+    '[person.name] works with productivity: [schedule_obj.productivity]'
+    python:
+        attribute = schedule_obj.attribute
+        if getattr(person, attribute)() > schedule_obj.productivity:
+            schedule_obj.productivity += 1
+            productivity_info = 'Productivity raised'
+        else:
+            productivity_info = 'Productivity is max for %s' % person.name
+    '[productivity_info]'
     return

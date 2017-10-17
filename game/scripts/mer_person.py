@@ -192,12 +192,12 @@ class PersonCreator(object):
     def _default_schedule(self, person):
         schedule = person.schedule
         schedule.set_default(
-            'job', ScheduleObject('idle', store.basic_jobs))
+            Schedule.JOB, ScheduleJob('idle', store.basic_jobs))
         schedule.set_default(
-            'accommodation', ScheduleObject('appartment',
+            Schedule.ACCOMMODATION, ScheduleObject('appartment',
                                             store.basic_accommodations))
         schedule.set_default(
-            'ration', ScheduleObject('cooked', store.basic_rations))
+            Schedule.RATION, ScheduleObject('cooked', store.basic_rations))
 
     def _weighted_random(self, data):
         data = copy.copy(data)
@@ -1712,6 +1712,7 @@ class Person(InventoryWielder, PsyModel):
         if self.feature('dead') is not None:
             return True
         return False
+
     # attributes
     def hardiness(self):
         value = self.count_modifiers('hardiness')
@@ -1818,44 +1819,6 @@ class Person(InventoryWielder, PsyModel):
                 break
         return value
     # end of rating methods
-
-    def focus(self):
-        return self.schedule.job.focus
-
-    def job_skill(self):
-        return self.schedule.job.skill
-
-    @property
-    def job(self):
-        return self.schedule.job
-
-    @property
-    def accommodation(self):
-        return self.schedule.accommodation
-
-    @property
-    def ration(self):
-        return self.schedule.ration
-
-    @property
-    def job_difficulty(self):
-        if self.schedule.job.difficulty is not None:
-            return self.schedule.job.difficulty
-        else:
-            return 0
-
-    def increase_productivity(self):
-        if self.productivity_raised:
-            return
-        self.schedule.remove_buffer()
-        self.schedule.job.focus += 1
-        self.productivity_raised = True
-
-    def reset_productivity(self):
-        self.schedule.job.focus = 0
-
-    def job_productivity(self):
-        return self.schedule.job.focus
 
     def world(self):
         # not sure we need core reference here

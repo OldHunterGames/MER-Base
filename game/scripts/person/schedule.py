@@ -9,16 +9,12 @@ import renpy.exports as renpy
 import renpy.store as store
 
 
-class ScheduleObject(MenuCard):
+class ScheduleObject(object):
 
-    def __init__(self, id, data_dict, locked=False):
+    def __init__(self, id, data_dict, locked=False, *args, **kwargs):
         self._data = data_dict[id]
         self.id = id
         self.locked = locked
-        self._additional_data = dict()
-
-    def add_data(self, dict):
-        self._additional_data = dict
 
     def _image_raw(self):
         img = self.get_image()
@@ -57,7 +53,7 @@ class ScheduleObject(MenuCard):
         try:
             value = self.__dict__['_data'][key]
         except KeyError:
-            value = self.__dict__['_additional_data'].get(key)
+            raise AttributeError(key)
         return value
 
     def description(self):
@@ -67,7 +63,7 @@ class ScheduleObject(MenuCard):
         return self._data.get('name', 'No name')
 
     def use(self, person, type):
-        self.on_use(person)
+        self._on_use(person)
         lbl = str(self.world).lower() + '_%s' % type + '_%s' % self.id
         if renpy.has_label(lbl):
             renpy.call_in_new_context(lbl, person)
@@ -76,11 +72,15 @@ class ScheduleObject(MenuCard):
     def lock(self):
         self.locked = True
 
-    def on_use(self, person):
+    def _on_use(self, person):
         return
 
 
 class ScheduleJob(ScheduleObject):
+
+    def __init__(self, *args, **kwargs):
+        super(ScheduleJob, self).__init__(*args, **kwargs)
+        self.productivity = 1
 
     def full_description(self):
         string = self.name()
@@ -91,177 +91,81 @@ class ScheduleJob(ScheduleObject):
                 store.effort_quality[self.focus + 1]
         return string
 
-    # def on_use(self, person):
-    #     if self.skill is not None:
-    #         if person.player_controlled:
-    #             renpy.call_in_new_context(
-    #                 'lbl_jobcheck', person=person, attribute=self.skill)
-    #         else:
-    #             renpy.call_in_new_context(
-    #                 'lbl_jobcheck_npc', person=person, attribute=self.skill)
+    def _on_use(self, person):
+        if self.attribute is not None:
+            if person.player_controlled:
+                renpy.call_in_new_context(
+                    'lbl_jobcheck', self, person)
 
 
 class Schedule(object):
+    JOB = 'job'
+    RATION = 'ration'
+    ACCOMMODATION = 'accommodation'
+    EXTRA = 'extra'
 
     def __init__(self):
 
-        self._available_rations = {}
-        self._available_jobs = {}
-        self._available_accommodations = {}
-        self._available_optionals = {}
-        self._optional = OrderedDict({0: None, 1: None, 2: None})
-        self._job = None
-        self._job_buffer = None
-        self._accommodation = None
-        self._ration = None
-        self._default_job = None
-        self._default_accommdation = None
-        self._default_ration = None
-        self.focus = 0
-        self._focus_buffer = 0
+        self._available = {
+            self.RATION: [],
+            self.JOB: [],
+            self.ACCOMMODATION: [],
+            self.EXTRA: []
+        }
 
-    def set_default(self, type, obj, **kwargs):
-        setattr(self, '_default_' + type, obj)
-        if getattr(self, '_' + type) is None:
-            self.set(type, obj, **kwargs)
+        self._current = {
+            self.RATION: None,
+            self.JOB: None,
+            self.ACCOMMODATION: None,
+            self.EXTRA: OrderedDict({0: None, 1: None, 2: None})
+        }
 
-    def make_default(self, attr_name):
-        self.set(attr_name, getattr(self, '_default_%s' % attr_name))
+        self._defaults = {
+            self.JOB: None,
+            self.RATION: None,
+            self.ACCOMMODATION: None
+        }
+
+    def add_available(self, slot, obj):
+        self._available[slot].append(obj)
+
+    def get_available(self, slot, world):
+        return [i for i in self._available[slot] if i.world == world]
+
+    def remove_available(self, slot, obj):
+        self._available[slot].remove(obj)
+
+    def set_default(self, slot, obj):
+        self._defaults[slot] = obj
+
+    def use(self, person):
+        for key, value in self._current.items():
+            if key == self.EXTRA:
+                for i in value.values():
+                    if i is not None:
+                        i.use(person, self.EXTRA)
+            else:
+                self.get_current(key).use(person, key)
+
+    def _extras_cost(self):
+        return sum([i.cost for i in self._current[self.EXTRA].values() if i is not None])
 
     def get_cost(self):
-        return (self._accommodation.cost +
-                self._ration.cost +
-                sum([i.cost for i in self._optional.values() if i is not None])
-                )
+        return sum(
+            [i.cost for i in self._current.values() if
+                isinstance(i, ScheduleObject)]) + \
+            self._extras_cost()
 
-    @property
-    def job(self):
-        return self._job
+    def get_current(self, slot):
+        if self._current[slot] is None:
+            return self._defaults[slot]
+        return self._current[slot]
 
-    @property
-    def accommodation(self):
-        return self._accommodation
+    def set_current(self, slot, obj):
+        self._current[slot] = obj
 
-    @property
-    def ration(self):
-        return self._ration
+    def set_extra(self, index, obj):
+        self._current[self.EXTRA][index] = obj
 
-    @property
-    def optional(self):
-        return self._optional
-
-    def description(self, key):
-        return getattr(self, '_' + key).description
-
-    def remove_buffer(self):
-        self._job_buffer = None
-
-    def use(self, user):
-        self._job.use(user, 'job')
-        self._accommodation.use(user, 'accommodation')
-        self._ration.use(user, 'ration')
-        for i in self._optional.values():
-            if i is not None:
-                i.use(user, 'optional')
-
-    def set_optional(self, slot, schedule_object):
-        if slot in self._optional.keys():
-            self._optional[slot] = schedule_object
-
-    def remove_optional(self, id):
-        try:
-            del self._available_optionals[id]
-        except KeyError:
-            pass
-
-    def get_optional(self, key):
-        return self._optional[key]
-
-    def get_all_optionals(self):
-        return copy(self._optional)
-
-    def name(self, key):
-        return getattr(self, '_' + key).name
-
-    @utilities.Observable
-    def set_job(self, job, single=False, **kwargs):
-        job.add_data(kwargs)
-        obj = job
-
-        if self._job_buffer is not None:
-            if obj == self._job_buffer:
-                self._job = self._job_buffer
-                self._job_buffer = None
-                self.focus = self._focus_buffer
-                return
-            else:
-                self.focus = 0
-        else:
-            self.focus = 0
-
-        if self._job is None:
-            self._job = obj
-
-        if self.focus > 0:
-            self._job_buffer = self._job
-            self._focus_buffer = focus
-        else:
-            self._job_buffer = None
-
-        self._job = obj
-
-    def set(self, attr_name, obj, single=False, **kwargs):
-        obj.single = single
-        obj.add_data(kwargs)
-        if attr_name == 'job':
-            self.set_job(obj, single, **kwargs)
-        else:
-            setattr(self, '_' + attr_name, obj)
-        if obj not in self.available(attr_name, obj.world):
-            self.unlock(attr_name, obj)
-
-    def get(self, attr_name, id):
-        return getattr(self, '_available_' + attr_name + 's')[id]
-
-    def unlock(self, attr_name, value):
-        dict_ = getattr(self, '_available_' + attr_name + 's')
-        if self._already_know(attr_name, value.id, value.world):
-            return
-        try:
-            world = dict_[value.world]
-        except KeyError:
-            dict_[value.world] = dict()
-            world = dict_[value.world]
-        world[value.id] = value
-
-    def _already_know(self, attr_name, id, world):
-        dict_ = getattr(self, '_available_' + attr_name + 's')
-        try:
-            obj = dict_[world][id]
-            return True
-        except KeyError:
-            return False
-
-    def remove(self, id_, attr_name):
-        try:
-            del getattr(self, '_available_' + attr_name + 's')[id_]
-        except KeyError:
-            pass
-
-    def available_optionals(self, world):
-        return [i for i in self._available_optionals.get(world, dict()).values()
-                if i not in self._optional.values()]
-
-    def available(self, attr_name, world):
-        if attr_name == 'optional':
-            return self.available_optionals(world)
-        value = getattr(self, '_available_' + attr_name + 's')
-        try:
-            items = value.get(world, dict()).values()
-            items += value.get(None, dict()).values()
-        except KeyError:
-            items = []
-        return items
-
-    def get_schedule_object(self, type, world, id):
-        return getattr(self, '_available_' + type + 's')(world).get(id)
+    def get_extra(self, index):
+        return self._current[self.EXTRA][index]

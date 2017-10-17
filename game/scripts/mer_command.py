@@ -24,7 +24,7 @@ class Card(object):
         raise NotImplementedError()
 
 
-class MenuCard(Card, Command):
+class MenuCard(Command, Card):
     """Basic class for card-styled menu cards"""
     def __init__(self, name=None, description=None,
                  label=None, image=None, id=None, **kwargs):
