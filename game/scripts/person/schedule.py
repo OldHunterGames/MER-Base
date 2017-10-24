@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 from copy import copy
 
 import mer_utilities as utilities
@@ -7,6 +7,27 @@ from mer_command import MenuCard
 
 import renpy.exports as renpy
 import renpy.store as store
+
+
+class ExternController(object):
+
+    def __init__(self, available_callable, blocker_callable, release_callable, all_callable):
+        self._available = available_callable
+        self._blocker = blocker_callable
+        self._release = release_callable
+        self._all = all_callable
+
+    def get(self):
+        return self._available()
+
+    def use(self, schedule_obj):
+        self._blocker(schedule_obj)
+
+    def release(self, schedule_obj):
+        self._release(schedule_obj)
+
+    def all(self):
+        return self._all()
 
 
 class ScheduleObject(object):
@@ -106,6 +127,8 @@ class Schedule(object):
 
     def __init__(self):
 
+        self._available_external = defaultdict(list)
+
         self._available = {
             self.RATION: [],
             self.JOB: [],
@@ -129,10 +152,48 @@ class Schedule(object):
     def add_available(self, slot, obj):
         self._available[slot].append(obj)
 
+    def extern_available(self, slot, extern_controller):
+        self._available_external[slot].append(extern_controller)
+
+    def unextern_available(self, slot, extern_controller):
+        self._available_external[slot].remove(extern_controller)
+        for key, value in self._current.items():
+            extern_schedule = extern_controller.all()
+            if value in extern_schedule:
+                self.set_current(key, None)
+
+    def _get_available_extras(self, world):
+        available = self._get_available(self.EXTRA)
+        return [
+            i for i in available if
+            i.world == world and i not in self._current[self.EXTRA].values()]
+
+    def _get_available(self, slot):
+        available = list()
+        for i in self._available_external[slot]:
+            available.extend(i.get())
+        available.extend(self._available[slot])
+        return available
+
     def get_available(self, slot, world):
-        return [i for i in self._available[slot] if i.world == world]
+        if slot == self.EXTRA:
+            return self._get_available_extras(world)
+        available = self._get_available(slot)
+        if self._defaults[slot] != self.get_current(slot):
+            available.append(self._defaults[slot])
+        return [i for i in available if i.world == world]
+
+    def _remove_available_extra(self, obj):
+        for key, value in self._current[self.EXTRA].items():
+            if value == obj:
+                self._current[self.EXTRA][key] = None
+                return
 
     def remove_available(self, slot, obj):
+        if slot == self.EXTRA:
+            self._remove_available_extra(obj)
+        if self.get_current(slot) == obj:
+            self._current[slot] = None
         self._available[slot].remove(obj)
 
     def set_default(self, slot, obj):
@@ -162,9 +223,21 @@ class Schedule(object):
         return self._current[slot]
 
     def set_current(self, slot, obj):
+        for i in self._available_external[slot]:
+            extern = i.all()
+            if obj in extern:
+                i.use(obj)
+            if self._current[slot] in extern:
+                i.release(self._current[slot])
         self._current[slot] = obj
 
     def set_extra(self, index, obj):
+        for i in self._available_external[self.EXTRA]:
+            extern = i.all()
+            if obj in extern:
+                i.use(obj)
+            if self._current[self.EXTRA][index] in extern:
+                i.release(self._current[self.EXTRA][index])
         self._current[self.EXTRA][index] = obj
 
     def get_extra(self, index):

@@ -25,10 +25,6 @@ class Motivation(object):
     def data(self):
         return store.motivations_data[self.id]
 
-    @property
-    def type(self):
-        return self.data().get('type')
-
     def image(self):
         bg_image = 'images/motivations/' +\
             self._images_bg[self.id] + '.jpg'
@@ -50,5 +46,8 @@ class Motivation(object):
         return encolor_text(self.data().get('name'),
                             self._colors[self.id])
 
+    def _run_label(self):
+        return 'lbl_motivation_%s_run' % self.id
+
     def run(self):
-        renpy.call_in_new_context(self.data.get('run_label'))
+        renpy.call_in_new_context(self._run_label())

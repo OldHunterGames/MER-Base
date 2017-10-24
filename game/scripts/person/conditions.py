@@ -1,10 +1,14 @@
 # -*- coding: UTF-8 -*-
-
+import renpy.store as store
 from modifiers import ModifiersStorage, Modifier
+from mer_command import Skillcheck
+import random
+
 
 def make_condition(id, data_dict, time):
-    cls_name = data_dict.get('cls_name', "PersonCondition")
+    cls_name = data_dict[id].get('cls_name', "PersonCondition")
     return globals()[cls_name](id, data_dict, time)
+
 
 class PersonCondition(ModifiersStorage):
 
@@ -82,3 +86,34 @@ class SuicidalCondition(PersonCondition):
 
     def additional_ended(self):
         return False
+
+
+class MisstepCondition(PersonCondition):
+
+    def on_add(self, person):
+        self.__person = person
+        Skillcheck.run.add_callback(self.__skillcheck_callback)
+
+    def on_remove(self, person):
+        Skillcheck.run.remove_callback(self.__skillcheck_callback)
+
+    def __skillcheck_callback(self, skillcheck, *args, **kwargs):
+        if skillcheck.person == self.__person:
+            self.__person.remove_condition(self)
+            return
+
+
+class HesistationCondition(PersonCondition):
+
+    def on_add(self, person):
+        attr = random.choice(store.person_attributes.keys())
+        self.add_modifier(Modifier(self.name(), {attr: -1}, self, self.slot()))
+
+    def __satisfy_callback(self, person, *args, **kwargs):
+        name = args[0]
+        if name == 'ambition':
+            person.remove_condition(self)
+
+    def on_remove(self, person):
+        person.satisfy_need.remove_callback(self.__satisfy_callback)
+

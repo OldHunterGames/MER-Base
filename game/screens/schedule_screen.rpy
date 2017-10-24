@@ -23,6 +23,19 @@ init python:
             else:
                 self._person.schedule.set_current(self._type, self._schedule_obj)
 
+    class SetNone(SetScheduleItem):
+
+        def __init__(self, *args, **kwargs):
+            super(SetNone, self).__init__(*args, **kwargs)
+
+        def image(self):
+            return empty_card()
+
+        def name(self):
+            return 'Remove Extra'
+
+        def description(self):
+            return 'No description'
 
 screen sc_schedule(person):
     $ schedule = person.schedule
@@ -46,7 +59,10 @@ screen sc_schedule(person):
             for i in (0, 1, 2):
                 python:
                     item = schedule.get_extra(i)
+                    cards = [SetScheduleItem(person, 'extra', k, i)
+                                    for k in schedule.get_available('extra', core.world)]
                     if item is not None:
+                        cards.append(SetNone(person, 'extra', None, i))
                         current_item = SetScheduleItem(person, 'extra', item, i)
                     else:
                         current_item = None
@@ -60,10 +76,7 @@ screen sc_schedule(person):
                     imagebutton:
                         idle img
                         action Function(
-                                CardMenu(
-                                    [SetScheduleItem(person, 'extra', k, i)
-                                    for k in schedule.get_available('extra', core.world)],
-                                    current=current_item, cancel=True).show)
+                                CardMenu(cards, current=current_item, cancel=True).show)
                     text txt
         vbox:
             xalign 1.0

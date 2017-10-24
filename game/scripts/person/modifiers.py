@@ -3,6 +3,7 @@ import collections
 
 class Modifier(object):
     """Used to modify any numeric attribute of holder"""
+
     def __init__(self, name, stats, source, slot=None):
         self.name = name
         self.stats = stats

@@ -7,7 +7,8 @@ from mer_utilities import Observable, empty_card, get_files
 
 class Command(object):
     """Basic class for commands in mer"""
-    #Maybe need special allocator for commands created in modules?
+    # Maybe need special allocator for commands created in modules?
+
     def run(self):
         raise NotImplementedError()
 
@@ -120,6 +121,45 @@ class CardsMaker(Command):
             self._context_data[key] = value
 
 
+class CardMenu(object):
+
+        def __init__(self, cards_list, current=None, cancel=False, one_action=True):
+            if not one_action:
+                cancel = True
+            self._cards_list = cards_list
+            self.current_card = current
+            self.cancel = cancel
+            self.one_action = one_action
+
+        @property
+        def cards_list(self):
+            return [i for i in self._cards_list if i != self.current_card]
+
+        def get_sorted(self):
+            return sorted(self.cards_list, key=lambda card: card.name)
+
+        def set_card(self, card):
+            current = self.current_card
+            if current is not None and current not in self._cards_list:
+                self._cards_list.append(self.current_card)
+            self.current_card = card
+
+        def show(self, call=True, x_size=200, y_size=300, spacing=5):
+            call = True
+            renpy.call_in_new_context(
+                '_lbl_card_menu', self, call, x_size, y_size, spacing,
+                self.cancel)
+
+        def run(self):
+            card = self.current_card
+            card.run()
+            if self.one_action:
+                renpy.return_statement()
+            else:
+                self._cards_list.remove(self.current_card)
+                self.current_card = None
+
+
 class SatisfySex(Command):
 
     def __init__(self, target, value):
@@ -131,17 +171,36 @@ class SatisfySex(Command):
         pass
 
 
+class MotivatedAction(Command):
+
+    def __init__(self, person, attribute, difficulty):
+        self.person = person
+        self.attribute = attribute
+        self.difficulty = difficulty
+
+    def run(self):
+        if not person.has_motivation():
+            return
+        UseMotivation(self.person).run()
+        return Skillcheck(
+            self.person, self.attribute, self.difficulty).run()
+
+
 class Skillcheck(Command):
 
-    def __init__(self, person, attribute, motivation, difficulty):
+    def __init__(self, person, attribute, difficulty):
 
         self.person = person
-        self.motivation = motivation
         self.difficulty = difficulty
         self.attribute = attribute
 
+    @Observable
     def run(self):
-        return self.difficulty < self.effort()
+        value = self.effort()
+        for i in self.person.used_motivations():
+            if i.id == 'desperation':
+                value -= 1
+        return self.difficulty < value
 
     def effort(self):
         return getattr(self.person, self.attribute)()
@@ -153,4 +212,5 @@ class UseMotivation(Command):
         self.person = person
 
     def run(self):
-        CardMenu(self.person.get_motivations()).run()
+        menu = CardMenu(self.person.get_motivations())
+        menu.run()

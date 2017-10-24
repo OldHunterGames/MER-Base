@@ -2,7 +2,10 @@
 
 import renpy.store as store
 import renpy.exports as renpy
-import mer_utilities
+import mer_utilities as utilities
+import copy
+from motivation import Motivation
+
 
 satisfy_chances = {
     'nutrition': 'taste',
@@ -24,23 +27,6 @@ def init_needs():
     for id, name in store.needs_names.items():
         dict_[id] = (Need(id, name))
     return dict_
-
-
-class Motivation(object):
-    _types_colors = {
-        'desperation': 0, 'stress': 2, 'determination': 4, 'enthusiasm': 5}
-
-    def __init__(self, id_, type_):
-        self.id = id
-        self.type = type
-
-    def name(self):
-        return mer_utilities.encolor_text(
-            store.motivations_dict[self.id],
-            self._types_colors[self.type])
-
-    def image(self):
-        return
 
 
 class Need(object):
@@ -108,55 +94,36 @@ class PsyModel(object):
     def init_psymodel(self):
 
         self._motivations = []
+        self._used_motivations = []
         self._chances = {}
         self.needs = init_needs()
         self.inactive_needs = []
         self.check_bonus = 0
+
+    def add_motivation(self, card):
+        self._motivations.append(card)
+
+    def use_motivation(self, card):
+        self._used_motivations.append(card)
+        self.remove_motivation(card)
+
+    def used_motivations(self):
+        return copy.copy(self._used_motivations)
+
+    def remove_motivation(self, card):
+        self._motivations.remove(card)
+
+    def get_motivaitions(self):
+        return copy.copy(self._motivations)
+
+    def has_motivation(self):
+        return len(self._motivations) > 0
 
     def deactivate_need(self, id):
         self.inactive_needs.append(id)
 
     def activate_need(self, id):
         self.inactive_needs.remove(id)
-
-    def add_motivation(self, motivation):
-        if not self.has_motivation(motivation):
-            self._motivations.append(motivation)
-
-    def remove_motivation(self, id):
-        for i in self._motivations:
-            if i.id == id:
-                self._motivations.remover(i)
-                return
-
-    def has_motivation(self, motivation):
-        return motivation.id in [i.id for i in self._motivations]
-
-    def has_enthusiasm(self):
-        return any(self.get_enthusiasm())
-
-    def get_enthusiasm(self):
-        return [i for i in self._motivations if i.type == 'enthusiasm']
-
-    def get_motivations(self):
-        return [i for i in self._motivations]
-
-    def use_motivation(self, motivation):
-        self._motivations.remove(motivation)
-        self.check_bonus += self.run_motivation(motivation)
-
-    def run_motivation(self, motivation):
-        if motivation.type == 'desperation':
-            # adds 1 random angst condition
-            # self.add_condition()
-            return -1
-        elif self.type == 'stress':
-            # chose 1 angst condition
-            return 0
-        elif self.type == 'determination':
-            return 0
-        else:
-            return 1
 
     def moral_action(self, **kwargs):
         # checks moral like person.check_moral, but instantly affect selfesteem
@@ -230,6 +197,7 @@ class PsyModel(object):
         need_obj = self.needs[name]
         need_obj.set_tension(point)
 
+    @utilities.Observable
     def satisfy_need(self, name, point, value):
         if name in self.inactive_needs:
             return
@@ -238,6 +206,7 @@ class PsyModel(object):
 
     def reset_psych(self):
         self._motivations = []
+        self._used_motivations = []
         for need in self.needs.values():
             if need.id in self.inactive_needs:
                 continue
@@ -246,11 +215,11 @@ class PsyModel(object):
             level = self.need_level(need.id)
             if level == 1:
                 for i in need.satisfaction_points:
-                    self.add_motivation(Motivation(i, 'enthusiasm'))
+                    self.add_motivation(Motivation('enthusiasm'))
                 for i in need.tension_points:
-                    self.add_motivation(Motivation(i, 'desperation'))
+                    self.add_motivation(Motivation('desperation'))
             elif level == 0:
                 for i in need.satisfaction_points:
-                    self.add_motivation(Motivation(i, 'determination'))
+                    self.add_motivation(Motivation('determination'))
                 for i in need.tension_points:
-                    self.add_motivation(Motivation(i, 'stress'))
+                    self.add_motivation(Motivation('stress'))

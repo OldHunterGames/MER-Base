@@ -4,6 +4,7 @@ from schedule import ScheduleObject, ScheduleJob
 from wishes import WishesGenerator
 from collections import defaultdict
 from mer_housing import Housing
+from conditions import make_condition
 import random
 import renpy.exports as renpy
 import renpy.store as store
@@ -28,6 +29,12 @@ class MERCore(object):
 
     def get_house(self, id):
         return self._housing.get_house(id)
+
+    def add_dweller(self, person, house):
+        self._housing.add_dweller(person, house)
+
+    def dweller_house(self, person):
+        return self._housing.dweller_house(person)
 
     def _find_phantoms(self):
         actives = set(self.get_active_persons())
@@ -103,7 +110,8 @@ class MERCore(object):
 
     def set_player(self, person):
         self._player = person
-        self._housing.add_dweller(person, self.get_house('pod_hotel'))
+        house = self._housing.get_house('inn')
+        self._housing.add_dweller(person, house)
         person.player_controlled = True
 
     def reveal_npc(self, person):
@@ -130,7 +138,6 @@ class MERCore(object):
     def unlock_schedule(self, person):
         basic_schedule = {
             'job': store.basic_jobs,
-            'accommodation': store.basic_accommodations,
             'ration': store.basic_rations,
             'extra': store.basic_extras}
         for key, data in basic_schedule.items():
@@ -138,7 +145,7 @@ class MERCore(object):
                 if key == 'job':
                     person.schedule.add_available(key, ScheduleJob(i, data))
                 else:
-                    person.schedule.add_available(key, ScheduleJob(i, data))
+                    person.schedule.add_available(key, ScheduleObject(i, data))
 
 
 class EventsBook(object):

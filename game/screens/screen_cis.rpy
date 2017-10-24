@@ -47,6 +47,10 @@ screen sc_cis(person, controlled=False, relations=None):
                 xalign 0.6
                 yalign 0.4
                 action ShowTransient('sc_schedule', person=person)
+            textbutton 'House':
+                xalign 0.8
+                yalign 0.8
+                action ShowTransient('sc_pick_house', person=person)
             textbutton 'New meeting':
                 xalign 0.6
                 yalign 0.5

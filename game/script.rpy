@@ -16,6 +16,7 @@ init -10 python:
     from intrigue import Intrigue
     from factions import Faction
     from relations import Bond
+    from motivation import Motivation
     from mer_core import *
     import collections
 

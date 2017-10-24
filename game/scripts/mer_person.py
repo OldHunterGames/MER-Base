@@ -793,8 +793,7 @@ class Person(InventoryWielder, PsyModel):
         # Other persons known and relations with them, value[1] = [needed
         # points, current points]
         self._relations = []
-        self.conditions = []
-        self._motivations = []
+        self._conditions = []
         if isinstance(genus, Genus):
             self.genus = genus
         else:
@@ -890,18 +889,6 @@ class Person(InventoryWielder, PsyModel):
     @property
     def faction(self):
         return self._faction
-
-    def add_motivation(self, card):
-        self._motivations.append(card)
-
-    def remove_motivation(card):
-        self._motivations.remove(card)
-
-    def get_motivaitions(self):
-        return copy.copy(self._motivations)
-
-    def has_motivation(self):
-        return len(self._motivations) > 0
 
     def set_intrigue(self, intrigue):
         if self._intrigue == intrigue:
@@ -1154,7 +1141,7 @@ class Person(InventoryWielder, PsyModel):
         return value
 
     def _count_conditions(self, attribute):
-        return sum([i.count_modifiers(attribute) for i in self.conditions])
+        return sum([i.count_modifiers(attribute) for i in self._conditions])
 
     def modifiers_separate(self, attribute):
         list_ = super(Person, self).modifiers_separate(attribute)
@@ -1658,12 +1645,15 @@ class Person(InventoryWielder, PsyModel):
     # methods for conditions, person.conditions list cleared after person.rest
     def add_condition(self, condition):
         if not self.has_condition(condition):
-            self.conditions.append(condition)
+            self._conditions.append(condition)
             condition.on_add(self)
+
+    def has_condition(self, condition):
+        return any([i.slot() == condition.slot() for i in self._conditions])
 
     def remove_condition(self, condition):
         try:
-            self.conditions.remove(condition)
+            self._conditions.remove(condition)
             condition.on_remove(self)
         except ValueError:
             pass
@@ -1770,8 +1760,6 @@ class Person(InventoryWielder, PsyModel):
         value = self.count_modifiers('menace')
         return max(0, min(value, 5))
 
-
-
     def refinement(self):
         item = self.get_slot('load').get_item()
         if item is not None:
@@ -1792,15 +1780,6 @@ class Person(InventoryWielder, PsyModel):
         value = self.count_modifiers('extravagance')
         return max(0, min(value, 5))
 
-    def show_stats(self):
-        stats = (
-            'allure', 'hardiness', 'succulence', 'purity',
-            'menace', 'subtlety', 'refinement', 'competence', 'charisma',
-            'extravagance')
-        return dict(
-            [(store.person_stats.get(i, i), getattr(self, i)()) for i in stats
-             if getattr(self, i)() > 0])
-
     def get_price(self):
         # pricing formula for untrained slaves
         pricing = store.slave_pricing
@@ -1812,7 +1791,7 @@ class Person(InventoryWielder, PsyModel):
         return int(price)
 
     def modify_check(self, value):
-        for i in self.conditions:
+        for i in self._conditions:
             new_value = i.modify_check(value)
             value = new_value[0]
             if new_value[1]:
