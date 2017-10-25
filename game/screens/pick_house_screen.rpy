@@ -6,7 +6,6 @@ screen sc_pick_house(person):
         else:
             house_id = None
         houses = [core.get_house(i) for i in housing_data.keys() if i != house_id]
-        print houses
 
     window:
         style 'char_info_window'

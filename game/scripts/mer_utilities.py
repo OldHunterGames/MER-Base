@@ -85,7 +85,9 @@ class Observable(object):
 
     def __call__(self, *args, **kwargs):
         result = self.func(*args, **kwargs)
-        for observer in self.observers[self.instance]:
+        observers = [i for i in self.observers[self.instance]]
+        observers.extend(self.observers[None])
+        for observer in observers:
             observer(self.instance, list(args), dict(**kwargs))
         for observer in self.observers[None]:
             observer(self.instance, list(args), dict(**kwargs))

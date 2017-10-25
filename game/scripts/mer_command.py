@@ -217,7 +217,7 @@ class UseMotivation(Command):
             return getattr(self.motivation, key)
 
         def run(self):
-            self.motivation.run(self.person)
+            self.person.use_motivation(self.motivation)
 
     def __init__(self, person):
         self.person = person

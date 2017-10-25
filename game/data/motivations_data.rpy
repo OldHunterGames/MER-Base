@@ -23,8 +23,9 @@ init python:
 
     def wrap_desperation(motivation, person):
         def desperation_skillcheck_callback(skillcheck, *args):
+            print 'desperation is gone'
             if skillcheck.person == person:
-                skillcheck.remove_callback(desperation_skillcheck_callback)
+                skillcheck.run.remove_callback(desperation_skillcheck_callback)
                 person.remove_motivation(motivation)
         return desperation_skillcheck_callback
 

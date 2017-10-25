@@ -135,6 +135,7 @@ class MisstepCondition(PersonCondition):
         Skillcheck.run.remove_callback(self.__skillcheck_callback)
 
     def __skillcheck_callback(self, skillcheck, *args, **kwargs):
+        print 'Misstep is gone'
         if skillcheck.person == self.__person:
             self.__person.remove_condition(self)
             return

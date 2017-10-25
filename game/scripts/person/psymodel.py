@@ -104,8 +104,9 @@ class PsyModel(object):
         self._motivations.append(card)
 
     def use_motivation(self, card):
+        card.run(self)
         self._used_motivations.append(card)
-        self._morivations.remove(card)
+        self._motivations.remove(card)
 
     def used_motivations(self):
         return copy.copy(self._used_motivations)

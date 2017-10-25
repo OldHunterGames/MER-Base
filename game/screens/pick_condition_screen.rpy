@@ -22,7 +22,6 @@ init python:
 
 label lbl_pick_condition(person, conditions):
     python:
-        print PickConditionCard
         cards = [PickConditionCard(person, i) for i in conditions]
         CardMenu(cards).show()
     return
