@@ -69,7 +69,7 @@ class PersonCondition(ModifiersStorage):
         return self.data.get('type')
 
     def slot(self):
-        return self.data.get('slot')
+        return self.data.get('slot', self.id)
 
     def name(self):
         return self.data.get('name', 'No name')

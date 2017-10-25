@@ -213,8 +213,8 @@ class Schedule(object):
 
     def get_cost(self):
         return sum(
-            [i.cost for i in self._current.values() if
-                isinstance(i, ScheduleObject)]) + \
+            [self.get_current(key).cost for key in self._current.keys() if
+                key != self.EXTRA]) + \
             self._extras_cost()
 
     def get_current(self, slot):

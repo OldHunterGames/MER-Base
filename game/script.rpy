@@ -68,6 +68,8 @@ label lbl_make_faction:
 label lbl_game:
     # $ make_intrigues(core.faction, core.player)
     call lbl_make_faction
+    python:
+        player.add_motivation(Motivation('desperation'))
     call screen sc_cis(player, True)
     call lbl_contacts(player)
     return

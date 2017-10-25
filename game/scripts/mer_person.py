@@ -1658,6 +1658,9 @@ class Person(InventoryWielder, PsyModel):
         except ValueError:
             pass
 
+    def get_conditions(self):
+        return copy.copy(self._conditions)
+
     def tick_conditions(self):
         for i in self._conditions:
             i.tick_time()

@@ -1,3 +1,4 @@
+
 style char_info_window is window:
     background Color((0, 0, 0, 255))
     xfill True
@@ -47,6 +48,16 @@ screen sc_cis(person, controlled=False, relations=None):
                 xalign 0.6
                 yalign 0.4
                 action ShowTransient('sc_schedule', person=person)
+
+            textbutton 'Motivations':
+                xalign 0.6
+                yalign 0.6
+                action Function(CardMenu((SeeCard(i) for i in person.get_motivations()), cancel=True).show)
+
+            textbutton 'Conditions':
+                xalign 0.6
+                yalign 0.7
+                action Function(CardMenu((SeeCard(i) for i in person.get_conditions()), cancel=True).show)
             textbutton 'House':
                 xalign 0.8
                 yalign 0.8

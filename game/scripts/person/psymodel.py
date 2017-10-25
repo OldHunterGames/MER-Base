@@ -101,6 +101,10 @@ class PsyModel(object):
         self.check_bonus = 0
 
     def add_motivation(self, card):
+        motivations = self.get_motivations()
+        motivations.extend(self._used_motivations)
+        if card.id in map(lambda x: x.id, motivations):
+            return
         self._motivations.append(card)
 
     def use_motivation(self, card):

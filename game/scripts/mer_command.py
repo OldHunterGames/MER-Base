@@ -25,6 +25,27 @@ class Card(object):
         raise NotImplementedError()
 
 
+class WrapperCard(Card, Command):
+
+    def __init__(self, wrapped_item):
+        self._wrapped_item = wrapped_item
+
+    def image(self):
+        return self._wrapped_item.image()
+
+    def name(self):
+        return self._wrapped_item.name()
+
+    def description(self):
+        return self._wrapped_item.description()
+
+
+class SeeCard(WrapperCard):
+
+    def run(self):
+        return
+
+
 class MenuCard(Command, Card):
     """Basic class for card-styled menu cards"""
     def __init__(self, name=None, description=None,
@@ -179,11 +200,10 @@ class MotivatedAction(Command):
         self.difficulty = difficulty
 
     def run(self):
-        if not person.has_motivation():
-            return
-        UseMotivation(self.person).run()
-        return Skillcheck(
-            self.person, self.attribute, self.difficulty).run()
+        if UseMotivation(self.person).run():
+            return Skillcheck(
+                self.person, self.attribute, self.difficulty).run()
+        return False
 
 
 class Skillcheck(Command):
@@ -223,7 +243,10 @@ class UseMotivation(Command):
         self.person = person
 
     def run(self):
+        if not self.person.has_motivation():
+            return False
         cards = [self._WrapMotivation(
             self.person, i) for i in self.person.get_motivations()]
         menu = CardMenu(cards)
         menu.show()
+        return True
