@@ -98,7 +98,8 @@ class Observable(object):
         try:
             self.observers[self.instance].remove(callback)
         except ValueError:
-            pass
+            if callback in self.observers[None]:
+                self.observers[None].remove(callback)
 
 
 """class DefaultObservable(object):

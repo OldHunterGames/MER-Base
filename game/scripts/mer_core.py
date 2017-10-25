@@ -4,7 +4,7 @@ from schedule import ScheduleObject, ScheduleJob
 from wishes import WishesGenerator
 from collections import defaultdict
 from mer_housing import Housing
-from conditions import make_condition
+from conditions import ConditionsMaker
 import random
 import renpy.exports as renpy
 import renpy.store as store
@@ -23,6 +23,7 @@ class MERCore(object):
         self.wish_maker = WishesGenerator()
         self.person_creator = PersonCreator()
         self._housing = Housing()
+        self.conditions_maker = ConditionsMaker(**store.conditions_data)
 
     def call_screen(self, screen_name, *args, **kwargs):
         renpy.call_screen(screen_name, *args, **kwargs)

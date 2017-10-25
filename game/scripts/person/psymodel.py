@@ -105,15 +105,15 @@ class PsyModel(object):
 
     def use_motivation(self, card):
         self._used_motivations.append(card)
-        self.remove_motivation(card)
+        self._morivations.remove(card)
 
     def used_motivations(self):
         return copy.copy(self._used_motivations)
 
     def remove_motivation(self, card):
-        self._motivations.remove(card)
+        self._used_motivations.remove(card)
 
-    def get_motivaitions(self):
+    def get_motivations(self):
         return copy.copy(self._motivations)
 
     def has_motivation(self):

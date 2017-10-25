@@ -2,7 +2,9 @@
 import renpy.store as store
 from modifiers import ModifiersStorage, Modifier
 from mer_command import Skillcheck
+from mer_utilities import empty_card
 import random
+import copy
 
 
 def make_condition(id, data_dict, time):
@@ -10,10 +12,39 @@ def make_condition(id, data_dict, time):
     return globals()[cls_name](id, data_dict, time)
 
 
+class ConditionsMaker(object):
+
+    def __init__(self, conditions_maker=None, **kwargs):
+        if conditions_maker is not None:
+            self._data = conditions_maker.get_data()
+        else:
+            self._data = dict()
+
+        self.add_data(kwargs)
+
+    def add_data(self, dict_):
+        self._data.update(dict_)
+
+    def get_data(self):
+        return copy.copy(self._data)
+
+    def make_condition(self, id, time=1):
+        cond_data = self._data[id]
+        cls_name = cond_data.get('cls_name', 'PersonCondition')
+        return globals()[cls_name](id, cond_data, time)
+
+    def make_conditions(self, type, time):
+        conditions = list()
+        for key, value in self._data.items():
+            if value.get('type') == type:
+                conditions.append(key)
+        return [self.make_condition(i, time) for i in conditions]
+
+
 class PersonCondition(ModifiersStorage):
 
     def __init__(self, id_, data_dict, time=1, *args, **kwargs):
-        self.data = data_dict[id_]
+        self.data = data_dict
         self.id = id_
         self._time = time
         self._modifiers = []
@@ -42,6 +73,12 @@ class PersonCondition(ModifiersStorage):
 
     def name(self):
         return self.data.get('name', 'No name')
+
+    def description(self):
+        return self.data.get('description', 'No description')
+
+    def image(self):
+        return empty_card()
 
     def _get_modifiers_data(self):
         return self.data.get('modifiers')

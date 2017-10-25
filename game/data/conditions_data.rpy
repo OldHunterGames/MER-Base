@@ -5,6 +5,7 @@ init python:
             'description': __("Misstep condition"),
             'type': 'angst',
             'cls_name': "MisstepCondition",
-            'slot': 'misstep'
+            'slot': 'misstep',
+            'modifiers': {'skillcheck': -999}
         }
     }

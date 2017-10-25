@@ -203,14 +203,27 @@ class Skillcheck(Command):
         return self.difficulty < value
 
     def effort(self):
-        return getattr(self.person, self.attribute)()
+        return getattr(self.person, self.attribute)() + self.person.count_modifiers('skillcheck')
 
 
 class UseMotivation(Command):
+
+    class _WrapMotivation(object):
+        def __init__(self, person, motivation):
+            self.person = person
+            self.motivation = motivation
+
+        def __getattr__(self, key):
+            return getattr(self.motivation, key)
+
+        def run(self):
+            self.motivation.run(self.person)
 
     def __init__(self, person):
         self.person = person
 
     def run(self):
-        menu = CardMenu(self.person.get_motivations())
-        menu.run()
+        cards = [self._WrapMotivation(
+            self.person, i) for i in self.person.get_motivations()]
+        menu = CardMenu(cards)
+        menu.show()
