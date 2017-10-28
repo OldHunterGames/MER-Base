@@ -87,25 +87,15 @@ class PersonCondition(ModifiersStorage):
         self._time -= 1
 
     def ended(self):
-        return self._time > 0 and self.additional_ended()
-
-    def additional_ended(self):
-        "Special rules for ending this condition or block ending this on time"
-        return True
+        if this._time is None:
+            return False
+        return 0 > this._time
 
     def add_modifier(self, name, stats_dict, source, slot=None):
         self._modifiers.append(Modifier(name, stats_dict, self, slot))
 
     def get_all_modifiers(self):
         return self._modifiers
-
-    def modify_check(self, value):
-        """
-        Modifies value of skillcheck, returns tuple(value, bool) where bool
-        determines if we should stop modifying
-        """
-        # override this in child classes
-        return (value + self.check_modifiers(), False)
 
 
 class SuicidalCondition(PersonCondition):

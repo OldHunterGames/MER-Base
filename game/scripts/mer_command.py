@@ -181,6 +181,15 @@ class CardMenu(object):
                 self.current_card = None
 
 
+class SeeCards(CardMenu):
+
+    def __init__(self, cards_list):
+        super(SeeCards, self).__init__(cards_list, cancel=True)
+
+    def run(self):
+        return
+
+
 class SatisfySex(Command):
 
     def __init__(self, target, value):

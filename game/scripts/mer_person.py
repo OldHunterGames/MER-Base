@@ -1664,9 +1664,9 @@ class Person(InventoryWielder, PsyModel):
     def tick_conditions(self):
         for i in self._conditions:
             i.tick_time()
-        self._conditions = filter(
-            lambda condition: not condition.ended(),
-            self._conditions)
+        for i in self.get_conditions():
+            if i.ended():
+                self.remove_condition(i)
 
     @utilities.Observable
     def die(self, reason=None, destroy=False):

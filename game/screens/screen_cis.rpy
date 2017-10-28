@@ -52,24 +52,20 @@ screen sc_cis(person, controlled=False, relations=None):
             textbutton 'Motivations':
                 xalign 0.6
                 yalign 0.6
-                action Function(CardMenu((SeeCard(i) for i in person.get_motivations()), cancel=True).show)
+                action Function(SeeCards(person.get_motivations()).show)
 
             textbutton 'Conditions':
                 xalign 0.6
                 yalign 0.7
-                action Function(CardMenu((SeeCard(i) for i in person.get_conditions()), cancel=True).show)
+                action Function(SeeCards(person.get_conditions()).show)
             textbutton 'House':
                 xalign 0.8
                 yalign 0.8
                 action ShowTransient('sc_pick_house', person=person)
-            textbutton 'New meeting':
-                xalign 0.6
-                yalign 0.5
-                action Function(renpy.call_in_new_context, 'lbl_new_meeting', person=person)
-            textbutton 'Contacts':
-                xalign 0.6
-                yalign 0.8
-                action Function(renpy.call_in_new_context, 'lbl_contacts', person)
+            # textbutton 'Contacts':
+            #     xalign 0.6
+            #     yalign 0.8
+            #     action Function(renpy.call_in_new_context, 'lbl_contacts', person)
             textbutton 'Skip turn':
                 xalign 1.0
                 yalign 1.0
