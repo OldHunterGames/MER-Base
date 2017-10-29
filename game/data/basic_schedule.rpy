@@ -8,7 +8,8 @@ init python:
                 'attribute': 'hardiness', 
                 'difficulty': 0, 
                 'world': None, 
-                'image': 'miscards', 
+                'image': 'miscards',
+                'slot': 'job' 
             },
     }
 
@@ -18,63 +19,72 @@ init python:
             "name": __("Appartments (25)"), 
             'description': __("Standart apartments. 25 sparks/decade"), 
             'cost': 25, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'accommodation'
             },
         'unsheltered':
             {
                 "name": __("Unsheltered (0)"),
                 "description": __(""),
                 'cost': 0,
-                'world': 'core'
+                'world': 'core',
+                'slot': 'accommodation'
             },
         'camping': 
             {
             "name": __("Camping"), 
             'description': __(""), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'accommodation'
             },
         'confined': 
             {
             "name": __("Confined"), 
             'description': __(""), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'accommodation'
             },
         'cold_floor': 
             {
             "name": __("Cold floor"), 
             'description': __(""), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'accommodation'
             },
         'cot_and_blanket': 
             {
             "name": __("Cot & Blanket"), 
             'description': __(""), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'accommodation'
             },
         'comfortable_bed': 
             {
             "name": __("Comfortable bed"), 
             'description': __(""), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'accommodation'
             },
         'private_bedroom': 
             {
             "name": __("Private bedroom"), 
             'description': __(""), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'accommodation'
             },
         'love_nest': 
             {
             "name": __("Love nest"), 
             'description': __(""), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'accommodation'
             },
     }
 
@@ -84,28 +94,32 @@ init python:
             "name": __("Famish (0)"), 
             'description': __("Eat what you can get for free (basicaly nothing)."), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'ration'
             },
         'canned_half': 
             {
             "name": __("Canned food (5)"), 
             'description': __("5 sparks/decade"), 
             'cost': 5, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'ration'
             },
         'canned': 
             {
             "name": __("Canned food (10)"), 
             'description': __("10 sparks/decade"), 
             'cost': 10, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'ration'
             },
         'canned_double': 
             {
             "name": __("Canned food (15)"), 
             'description': __("20 sparks/decade"), 
             'cost': 20, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'ration'
             },
 
         'cooked': 
@@ -113,7 +127,8 @@ init python:
             "name": __("Cooked food (20)"), 
             'description': __("Eat cooked food in a pub. 20 sparks/decade"), 
             'cost': 20, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'ration'
             },
     }
 
@@ -123,98 +138,112 @@ init python:
             "name": __("Promenade (0)"), 
             'description': __("Long and thoughtful walks through the most beautiful places of the White City. (Minor entertainment. But it's free!)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },
         'relax': 
             {
             "name": __("Relax (0)"), 
             'description': __("Jut take some time for a nap and make the world wait for you. (Timid deed. Get the pleasure of comfort.)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },
         'workout': 
             {
             "name": __("Workout (0)"), 
             'description': __("Workout persistently to maintain a tonus and excellent physical shape. (Get some adrenaline. It is good for your body.)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },            
         'thuglife': 
             {
             "name": __("Thug life (0)"), 
             'description': __("Abuse those who are weak and mock those who can't repel you. (Ardent and evil deed. Menace or charisma check. Feeling power satisfies your authority needs.)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },
         'courtship': 
             {
             "name": __("Courtship (0)"), 
             'description': __("You can draw some romantic attends. Not necessarily serious, but enjoyable. (Timid deed. Purity or refinement check. Interaction is good to satisfy communication needs, but makes your erotic desires burn.)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },
         'flirt': 
             {
             "name": __("Flirt (0)"), 
             'description': __("Do some meaningless flirtations with a strangers. (Ardent and chaotic deed. Extravagance or charisma check. Interaction is good to satisfy communication needs, but makes your erotic desires burn.)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },
         'forum': 
             {
             "name": __("Forum (0)"), 
             'description': __("Hot philosophical and political discussions on the forum give an excellent lesson for a keen mind. (Competence or charisma check. Some interaction and minor feel of power.)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },
         'perform': 
             {
             "name": __("Perform (0)"), 
             'description': __("You will sing, dance or recite poetry. It does not matter. The main thing is to attract the awed attention of the crowd! (Ardent deed. Extravagance or refinement check. Get interaction and achievement, but public attention can be dangerous!)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },
         'library': 
             {
             "name": __("Library (5)"), 
             'description': __("The Grand Library of Vatican is opened to everyone... for a fee. (5 sparks / decade. Timid and lawful deed. Enjoy some serenity and amusement, but your body will get stiff.)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },
         'tippling': 
             {
             "name": __("Tippling (5)"), 
             'description': __("Drink at the pub, chat with patrons, paw maids. (5 sparks / decade. Minor pleasure and interaction.)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },
         'gambling': 
             {
             "name": __("Gambling (10)"), 
             'description': __("Casino always wins at the end. But you can have some fun in process! (10 sparks / decade. Chaotic deed. Some pleasure and interaction.)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },
         'cabaret': 
             {
             "name": __("Cabaret (20)"), 
             'description': __("Cozy and comfortable atmosphere, songs and dances, pretty hostesses, nice wine... what else do you need for the recreation? (20 sparks / decade. Get pleasure and interaction.)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },
         'whores': 
             {
             "name": __("Whores (10)"), 
             'description': __("The whores of the Ethernal Rome is the best due to the high competition at the market. (10 sparks / decade. Orgasm satisfies your eros.)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },
         'shopping': 
             {
             "name": __("Shopping (20)"), 
             'description': __("Just sink money for meaningless purchases. (20 sparks / decade. Chaotic deed. Some random luxury make you feel prosperous.)"), 
             'cost': 0, 
-            'world': 'core'
+            'world': 'core',
+            'slot': 'extra'
             },
          
     }

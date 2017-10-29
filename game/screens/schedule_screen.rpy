@@ -2,9 +2,8 @@ init python:
     class SetScheduleItem(Command, Card):
 
 
-        def __init__(self, person, type, scheduleobj, slot=None):
+        def __init__(self, person, scheduleobj, slot=None):
             self._person = person
-            self._type = type
             self._schedule_obj = scheduleobj
             self._slot = slot
 
@@ -18,10 +17,10 @@ init python:
             return self._schedule_obj.description()
 
         def run(self):
-            if self._type == 'extra':
+            if self._schedule_obj.slot() == 'extra':
                 self._person.schedule.set_extra(self._slot, self._schedule_obj)
             else:
-                self._person.schedule.set_current(self._type, self._schedule_obj)
+                self._person.schedule.set_current(self._schedule_obj)
 
     class SetNone(SetScheduleItem):
 
@@ -50,20 +49,20 @@ screen sc_schedule(person):
                         idle current.image()
                         action Function(
                                 CardMenu(
-                                    [SetScheduleItem(person, i, k)
+                                    [SetScheduleItem(person, k)
                                     for k in schedule.get_available(i, core.world)],
-                                    current=SetScheduleItem(person, i, current)).show)
+                                    current=SetScheduleItem(person, current)).show)
                     text current.name()
         hbox:
             yalign 1.0
             for i in (0, 1, 2):
                 python:
                     item = schedule.get_extra(i)
-                    cards = [SetScheduleItem(person, 'extra', k, i)
+                    cards = [SetScheduleItem(person, k, i)
                                     for k in schedule.get_available('extra', core.world)]
                     if item is not None:
-                        cards.append(SetNone(person, 'extra', None, i))
-                        current_item = SetScheduleItem(person, 'extra', item, i)
+                        cards.append(SetNone(person, None, i))
+                        current_item = SetScheduleItem(person, item, i)
                     else:
                         current_item = None
                     if item is None:

@@ -191,13 +191,9 @@ class PersonCreator(object):
 
     def _default_schedule(self, person):
         schedule = person.schedule
-        schedule.set_default(
-            Schedule.JOB, ScheduleJob('idle', store.basic_jobs))
-        schedule.set_default(
-            Schedule.ACCOMMODATION, ScheduleObject('appartment',
-                                            store.basic_accommodations))
-        schedule.set_default(
-            Schedule.RATION, ScheduleObject('cooked', store.basic_rations))
+        schedule.set_default(ScheduleJob('idle', store.basic_jobs))
+        schedule.set_default(ScheduleObject('appartment', store.basic_accommodations))
+        schedule.set_default(ScheduleObject('cooked', store.basic_rations))
 
     def _weighted_random(self, data):
         data = copy.copy(data)

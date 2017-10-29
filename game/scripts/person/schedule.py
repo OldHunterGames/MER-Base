@@ -9,33 +9,13 @@ import renpy.exports as renpy
 import renpy.store as store
 
 
-class ExternController(object):
-
-    def __init__(self, available_callable, blocker_callable, release_callable, all_callable):
-        self._available = available_callable
-        self._blocker = blocker_callable
-        self._release = release_callable
-        self._all = all_callable
-
-    def get(self):
-        return self._available()
-
-    def use(self, schedule_obj):
-        self._blocker(schedule_obj)
-
-    def release(self, schedule_obj):
-        self._release(schedule_obj)
-
-    def all(self):
-        return self._all()
-
-
 class ScheduleObject(object):
 
     def __init__(self, id, data_dict, locked=False, *args, **kwargs):
         self._data = data_dict[id]
         self.id = id
         self.locked = locked
+        self.active = False
 
     def _image_raw(self):
         img = self.get_image()
@@ -83,6 +63,9 @@ class ScheduleObject(object):
     def name(self):
         return self._data.get('name', 'No name')
 
+    def slot(self):
+        return self._data['slot']
+
     def use(self, person, type):
         self._on_use(person)
         lbl = str(self.world).lower() + '_%s' % type + '_%s' % self.id
@@ -127,8 +110,6 @@ class Schedule(object):
 
     def __init__(self):
 
-        self._available_external = defaultdict(list)
-
         self._available = {
             self.RATION: [],
             self.JOB: [],
@@ -149,38 +130,17 @@ class Schedule(object):
             self.ACCOMMODATION: None
         }
 
-    def add_available(self, slot, obj):
-        self._available[slot].append(obj)
-
-    def extern_available(self, slot, extern_controller):
-        self._available_external[slot].append(extern_controller)
-
-    def unextern_available(self, slot, extern_controller):
-        self._available_external[slot].remove(extern_controller)
-        for key, value in self._current.items():
-            extern_schedule = extern_controller.all()
-            if value in extern_schedule:
-                self.set_current(key, None)
-
-    def _get_available_extras(self, world):
-        available = self._get_available(self.EXTRA)
-        return [
-            i for i in available if
-            i.world == world and i not in self._current[self.EXTRA].values()]
+    def add_available(self, obj):
+        self._available[obj.slot()].append(obj)
 
     def _get_available(self, slot):
-        available = list()
-        for i in self._available_external[slot]:
-            available.extend(i.get())
-        available.extend(self._available[slot])
-        return available
+        return [i for i in self._available[slot] if not i.active]
 
     def get_available(self, slot, world):
-        if slot == self.EXTRA:
-            return self._get_available_extras(world)
         available = self._get_available(slot)
-        if self._defaults[slot] != self.get_current(slot):
-            available.append(self._defaults[slot])
+        if slot != self.EXTRA:
+            if self._defaults[slot] != self.get_current(slot):
+                available.append(self._defaults[slot])
         return [i for i in available if i.world == world]
 
     def _remove_available_extra(self, obj):
@@ -189,15 +149,16 @@ class Schedule(object):
                 self._current[self.EXTRA][key] = None
                 return
 
-    def remove_available(self, slot, obj):
+    def remove_available(self, obj):
+        slot = obj.slot()
         if slot == self.EXTRA:
             self._remove_available_extra(obj)
         if self.get_current(slot) == obj:
             self._current[slot] = None
         self._available[slot].remove(obj)
 
-    def set_default(self, slot, obj):
-        self._defaults[slot] = obj
+    def set_default(self, obj):
+        self._defaults[obj.slot()] = obj
 
     def use(self, person):
         for key, value in self._current.items():
@@ -222,22 +183,16 @@ class Schedule(object):
             return self._defaults[slot]
         return self._current[slot]
 
-    def set_current(self, slot, obj):
-        for i in self._available_external[slot]:
-            extern = i.all()
-            if obj in extern:
-                i.use(obj)
-            if self._current[slot] in extern:
-                i.release(self._current[slot])
-        self._current[slot] = obj
+    def set_current(self, obj):
+        if self._current[obj.slot()] is not None:
+            self._current[obj.slot()].active = False
+        obj.active = True
+        self._current[obj.slot()] = obj
 
     def set_extra(self, index, obj):
-        for i in self._available_external[self.EXTRA]:
-            extern = i.all()
-            if obj in extern:
-                i.use(obj)
-            if self._current[self.EXTRA][index] in extern:
-                i.release(self._current[self.EXTRA][index])
+        if self._current[self.EXTRA][index] is not None:
+            self._current[self.EXTRA][index].active = False
+        obj.active = True
         self._current[self.EXTRA][index] = obj
 
     def get_extra(self, index):

@@ -145,9 +145,9 @@ class MERCore(object):
         for key, data in basic_schedule.items():
             for i in data:
                 if key == 'job':
-                    person.schedule.add_available(key, ScheduleJob(i, data))
+                    person.schedule.add_available(ScheduleJob(i, data))
                 else:
-                    person.schedule.add_available(key, ScheduleObject(i, data))
+                    person.schedule.add_available(ScheduleObject(i, data))
 
 
 class EventsBook(object):
