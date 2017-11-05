@@ -79,6 +79,9 @@ class ScheduleObject(object):
     def _on_use(self, person):
         return
 
+    def resource(self):
+        return self._data.get('resources', {})
+
 
 class ScheduleJob(ScheduleObject):
 
@@ -129,6 +132,22 @@ class Schedule(object):
             self.RATION: None,
             self.ACCOMMODATION: None
         }
+
+    def used_resources(self):
+        resources = defaultdict(int)
+        for key in self._current.keys():
+            if key != self.EXTRA:
+                resource = self.get_current(key).resource()
+                for key, value in resource.items():
+                    resources[key] += value
+            else:
+                for i in range(0, 3):
+                    value = self.get_extra(i)
+                    if value is not None:
+                        resource = value.resource()
+                        for key, value in resource.items():
+                            resources[key] += value
+        return resources
 
     def add_available(self, obj):
         self._available[obj.slot()].append(obj)

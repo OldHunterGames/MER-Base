@@ -20,6 +20,17 @@ screen sc_pick_house(person):
             if house is not None:
                 text "Current house is %s" % (house.name())
                 text house.description()
+                text 'Resources provided: '
+                for key, value in house.resources().items():
+                    text "%s: %s" %(key, value)
+                text 'Currently used: '
+                for key, value in house.used_resources().items():
+                    text "%s: %s" %(key, value)
+                text 'Resource overuse: '
+                for key, value in house.resource_overuse().items():
+                    text "%s: %s" %(key, value)
+                if not house.has_resources():
+                    text encolor_text("You can't skip turn", 'red')
             else:
                 text '[person.name] currently has no house'
         if house.type() == 'house':

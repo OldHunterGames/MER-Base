@@ -2,6 +2,7 @@
 import copy
 import renpy.store as store
 from schedule import Schedule, ScheduleObject, ScheduleJob
+from collections import defaultdict
 
 
 class Housing(object):
@@ -17,8 +18,6 @@ class Housing(object):
             self.remove_dweller(person)
         self._dwellers[person] = house
         house.add_dweller(person)
-        for i in house.schedule_options():
-            person.schedule.add_available(i)
 
     def remove_dweller(self, person):
         try:
@@ -27,8 +26,6 @@ class Housing(object):
         except KeyError:
             pass
         else:
-            for i in house.schedule_options():
-                person.schedule.remove_available(i)
             house.remove_dweller(person)
 
     @staticmethod
@@ -58,9 +55,16 @@ class HouseType(object):
 
     def add_dweller(self, person):
         self._dwellers.append(person)
+        for i in self.schedule_options():
+            person.schedule.add_available(i)
 
     def remove_dweller(self, person):
         self._dwellers.remove(person)
+        for i in self.schedule_options():
+            person.schedule.remove_available(i)
+
+    def dwellers(self):
+        return copy.copy(self._dwellers)
 
     def schedule_options(self):
         return copy.copy(self._schedule_options)
@@ -97,6 +101,37 @@ class HouseType(object):
     def type(self):
         return self._data.get('type')
 
+    def resources(self):
+        return defaultdict(int, self._data.get('resources', {}))
+
+    def has_resources(self, used=None):
+        if used is None:
+            used = self.used_resources()
+        resources = self.resources()
+        return all(
+            [value <= resources.get(key, 0) for key, value in used.items()])
+
+    def used_resources(self):
+        resources = defaultdict(int)
+        for i in self.dwellers():
+            for key, value in i.schedule.used_resources().items():
+                resources[key] += value
+        return resources
+
+    def resource_overuse(self):
+        if self.has_resources():
+            return dict()
+        else:
+            used = self.used_resources()
+            available = self.resources()
+            for key, value in used.items():
+                available[key] -= value
+        overused = dict()
+        for key, value in available.items():
+            if value < 0:
+                overused[key] = abs(value)
+        return overused
+
 
 class Hostel(HouseType):
     pass
@@ -104,19 +139,21 @@ class Hostel(HouseType):
 
 class PremiseStore(object):
 
-    def __init__(self, type, dwellers, premise=None):
+    def __init__(self, type, root, premise=None):
         self.type = type
         self.premise = premise
-        self._dwellers = dwellers
+        self.root = root
 
     def set_premise(self, premise):
+        dwellers = self.root.dwellers()
         if premise is not None:
-            for i in self._dwellers:
-                [i.schedule.add_available(n) for n in premise.schedule_options()]
+            premise.root = self.root
+            for i in dwellers:
+                premise.add_dweller(i)
         else:
             if self.premise is not None:
-                for i in self._dwellers:
-                    [i.schedule.remove_available(n) for n in self.premise.schedule_options()]
+                for i in dwellers:
+                    self.premise.remove_dweller(i)
         self.premise = premise
 
 
@@ -134,23 +171,26 @@ class Premise(HouseType):
 
 class PremisedHousing(HouseType):
 
-    def __init__(self, data, id):
+    def __init__(self, data, id, root=None):
         super(PremisedHousing, self).__init__(data, id)
-        self._available_premises = self._make_premises()
+        self._available_premises = self._make_premises(self)
         self._used_space = 0
+        self.root = root
+
+    def dwellers(self):
+        if self.root is not None:
+            return self.root.dwellers()
+        else:
+            return super(PremisedHousing, self).dwellers()
 
     def active_premises(self):
         return [i.premise for i in self._available_premises if i.premise is not None]
 
-    def _make_premises(self):
+    def _make_premises(self, root):
         premises = list()
         for i in self._data.get('available_premises', list()):
-            premises.append(PremiseStore(i, self._dwellers, None))
+            premises.append(PremiseStore(i, root, None))
         return premises
-
-    def freespace(self):
-        inner = sum([i.freespace() for i in self.active_premises()])
-        return inner + self._data.get('freespace', 0)
 
     def upkeep(self):
         inner = sum([i.upkeep() for i in self.active_premises()])
@@ -168,3 +208,10 @@ class PremisedHousing(HouseType):
     def used_space(self):
         value = sum([i.used_space for i in self.active_premises()])
         return self._used_space + value
+
+    def resources(self):
+        resources = super(PremisedHousing, self).resources()
+        for i in self.active_premises():
+            for key, value in i.resources().items():
+                resources[key] += value
+        return resources

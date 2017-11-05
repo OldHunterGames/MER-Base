@@ -32,7 +32,7 @@ init python:
             'house_type': "Premise",
             'upkeep': 1,
             'schedule_options': [('cold_floor', 'basic_accommodations')],
-            'freespace': 1,
+            'resources': {'freespace': 1},
             'type': 'cell',
         }
     }
