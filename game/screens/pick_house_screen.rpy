@@ -13,6 +13,8 @@ screen sc_pick_house(person):
             for i in houses:
                 textbutton i.name():
                     action Function(core.add_dweller, person, i)
+            textbutton 'No house':
+                    action Function(core.remove_dweller, person)
 
         vbox:
             xalign 1.0
@@ -33,15 +35,16 @@ screen sc_pick_house(person):
                     text encolor_text("You can't skip turn", 'red')
             else:
                 text '[person.name] currently has no house'
-        if house.type() == 'house':
-            vbox:
-                xalign 0.5
-                for i in house.available_premises():
-                    python:
-                        txt = i.type
-                        if i.premise is not None:
-                            txt += ': %s' % i.premise.name()
-                    textbutton txt action Show('sc_pick_premise', premise=i)
+        if house is not None:
+            if house.type() == 'house':
+                vbox:
+                    xalign 0.5
+                    for i in house.available_premises():
+                        python:
+                            txt = i.type
+                            if i.premise is not None:
+                                txt += ': %s' % i.premise.name()
+                        textbutton txt action Show('sc_pick_premise', premise=i)
 
         textbutton 'Leave':
             yalign 1.0

@@ -37,6 +37,9 @@ class MERCore(object):
     def dweller_house(self, person):
         return self._housing.dweller_house(person)
 
+    def remove_dweller(self, person):
+        self._housing.remove_dweller(person)
+
     def _find_phantoms(self):
         actives = set(self.get_active_persons())
         actives.add(self.player)
