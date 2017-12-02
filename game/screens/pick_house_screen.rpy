@@ -1,3 +1,41 @@
+init python:
+    class CardPickHouse(Card, Command):
+
+        def __init__(self, house_card, person, core):
+            self.house_card = house_card
+            self.person = person
+            self.core = core
+
+        def run(self):
+            self.core.add_dweller(self.person, self.house_card)
+
+        def image(self):
+            return self.house_card.image()
+
+        def name(self):
+            return self.house_card.name()
+
+        def description(self):
+            return self.house_card.description()
+
+    class CardRemoveHouse(Card, Command):
+
+        def __init__(self, person, core):
+            self.person = person
+            self.core = core
+
+        def image(self):
+            return empty_card()
+
+        def name(self):
+            return 'Remove house'
+
+        def description(self):
+            return 'Makes person homeless'
+
+        def run(self):
+            return self.core.remove_dweller(self.person)
+
 screen sc_pick_house(person):
     python:
         house = core.dweller_house(person)
@@ -5,16 +43,28 @@ screen sc_pick_house(person):
             house_id = house.id
         else:
             house_id = None
-        houses = [core.get_house(i) for i in housing_data.keys() if i != house_id]
+        houses = [CardPickHouse(core.get_house(i), person, core) for i in housing_data.keys() if i != house_id]
+        if house_id is not None:
+            houses.append(CardRemoveHouse(person, core))
 
     window:
         style 'char_info_window'
         vbox:
-            for i in houses:
-                textbutton i.name():
-                    action Function(core.add_dweller, person, i)
-            textbutton 'No house':
-                    action Function(core.remove_dweller, person)
+            if house is not None:
+                imagebutton:
+                    idle im.Scale(house.image(), 200, 300)
+                    action Function(CardMenu(houses, cancel=True).show)
+                text house.name():
+                    xalign 0.5
+            else:
+                imagebutton:
+                    idle im.Scale(empty_card(), 200, 300)
+                    action Function(CardMenu(houses, cancel=True).show)
+                text 'No house':
+                    xalign 0.5
+
+
+        
 
         vbox:
             xalign 1.0

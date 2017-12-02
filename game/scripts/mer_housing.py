@@ -3,6 +3,7 @@ import copy
 import renpy.store as store
 from schedule import Schedule, ScheduleObject, ScheduleJob
 from collections import defaultdict
+from mer_utilities import empty_card
 
 
 class Housing(object):
@@ -74,6 +75,9 @@ class HouseType(object):
 
     def description(self):
         return self._data.get('description', "No description")
+
+    def image(self):
+        return self._data.get('image', empty_card())
 
     def available_schedule_options(self):
         return [i for i in self.schedule_options() if not i.active]
