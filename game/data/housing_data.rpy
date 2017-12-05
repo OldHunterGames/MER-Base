@@ -19,7 +19,7 @@ init python:
             'description': __("House"),
             'house_type': 'PremisedHousing',
             'type': 'house',
-            'available_premises': ['cell']
+            'available_premises': ['cell', 'room', 'hall']
         },
 
         
@@ -28,11 +28,11 @@ init python:
     housing_updates = {
         'empty_cell': {
             'name': __("Empty cell"),
-            "description": __("Empty cell"),
+            "description": __("Upkeep cost 10. This is a small and totally empty room. Gives one free space and for cold floor tiles for sleep."),
             'house_type': "Premise",
-            'upkeep': 1,
-            'schedule_options': [('cold_floor', 'basic_accommodations')],
+            'upkeep': 10,
+            'schedule_options': [('cold_floor', 'basic_accommodations', 4)],
             'resources': {'freespace': 1},
             'type': 'cell',
-        }
+        },
     }
