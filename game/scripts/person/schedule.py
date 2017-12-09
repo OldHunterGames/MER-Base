@@ -153,7 +153,13 @@ class Schedule(object):
         self._available[obj.slot()].append(obj)
 
     def _get_available(self, slot):
-        return [i for i in self._available[slot] if not i.active]
+        ids = []
+        available = []
+        for i in self._available[slot]:
+            if not i.active and i.id not in ids:
+                available.append(i)
+                ids.append(i.id)
+        return available
 
     def get_available(self, slot, world):
         available = self._get_available(slot)

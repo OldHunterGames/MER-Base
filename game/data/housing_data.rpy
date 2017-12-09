@@ -11,7 +11,7 @@ init python:
             'description': __("Inn"),
             'house_type': 'Hostel',
             'cost': 25,
-            'schedule_options': [('cold_floor', 'basic_accommodations')]
+            'schedule_options': [('cold_floor', 'basic_accommodations', 5)]
         },
 
         'house': {
@@ -19,7 +19,11 @@ init python:
             'description': __("House"),
             'house_type': 'PremisedHousing',
             'type': 'house',
-            'available_premises': ['cell', 'room', 'hall']
+            'available_premises': {
+                'cell': 1,
+                'room': 1,
+                'hall': 1
+            }
         },
 
         

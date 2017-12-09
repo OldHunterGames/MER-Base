@@ -84,12 +84,14 @@ class HouseType(object):
 
     def _init_schedule_options(self):
         options = list()
-        for id, data in self._data.get('schedule_options', list()):
+        for id, data, value in self._data.get('schedule_options', list()):
             data = getattr(store, data)
             if data[id].get('slot') == 'job':
-                options.append(ScheduleJob(id, data))
+                schedule_class = ScheduleJob
             else:
-                options.append(ScheduleObject(id, data))
+                schedule_class = ScheduleObject
+            for _ in range(value):
+                options.append(schedule_class(id, data))
         return options
 
     def cost(self):
@@ -192,8 +194,10 @@ class PremisedHousing(HouseType):
 
     def _make_premises(self, root):
         premises = list()
-        for i in self._data.get('available_premises', list()):
-            premises.append(PremiseStore(i, root, None))
+        available = self._data.get('availabled_premises', dict())
+        for key, value in available.items():
+            for n in range(value):
+                premises.append(PremiseStore(key, root, None))
         return premises
 
     def upkeep(self):
