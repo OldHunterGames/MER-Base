@@ -18,6 +18,30 @@ init python:
         def description(self):
             return self.house_card.description()
 
+
+    class PickPremise(Card, Command):
+        source = 'premise'
+        def __init__(self, premise_slot, premise):
+            self.premise_slot = premise_slot
+            self.premise = premise
+        def run(self):
+            return self.premise_slot.set_premise(self.premise)
+
+    class RemovePremise(Card, Command):
+
+        def __init__(self, premise_slot):
+            self.premise_slot = premise_slot
+
+        def name(self):
+            return 'Remove premise'
+
+        def description(self):
+            return 'Makes room empty'
+
+        def run(self):
+            self.premise_slot.set_premise(None)
+
+
     class CardRemoveHouse(Card, Command):
 
         def __init__(self, person, core):
@@ -49,22 +73,6 @@ screen sc_pick_house(person):
 
     window:
         style 'char_info_window'
-        vbox:
-            if house is not None:
-                imagebutton:
-                    idle im.Scale(house.image(), 200, 300)
-                    action Function(CardMenu(houses, cancel=True).show)
-                text house.name():
-                    xalign 0.5
-            else:
-                imagebutton:
-                    idle im.Scale(empty_card(), 200, 300)
-                    action Function(CardMenu(houses, cancel=True).show)
-                text 'No house':
-                    xalign 0.5
-
-
-        
 
         vbox:
             xalign 1.0
@@ -85,16 +93,35 @@ screen sc_pick_house(person):
                     text encolor_text("You can't skip turn", 'red')
             else:
                 text '[person.name] currently has no house'
-        if house is not None:
-            if house.type() == 'house':
-                vbox:
-                    xalign 0.5
-                    for i in house.available_premises():
-                        python:
-                            txt = i.type
-                            if i.premise is not None:
-                                txt += ': %s' % i.premise.name()
-                        textbutton txt action Show('sc_pick_premise', premise=i)
+
+        if house is not None and house.type() == 'house':
+            hbox:
+                spacing 5
+                for i in house.available_premises():
+                    python:
+                        txt = i.type
+                        if i.premise is not None:
+                            txt += ': %s' % i.premise.name()
+                            img = i.premise.image()
+                        else:
+                            img = empty_card()
+                        cards = [PickPremise(i, premise) for premise in core._housing.available_premises(i.type)]
+                        cards.append(RemovePremise(i))
+                    vbox:
+                        imagebutton:
+                            idle im.Scale(img, 200, 300)
+                            action Function(CardMenu(cards, cancel=True).show)
+                        text txt:
+                            xalign 0.5
+
+        vbox:
+            xalign 1.0
+            yalign 1.0
+            imagebutton:
+                idle im.Scale(empty_card(), 200, 300)
+                action Function(CardMenu(houses, cancel=True).show)
+            text 'Move out':
+                xalign 0.5
 
         textbutton 'Leave':
             yalign 1.0

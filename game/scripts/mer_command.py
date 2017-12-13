@@ -15,13 +15,21 @@ class Command(object):
 
 class Card(object):
 
+    source = None
+
     def image(self):
+        if self.source is not None:
+            return getattr(self, self.source).image()
         return empty_card()
 
     def description(self):
+        if self.source is not None:
+            return getattr(self, self.source).description()
         raise NotImplementedError()
 
     def name(self):
+        if self.source is not None:
+            return getattr(self, self.source).name()
         raise NotImplementedError()
 
 

@@ -194,7 +194,7 @@ class PremisedHousing(HouseType):
 
     def _make_premises(self, root):
         premises = list()
-        available = self._data.get('availabled_premises', dict())
+        available = self._data.get('available_premises', dict())
         for key, value in available.items():
             for n in range(value):
                 premises.append(PremiseStore(key, root, None))
