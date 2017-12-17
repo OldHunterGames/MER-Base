@@ -16,8 +16,8 @@ init python:
     basic_accommodations = {
         'appartment': 
             {
-            "name": __("Appartments (25)"), 
-            'description': __("Standart apartments. 25 sparks/decade"), 
+            "name": __("Appartments"),
+            'description': __("Standart apartments"),
             'cost': 25, 
             'world': 'core',
             'slot': 'accommodation'
