@@ -94,6 +94,7 @@ class PsyModel(object):
 
     def init_psymodel(self):
 
+        self._endturn_motivations = []
         self._motivations = []
         self._used_motivations = []
         self._chances = {}
@@ -143,27 +144,70 @@ class PsyModel(object):
         return result
 
     def check_moral(self, **kwargs):
-        act = {'ardent': 1, 'reasonable': None, 'timid': -1}
-        moral = {'good': 1, 'selfish': None, 'evil': -1}
-        order = {'lawful': 1, 'conformal': None, 'chaotic': -1}
+        activity = {'ardent': 1, 'reasonable': None, 'timid': -1}
+        morality = {'good': 1, 'selfish': None, 'evil': -1}
+        orderliness = {'lawful': 1, 'conformal': None, 'chaotic': -1}
         target = kwargs.get('target')
+        keys = {
+            'ardent': {
+                'good': 'valor',
+                'bad': 'bile'
+            },
+            'timid': {
+                'good': 'serenity',
+                'bad': 'apathy'
+            },
+            'lawful': {
+                'good': 'honor',
+                'bad': 'rigidity'
+            },
+            'chaotic': {
+                'good': 'independence',
+                'bad': 'infidelity'
+            },
+            'good': {
+                'good': 'kindness',
+                'bad': 'infirmity'
+            },
+            'evil': {
+                'good': 'power',
+                'bad': 'tyranny'
+            }
+        }
         action_tones = {
-            'activity': act.get(kwargs.get('activity')),
-            'morality': moral.get(kwargs.get('morality')),
-            'orderliness': order.get(kwargs.get('orderliness'))
+            'activity': activity.get(kwargs.get('activity')),
+            'morality': morality.get(kwargs.get('morality')),
+            'orderliness': orderliness.get(kwargs.get('orderliness'))
+        }
+        relations_binding = {
+            'activity': 'authority',
+            'morality': 'affection', 
+            'orderliness': 'distance'
+        }
+        relations_values = {
+            'dominant': 1,
+            'submissive': -1,
+            'formal': 1,
+            'personal': -1,
+            'supporter': 1,
+            'hater': -1
         }
         relation_tones = {}
         if target is not None:
             for key in action_tones.keys():
-                relation_tones[key] = getattr(
-                    self.relations(target), self.alignment.relation_binding[key])
+                relation_tones[key] = relations_values.get(getattr(
+                    self.relations(target), relations_binding[key]), 0)
         else:
             for key in action_tones.keys():
                 relation_tones[key] = 0
 
         for key, value in action_tones.items():
             if value is not None:
-                valself = getattr(self.alignment, key)
+                valself = getattr(self, key)()
+                if valself is None:
+                    valself = 0
+                else:
+                    valself = locals()[key][valself.id]
                 valact = value
                 result = None
                 if target is not None:
@@ -179,6 +223,8 @@ class PsyModel(object):
                     elif abs(valself + valact) == 2:
                         chance_value = 3
                         result = 'good'
+                    else:
+                        result = 'neutral'
                 else:
 
                     if valself == 0:
@@ -188,14 +234,28 @@ class PsyModel(object):
                         elif abs(tone + valact) == 2:
                             chance_value = 4
                             result = 'good'
+                        else:
+                            result = 'neutral'
                     elif valself == tone:
                         if valact + tone == 0:
                             chance_value = 5
                             result = 'good'
+                        else:
+                            result = 'neutral'
                     elif valself != tone:
                         if abs(valact + tone) == 2:
                             chance_value = 3
                             result = 'bad'
+                        else:
+                            result = 'neutral'
+            key_name = keys.get(kwargs.get(key))
+            if key_name is not None:
+                key_name.get(result)
+                if key_name is not None:
+                    if result == 'good':
+                        self._endturn_motivations.append(Motivation('enthusiasm', key_name))
+                    else:
+                        self._endturn_motivations.append(Motivation('desperation', key_name))
 
     def get_need(self, name):
         return self.needs[name]
@@ -219,6 +279,9 @@ class PsyModel(object):
     def reset_psych(self):
         self._motivations = []
         self._used_motivations = []
+        for i in self._endturn_motivations:
+            self.add_motivation(i)
+        self._endturn_motivations = []
         for need in self.needs.values():
             if need.id in self.inactive_needs:
                 continue

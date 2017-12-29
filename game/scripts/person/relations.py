@@ -93,7 +93,7 @@ class Relations(object):
         self._sides['distance'] = value
 
     @property
-    def affection(self, value):
+    def affection(self):
         return self._sides['affection']
 
     def set_affection(self, value):
