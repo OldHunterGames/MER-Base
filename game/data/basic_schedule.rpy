@@ -135,7 +135,7 @@ init python:
     basic_extras = {
         'promenade': 
             {
-            "name": __("Promenade (0)"), 
+            "name": __("Promenade"),
             'description': __("Long and thoughtful walks through the most beautiful places of the White City. (Minor entertainment. But it's free!)"), 
             'cost': 0, 
             'world': 'core',
@@ -265,6 +265,8 @@ label none_job_idle(person):
 ## EXTRAS
 
 label core_extras_promenade(person):
+    "[person.name] goes to promenade. Rapture gives a minor amusement."
+    $ person.satisfy_need('amusement', 'rapture', 1)
     return
 
 label core_extras_relax(person):
