@@ -42,6 +42,19 @@ init python:
         'supremacy': __("Supremacy"),
         'achievement': __("Achievement"),
         'incompetence': __("Incompetence"),
+        'valor': __("Valor"),
+        'bile': __("Bile"),
+        'apathy': __("Apathy"),
+        'serenity': __("Serenity"),
+        'rigidity': __("Rigidity"),
+        'honor': __("Honor"),
+        'independence': __("Independence"),
+        'infidelity': __("Infidelity"),
+        'kindness': __("Kindness"),
+        'infirmity': __("Infirmity"),
+        'tyranny': __("Tyranny"),
+        'power': __("Power"),
+
     }
 
 label lbl_motivation_desperation_run(motivation, person):
