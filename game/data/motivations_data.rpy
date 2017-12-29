@@ -21,16 +21,7 @@ init python:
         }
     }
 
-    def wrap_desperation(motivation, person):
-        def desperation_skillcheck_callback(skillcheck, *args):
-            print 'desperation is gone'
-            if skillcheck.person == person:
-                skillcheck.run.remove_callback(desperation_skillcheck_callback)
-                person.remove_motivation(motivation)
-        return desperation_skillcheck_callback
-
 label lbl_motivation_desperation_run(motivation, person):
-    $ Skillcheck.run.add_callback(wrap_desperation(motivation, person))
     $ conditions = core.conditions_maker.make_conditions('angst', 1)
     call lbl_pick_condition(person, conditions)
     return
