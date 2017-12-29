@@ -9,13 +9,13 @@ class Motivation(object):
         'desperation': 'red',
         'stress': 'magenta',
         'determination': 'green',
-        'enthusiams': 'gold'
+        'enthusiasm': 'gold'
     }
     _images_bg = {
         'desperation': 'bronze',
         'stress': 'silver',
         'determination': 'silver',
-        'enthusiams': 'gold'
+        'enthusiasm': 'gold'
     }
 
     def __init__(self, id):
@@ -24,6 +24,9 @@ class Motivation(object):
 
     def type(self):
         return self.data().get('type')
+
+    def skillcheck_bonus(self):
+        return {'desperation': -1, 'enthusiasm': 1}.get(self.type(), 0)
 
     def data(self):
         return store.motivations_data[self.id]

@@ -230,13 +230,14 @@ class Skillcheck(Command):
         self.person = person
         self.difficulty = difficulty
         self.attribute = attribute
+        self.applied_motivations = person.used_motivations()
 
     @Observable
     def run(self):
+        person.clear_used_motivations()
         value = self.effort()
-        for i in self.person.used_motivations():
-            if i.id == 'desperation':
-                value -= 1
+        for i in self.applied_motivations:
+            value += i.skillcheck_bonus()
         return self.difficulty < value
 
     def effort(self):
