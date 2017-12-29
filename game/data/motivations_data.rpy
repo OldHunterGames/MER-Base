@@ -22,8 +22,26 @@ init python:
     }
 
     motivations_keys = {
-        'key': __("Key"),
-
+        'taste': __("Taste"),
+        'hunger': __("Hunger"),
+        'confidence': __("Confidence"),
+        'fear': __("Fear"),
+        'pleasure': __("Pleasure"),
+        'pain': __("Pain"),
+        'adrenaline': __("Adrenaline"),
+        'deprivation': __("Deprivation"),
+        'satisfaction': __("Satisfaction"),
+        'desire': __("Desire"),
+        'attention': __("Attention"),
+        'neglect': __("Neglect"),
+        'rapture': __("Rapture"),
+        'gloom': __("Gloom"),
+        'opulence': __("Opulence"),
+        'misery': __("Misery"),
+        'humiliation': __("Humiliation"),
+        'supremacy': __("Supremacy"),
+        'achievement': __("Achievement"),
+        'incompetence': __("Incompetence"),
     }
 
 label lbl_motivation_desperation_run(motivation, person):

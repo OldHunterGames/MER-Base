@@ -25,7 +25,7 @@ init python:
         'unsheltered':
             {
                 "name": __("Unsheltered (0)"),
-                "description": __(""),
+                "description": __("Live on the streets"),
                 'cost': 0,
                 'world': 'core',
                 'slot': 'accommodation'
@@ -33,7 +33,7 @@ init python:
         'camping': 
             {
             "name": __("Camping"), 
-            'description': __(""), 
+            'description': __("Camp in the wilds"),
             'cost': 0, 
             'world': 'core',
             'slot': 'accommodation'
@@ -41,7 +41,7 @@ init python:
         'confined': 
             {
             "name": __("Confined"), 
-            'description': __(""), 
+            'description': __("Confined in a dungeon"),
             'cost': 0, 
             'world': 'core',
             'slot': 'accommodation'
@@ -49,7 +49,7 @@ init python:
         'cold_floor': 
             {
             "name": __("Cold floor"), 
-            'description': __(""), 
+            'description': __("Sleeps on a cold floor"),
             'cost': 0, 
             'world': 'core',
             'slot': 'accommodation'
@@ -57,7 +57,7 @@ init python:
         'cot_and_blanket': 
             {
             "name": __("Cot & Blanket"), 
-            'description': __(""), 
+            'description': __("Sleeps in a crouded room"),
             'cost': 0, 
             'world': 'core',
             'slot': 'accommodation'
@@ -65,7 +65,7 @@ init python:
         'comfortable_bed': 
             {
             "name": __("Comfortable bed"), 
-            'description': __(""), 
+            'description': __("Nice bed to sleep."),
             'cost': 0, 
             'world': 'core',
             'slot': 'accommodation'
@@ -73,7 +73,7 @@ init python:
         'private_bedroom': 
             {
             "name": __("Private bedroom"), 
-            'description': __(""), 
+            'description': __("Owns a private bedroom"),
             'cost': 0, 
             'world': 'core',
             'slot': 'accommodation'
@@ -81,7 +81,7 @@ init python:
         'love_nest': 
             {
             "name": __("Love nest"), 
-            'description': __(""), 
+            'description': __("Huge bed to sleep with a concubine"),
             'cost': 0, 
             'world': 'core',
             'slot': 'accommodation'
@@ -269,43 +269,46 @@ label core_extra_promenade(person):
     $ person.satisfy_need('amusement', 'rapture', 1)
     return
 
-label core_extras_relax(person):
+label core_extra_relax(person):
+    "[person.name] relaxes. Timid deed. Minor pleasure of comfort."
+    $ person.satisfy_need('comfort', 'pleasure', 1)
+    $ person.moral_action(activity='timid')
     return
 
-label core_extras_workout(person):
+label core_extra_workout(person):
     return
 
-label core_extras_thuglife(person):
+label core_extra_thuglife(person):
     return
 
-label core_extras_courtship(person):
+label core_extra_courtship(person):
     return
 
-label core_extras_flirt(person):
+label core_extra_flirt(person):
     return
 
-label core_extras_forum(person):
+label core_extra_forum(person):
     return
 
-label core_extras_perform(person):
+label core_extra_perform(person):
     return
 
-label core_extras_library(person):
+label core_extra_library(person):
     return
 
-label core_extras_tippling(person):
+label core_extra_tippling(person):
     return
 
-label core_extras_gambling(person):
+label core_extra_gambling(person):
     return
 
-label core_extras_cabaret(person):
+label core_extra_cabaret(person):
     return
 
-label core_extras_whores(person):
+label core_extra_whores(person):
     return
 
-label core_extras_shopping(person):
+label core_extra_shopping(person):
     return
 
 
