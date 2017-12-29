@@ -37,6 +37,7 @@ class Need(object):
         self.satisfaction_points = []
         self._saturation = 0
         self.satisfied = False
+        self.id = id
 
     @property
     def saturation(self):
@@ -103,7 +104,7 @@ class PsyModel(object):
     def add_motivation(self, card):
         motivations = self.get_motivations()
         motivations.extend(self._used_motivations)
-        if card.id in map(lambda x: x.id, motivations):
+        if card.key in map(lambda x: x.key, motivations):
             return
         self._motivations.append(card)
 
@@ -126,6 +127,9 @@ class PsyModel(object):
 
     def has_motivation(self):
         return len(self._motivations) > 0
+
+    def affected_by_enthusiasm(self):
+        return any([i.type() == 'enthusiasm' for i in self._used_motivations])
 
     def deactivate_need(self, id):
         self.inactive_needs.append(id)
@@ -223,11 +227,11 @@ class PsyModel(object):
             level = self.need_level(need.id)
             if level == 1:
                 for i in need.satisfaction_points:
-                    self.add_motivation(Motivation('enthusiasm'))
+                    self.add_motivation(Motivation('enthusiasm', i))
                 for i in need.tension_points:
-                    self.add_motivation(Motivation('desperation'))
+                    self.add_motivation(Motivation('desperation', i))
             elif level == 0:
                 for i in need.satisfaction_points:
-                    self.add_motivation(Motivation('determination'))
+                    self.add_motivation(Motivation('determination', i))
                 for i in need.tension_points:
-                    self.add_motivation(Motivation('stress'))
+                    self.add_motivation(Motivation('stress', i))

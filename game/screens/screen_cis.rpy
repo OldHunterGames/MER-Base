@@ -58,6 +58,11 @@ screen sc_cis(person, controlled=False, relations=None):
                 xalign 0.6
                 yalign 0.7
                 action Function(SeeCards(person.get_conditions()).show)
+
+            textbutton 'Actions':
+                xalign 0.6
+                yalign 0.8
+                action Function(CardMenu(core.actions.get_actions_for(person), cancel=True).show)
             textbutton 'House':
                 xalign 0.8
                 yalign 0.8

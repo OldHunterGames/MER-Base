@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 from mer_person import PersonCreator
+from mer_actions import Actions
 from schedule import ScheduleObject, ScheduleJob
 from wishes import WishesGenerator
 from collections import defaultdict
@@ -24,6 +25,7 @@ class MERCore(object):
         self.person_creator = PersonCreator()
         self._housing = Housing()
         self.conditions_maker = ConditionsMaker(**store.conditions_data)
+        self.actions = Actions()
 
     def call_screen(self, screen_name, *args, **kwargs):
         renpy.call_screen(screen_name, *args, **kwargs)
@@ -130,6 +132,7 @@ class MERCore(object):
         self._journal.skip_turn()
         self.process_wishes()
         self._player.rest()
+        self._player.tick_time()
         renpy.call_in_new_context('lbl_turn_end')
 
     def can_skip_turn(self):

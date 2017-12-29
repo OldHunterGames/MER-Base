@@ -18,9 +18,10 @@ class Motivation(object):
         'enthusiasm': 'gold'
     }
 
-    def __init__(self, id):
+    def __init__(self, id, key):
 
         self.id = id
+        self.key = key
 
     def type(self):
         return self.data().get('type')
@@ -44,7 +45,7 @@ class Motivation(object):
 
     def get_image(self):
         # testing image getting system
-        path = 'images/%s/%s' % (self.data().get('image'), self.id)
+        path = 'images/%s/%s' % (self.data().get('image'), self.key)
         images = get_files(path)
         try:
             img = images[0]
@@ -53,12 +54,13 @@ class Motivation(object):
         return img
 
     def name(self):
-        return encolor_text(self.data().get('name'),
+        return encolor_text(store.motivations_keys.get(self.key, self.key),
                             self._colors[self.type()])
 
     def _run_label(self):
         return 'lbl_motivation_%s_run' % self.type()
 
     def run(self, person):
-        renpy.call_in_new_context(
-            self._run_label(), motivation=self, person=person)
+        if renpy.has_label(self._run_label()):
+            renpy.call_in_new_context(
+                self._run_label(), motivation=self, person=person)

@@ -264,7 +264,7 @@ label none_job_idle(person):
 
 ## EXTRAS
 
-label core_extras_promenade(person):
+label core_extra_promenade(person):
     "[person.name] goes to promenade. Rapture gives a minor amusement."
     $ person.satisfy_need('amusement', 'rapture', 1)
     return

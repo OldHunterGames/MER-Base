@@ -21,6 +21,11 @@ init python:
         }
     }
 
+    motivations_keys = {
+        'key': __("Key"),
+
+    }
+
 label lbl_motivation_desperation_run(motivation, person):
     $ conditions = core.conditions_maker.make_conditions('angst', 1)
     call lbl_pick_condition(person, conditions)

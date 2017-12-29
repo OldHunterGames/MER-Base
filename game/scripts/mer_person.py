@@ -1454,9 +1454,9 @@ class Person(InventoryWielder, PsyModel):
     def tick_time(self):
         if not self.calculatable:
             return
-        self.tick_conditions()
-        self.tick_buffs_time()
-        self.tick_features()
+        #self.tick_conditions()
+        #self.tick_buffs_time()
+        #self.tick_features()
         self.reset_psych()
 
     @utilities.Observable

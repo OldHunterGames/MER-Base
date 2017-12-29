@@ -101,7 +101,7 @@ screen sc_pick_house(person):
                     python:
                         txt = i.type
                         if i.premise is not None:
-                            txt += ': %s' % i.premise.name()
+                            txt = i.premise.name()
                             img = i.premise.image()
                         else:
                             img = empty_card()
