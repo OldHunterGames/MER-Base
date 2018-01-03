@@ -32,6 +32,11 @@ class Card(object):
             return getattr(self, self.source).name()
         raise NotImplementedError()
 
+    def is_active(self):
+        return True
+
+    def inactive_hint(self):
+        return ''
 
 class WrapperCard(Card, Command):
 

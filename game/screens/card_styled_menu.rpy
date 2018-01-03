@@ -47,14 +47,22 @@ screen sc_card_menu(card_menu, called=True, x_size=200, y_size=300, spacing_=5, 
                         idle im.Scale(card_back(), x_size, y_size)
                         action If(called, Return(), false=Hide('sc_card_menu'))
         if card_menu.current_card is not None:
+            python:
+                img = card_menu.current_card.image()
+                txt = card_menu.current_card.description()
+                if card_menu.current_card.is_active():
+                    act = Function(card_menu.run)
+                else:
+                    txt = encolor_text(card_menu.current_card.disabled_hint(), 'red') + '\n' + txt
+                    img = im.Grayscale(img)
+                    act = NullAction()
             vbox:
                 xpos 900
                 xsize 380
                 box_wrap False
                 imagebutton:
-                    idle im.Scale(card_menu.current_card.image(), x_size+100, y_size+100)
-                    
-                    action Function(card_menu.run)
+                    idle im.Scale(img, x_size+100, y_size+100)
+                    action act
                             
                     xalign 0.5
                 viewport:
@@ -62,6 +70,6 @@ screen sc_card_menu(card_menu, called=True, x_size=200, y_size=300, spacing_=5, 
                     draggable True
                     mousewheel True
                     xmaximum 380
-                    text card_menu.current_card.description():
+                    text txt:
                         xalign 0.5
                         xmaximum 380
