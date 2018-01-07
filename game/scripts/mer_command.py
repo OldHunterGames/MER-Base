@@ -239,7 +239,7 @@ class Skillcheck(Command):
 
     @Observable
     def run(self):
-        person.clear_used_motivations()
+        self.person.clear_used_motivations()
         value = self.effort()
         for i in self.applied_motivations:
             value += i.skillcheck_bonus()
