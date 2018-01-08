@@ -107,10 +107,10 @@ init python:
             'resources': {'office': 1},
             'type': 'cell',
         },
-        'small_kitchen': {
-            'name': __("Small kitchen"),
+        'kitchen': {
+            'name': __("Kitchen"),
             "description": __(
-                "Reconstruction cost: 100. Upkeep 20. One cook stationed here can feed up to 6 people with a well cooked food. Small kitchen have one tile of cold floor."),
+                "Reconstruction cost: 100. Upkeep 20. A cook stationed here can feed habitants with a cooked food. There also a one tile of cold floor here."),
             'house_type': "Premise",
             'upkeep': 20,
             'reconstruction_cost': 100,
@@ -195,17 +195,6 @@ init python:
             'reconstruction_cost': 80,
             'schedule_options': [('cold_floor', 'basic_accommodations', 2)],
             'resources': {'study': 3},
-            'type': 'room',
-        },
-        'kitchen': {
-            'name': __("Kitchen"),
-            "description": __(
-                "Reconstruction cost: 150. Upkeep 33. Gives a place for a dedicated cook to work here. One cook can provide to 6 people at most, but you can assign one or two kitchen maids to work here, multiplying the cooks ability by the factor of x2 or x3 respectively. Kitchen has a two tiles of cold floor. "),
-            'house_type': "Premise",
-            'upkeep': 33,
-            'reconstruction_cost': 150,
-            'schedule_options': [('cold_floor', 'basic_accommodations', 2)],
-            'resources': {'kitchen': 3},
             'type': 'room',
         },
 

@@ -5,13 +5,25 @@ init python:
             {
                 'name': __('Idle'), 
                 'description': 'Idle\nJust rest and take your time for yourself.\n(Timid deed. Well rested - gain green action card.  Stagnation tenses your ambitions)', 
-                'attribute': 'hardiness', 
+                # 'attribute': 'hardiness',
                 'difficulty': 0, 
                 'world': None, 
                 'image': 'miscards',
-                'slot': 'job' 
+                'slot': 'job'
             },
+        'slave_trainer':
+             {
+                 'name': __('Slave trainer'),
+                 'description': 'Train slaves. \nWork in the Guild as a hired slave trainer. \nWillpower based. \nLawful deed. \nSupremacy over slaves give you minor authority satisfaction. \nThis work is gloomy, with no amusement.',
+                 'attribute': 'willpower',
+                 'difficulty': 0,
+                 'world': None,
+                 'image': 'miscards',
+                 'slot': 'job'
+             },
     }
+
+
 
     basic_accommodations = {
         'appartment': 
@@ -160,7 +172,7 @@ init python:
         'thuglife': 
             {
             "name": __("Thug life (0)"), 
-            'description': __("Abuse those who are weak and mock those who can't repel you. (Ardent and evil deed. Menace or charisma check. Feeling power satisfies your authority needs.)"), 
+            'description': __("Abuse those who are weak and mock those who can't repel you. (Ardent and evil deed. Subtlety check. Feeling power satisfies your authority needs.)"),
             'cost': 0, 
             'world': 'core',
             'slot': 'extra'
@@ -252,7 +264,7 @@ init python:
 
 label core_ration_cooked(person):
     $ person.satisfy_need('nutrition', 'taste', 3)
-    # '[person.name] eats coocked food'
+    # '[person.name] eats cooked food'
     return
 
 ## JOBS
@@ -261,6 +273,10 @@ label none_job_idle(person):
     # '[person.name] do no job at all'
     return
 
+label none_job_slave_treiner(person):
+    $ salary = 10
+    '[person.name] trains slaves for a Guild and gains [salary] sparks'
+    return
 
 ## EXTRAS
 
@@ -276,9 +292,23 @@ label core_extra_relax(person):
     return
 
 label core_extra_workout(person):
+    "[person.name] does a work out. Ardent deed. Minor activity gives adrenaline."
+    $ person.satisfy_need('activity', 'adrenaline', 1)
+    $ person.moral_action(activity='ardent')
+
     return
 
 label core_extra_thuglife(person):
+
+    python:
+        result = Skillcheck(person, 'subtlety', 1).run()
+        if result:
+                "[person.name] mocks and abuses slaves on the square. Evil deed. Minor supremacy fuels authority needs."
+                person.satisfy_need('authority', 'supremacy', 1)
+                person.moral_action(morality='evil')
+        else:
+            "[person.name] fails to mock anyone."
+
     return
 
 label core_extra_courtship(person):
