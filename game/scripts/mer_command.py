@@ -264,12 +264,15 @@ class UseMotivation(Command):
 
     def __init__(self, person):
         self.person = person
+        self.used_motivation_type = None
 
     def run(self):
         if not self.person.has_motivation():
+            self.used_motivation_type = None
             return False
         cards = [self._WrapMotivation(
             self.person, i) for i in self.person.get_motivations()]
         menu = CardMenu(cards)
         menu.show()
+        self.used_motivation_type = self.person.last_used_motivation().type()
         return True

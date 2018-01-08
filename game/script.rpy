@@ -56,6 +56,7 @@ label generate:
     call screen sc_gen_player()
     $ player = core.player
     $ core.unlock_schedule(player)
+    $ core.actions.unlock_action(player, 'gamble')
     # call screen sc_gen_faction()
     jump lbl_game
 

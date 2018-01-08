@@ -19,7 +19,7 @@ class Action(object):
             self.person = person
 
         def run(self):
-            return renpy.call_in_new_context(self._action.lbl, person=self.person, action=self)
+            return renpy.call_in_new_context(self.action.lbl(), action=self)
 
         def image(self):
             return empty_card()
@@ -30,8 +30,17 @@ class Action(object):
         self._description = description
         self._lbl = lbl
     
+    def lbl(self):
+        return self._lbl
+
+    def name(self):
+        return self._name
+
+    def description(self):
+        return self._description
+    
     def produce_card(self, person):
-        return ActionCard(self, person)
+        return self.ActionCard(self, person)
 
 
 class Actions(object):

@@ -97,6 +97,7 @@ class PsyModel(object):
         self._endturn_motivations = []
         self._motivations = []
         self._used_motivations = []
+        self._last_used_motivation = None
         self._chances = {}
         self.needs = init_needs()
         self.inactive_needs = []
@@ -116,9 +117,13 @@ class PsyModel(object):
         card.run(self)
         self._used_motivations.append(card)
         self._motivations.remove(card)
+        self._last_used_motivation = card
 
     def used_motivations(self):
         return copy.copy(self._used_motivations)
+
+    def last_used_motivation(self):
+        return self._last_used_motivation
 
     def remove_motivation(self, card):
         self._used_motivations.remove(card)
