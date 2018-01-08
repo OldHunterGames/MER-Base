@@ -109,7 +109,7 @@ class PsyModel(object):
             return
         self._motivations.append(card)
 
-    def clear_userd_motivations(self):
+    def clear_used_motivations(self):
         self._used_motivations = []
 
     def use_motivation(self, card):

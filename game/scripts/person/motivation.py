@@ -23,6 +23,9 @@ class Motivation(object):
         self.id = id
         self.key = key
 
+    def is_active(self):
+        return True
+
     def type(self):
         return self.data().get('type')
 
