@@ -56,8 +56,10 @@ class Need(object):
     def set_satisfaction(self, point, value):
         if self.has_satisfaction(point):
             return
-        if value <= self.saturation or self.satisfied:
+        if value <= self.saturation:
             return
+        print point.encode('utf-8')
+        print 'saturation: {0} | value: {1}'.format(self.saturation, value)
         self.satisfaction_points.append(point)
         self.saturation = 5
         self.satisfied = True
@@ -70,7 +72,7 @@ class Need(object):
             self.saturation -= 1
 
     def has_tension(self, point):
-        return point in self.tension_point
+        return point in self.tension_points
 
     def has_satisfaction(self, point):
         return point in self.satisfaction_points
@@ -83,7 +85,7 @@ class Need(object):
 
     def reset(self, reset_satisfactions=True):
         if reset_satisfactions:
-            self.satiscation_points = []
+            self.satisfation_points = []
         self.tension_points = []
         self.saturation -= 1
         if self.saturation <= 0:
@@ -291,7 +293,7 @@ class PsyModel(object):
             if need.id in self.inactive_needs:
                 continue
             if need.saturation < 0:
-                need.set_tension(needs_default_points[need.id])
+                need.set_tension(store.needs_basic_tension_keys[need.id])
             level = self.need_level(need.id)
             if level == 1:
                 for i in need.satisfaction_points:
@@ -303,3 +305,4 @@ class PsyModel(object):
                     self.add_motivation(Motivation('determination', i))
                 for i in need.tension_points:
                     self.add_motivation(Motivation('stress', i))
+            need.reset()

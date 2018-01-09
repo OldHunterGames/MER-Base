@@ -16,3 +16,15 @@ init python:
     'ambition': __('ambition'),
                      
     }
+
+    needs_basic_tension_keys = {
+        'safety': 'fear',
+        'comfort': 'pain',
+        'activity': 'deprivation',
+        'eros': 'desire',
+        'communication': 'neglect',
+        'amusement': 'gloom',
+        'prosperity': 'misery',
+        'authority': 'humiliation',
+        'ambition': 'incompetence'
+    }
