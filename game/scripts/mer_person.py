@@ -913,7 +913,7 @@ class Person(InventoryWielder, PsyModel):
         self._intrigue = None
 
     def remove_money(self, value):
-        pass
+        self.money -= value
 
     def get_bonds(self):
         return copy.copy(self._bonds)
@@ -1438,7 +1438,7 @@ class Person(InventoryWielder, PsyModel):
         self.tick_schedule()
         self.food_system.rest()
         if self.master is None:
-            self.remove_money(self.decade_bill())
+            self.money -= self.money_change()
         else:
             self.spend_favor(self.decade_bill())
 
@@ -1636,7 +1636,7 @@ class Person(InventoryWielder, PsyModel):
         return self.schedule.get_cost()
 
     def money_change(self):
-        return self._decade_bill() - self.civil_income
+        return self.decade_bill() - self.civil_income
 
     # methods for conditions, person.conditions list cleared after person.rest
     def add_condition(self, condition):
