@@ -18,6 +18,7 @@ init python:
     }
 
     needs_basic_tension_keys = {
+        'nutrition': 'hunger',
         'safety': 'fear',
         'comfort': 'pain',
         'activity': 'deprivation',
