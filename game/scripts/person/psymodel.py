@@ -257,7 +257,7 @@ class PsyModel(object):
                             result = 'neutral'
             key_name = keys.get(kwargs.get(key))
             if key_name is not None:
-                key_name.get(result)
+                key_name = key_name.get(result)
                 if key_name is not None:
                     if result == 'good':
                         self._endturn_motivations.append(Motivation('enthusiasm', key_name))
