@@ -117,3 +117,7 @@ label lbl_jobcheck(schedule_obj, person):
             productivity_info = 'Productivity is max for %s' % person.name
     '[productivity_info]'
     return
+
+
+label lbl_wildworld(world):
+    

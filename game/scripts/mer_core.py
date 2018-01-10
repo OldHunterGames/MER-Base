@@ -124,6 +124,9 @@ class MERCore(object):
     def reveal_npc(self, person):
         self._active_npcs.add(person)
 
+    def set_world(self, world):
+        self._world = world
+    
     @property
     def world(self):
         return self._world
@@ -193,3 +196,82 @@ class PersonalBook(EventsBook):
 
     def _clear_events(self):
         self._events = defaultdict(list)
+
+
+class World(object):
+    # Basic class for every world connected to MER
+    # in modules, save any specific data to world instance
+    # to save state between visits to same world
+    
+    items_whitelist = []
+    description = None
+    type = None
+
+    def __init__(self):
+        self._travelers = list()
+    
+    def _transfer_persons(self, *args):
+        #basic implementation for persons transfering between worlds
+        for i in args:
+            self.transfer_items(i)
+        self.travelers += args
+    
+    def _transfer_items(self, person):
+        # basic implementation for items transfering
+        for item in person.all_items():
+            if item.id not in self.items_whitelist:
+                person.remove_item(item)
+    
+    def entry_point(self):
+        # should return entry label of world
+        raise NotImplementedError
+    
+    def return_point(self):
+        return None
+
+    def travel(self, core, travelers):
+        core.world = self
+        self._transfer_persons(*travelers)
+        if getattr(self, '__visited', False):
+            if self.return_point() is not None:
+                renpy.call_in_new_context(self.return_point(), world=self)
+        self.__visited = True
+        renpy.call_in_new_context(self.entry_point(), world=self)
+    
+    @classmethod
+    def can_create_worlds(cls):
+        return True
+    
+    @classmethod
+    def get_worlds(cls):
+        return [i for i in cls.__subclasses__() if i.can_create_worlds]
+
+
+class WildWorld(World):
+    type = 'Wild world'
+    count = 1
+
+    def __init__(self):
+        super(WildWorld, self).__init__()
+        self.number = self.count
+        count += 1
+
+    def entry_point(self):
+        return 'lbl_wildworld'
+
+
+class MystTravel(object):
+
+
+    def __init__(self, core, world_cls, travelers):
+        self.core = core
+        self.world = world_cls()
+        self.travelers = travelers
+    
+    def travel(self):
+        #TODO: myst events
+        self.world.travel(self.core, *self.travelers)
+        # myst event again
+        self.core.set_world('core')
+        #TODO: clear outer world items
+
