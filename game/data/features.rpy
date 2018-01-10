@@ -41,12 +41,12 @@
     'dumb': {'name': __('dumb'), 'nicknames': [ __('Dumbass'), ], 'description': __(" {person.name} is dumb as a stump."), 'slot': 'quirk', 'modifiers': {'competence': -1}, 'image': 'miscards'},
 
     ## ALIGNMENT
-    'timid': {'name': __('timid'), 'nicknames': [ __('Calm'), ], 'slot': 'activity', 'modifiers': {'competence': +1, 'hardiness': -1,}, 'image': 'miscards'},    
-    'ardent': {'name': __('ardent'), 'nicknames': [ __('Fervent'), ], 'slot': 'activity', 'modifiers': {'hardiness': +1, 'competence': -1,}, 'image': 'miscards'},    
-    'lawful': {'name': __('lawful'), 'nicknames': [ __('Decent'), ], 'slot': 'orderliness', 'modifiers': {'willpower': +1, 'creativity': -1,}, 'image': 'miscards'},    
-    'chaotic': {'name': __('chaotic'), 'nicknames': [ __('Incalculable'), ], 'slot': 'orderliness', 'modifiers': {'creativity': +1, 'willpower': -1,}, 'image': 'miscards'},    
-    'good': {'name': __('good'), 'nicknames': [ __('Kind'), __('Goodkind'), __('Nicey'), ], 'slot': 'morality', 'modifiers': {'grace': +1, 'subtlety': -1,}, 'image': 'miscards'},    
-    'evil': {'name': __('evil'), 'nicknames': [ __('Malicious'), __('Fiend'), __('Vicious'), __('Hellkite'), ], 'slot': 'morality', 'modifiers': {'subtlety': +1, 'grace': -1,}, 'image': 'miscards'}, 
+    'timid': {'name': __('{{color=#00ffcc}}timid{{/color}}'), 'nicknames': [ __('Calm'), ], 'slot': 'activity', 'modifiers': {'competence': +1, 'hardiness': -1,}, 'image': 'miscards'},
+    'ardent': {'name': __('{{color=#ff9999}}ardent{{/color}}'), 'nicknames': [ __('Fervent'), ], 'slot': 'activity', 'modifiers': {'hardiness': +1, 'competence': -1,}, 'image': 'miscards'},
+    'lawful': {'name': __('{{color=#00ffcc}}lawful{{/color}}'), 'nicknames': [ __('Decent'), ], 'slot': 'orderliness', 'modifiers': {'willpower': +1, 'creativity': -1,}, 'image': 'miscards'},
+    'chaotic': {'name': __('{{color=#ff9999}}chaotic{{/color}}'), 'nicknames': [ __('Incalculable'), ], 'slot': 'orderliness', 'modifiers': {'creativity': +1, 'willpower': -1,}, 'image': 'miscards'},
+    'good': {'name': __('{{color=#00ffcc}}good{{/color}}'), 'nicknames': [ __('Kind'), __('Goodkind'), __('Nicey'), ], 'slot': 'morality', 'modifiers': {'grace': +1, 'subtlety': -1,}, 'image': 'miscards'},
+    'evil': {'name': __('{{color=#ff9999}}evil{{/color}}'), 'nicknames': [ __('Malicious'), __('Fiend'), __('Vicious'), __('Hellkite'), ], 'slot': 'morality', 'modifiers': {'subtlety': +1, 'grace': -1,}, 'image': 'miscards'},
     'unaligned': {'name': __('conformal'), 'slot': None, 'modifiers': {}, 'image': 'miscards'},    
 
     ## APPEARENCE
