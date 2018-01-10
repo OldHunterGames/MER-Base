@@ -105,7 +105,7 @@ screen sc_pick_house(person):
                             img = i.premise.image()
                         else:
                             img = empty_card()
-                        cards = [PickPremise(i, premise) for premise in core._housing.available_premises(i.type)]
+                        cards = [PickPremise(i, premise) for premise in core._housing.available_premises(i.type, house)]
                         cards.append(RemovePremise(i))
                     vbox:
                         imagebutton:

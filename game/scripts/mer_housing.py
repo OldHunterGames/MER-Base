@@ -38,12 +38,22 @@ class Housing(object):
         return cls(data, id)
 
     @staticmethod
-    def available_premises(type):
+    def available_premises(type, house=None):
         ids = set()
         for key, value in store.housing_updates.items():
             if value.get('type') == type:
                 ids.add(key)
-        return [Housing.get_house(i, store.housing_updates) for i in ids]
+        
+        premises = [Housing.get_house(i, store.housing_updates) for i in ids]
+        # some premises can be unique for house
+        # so remove them from list if they are allready in house
+        if house is not None:
+            house_premises_ids = map(lambda x: x.id, house.active_premises)
+            for i in copy.copy(premises):
+                if i.is_unique():
+                    if i.id in house_premises_ids:
+                        premises.remove(i)
+        return premises
 
 
 class HouseType(object):
@@ -53,6 +63,9 @@ class HouseType(object):
         self._data = data
         self._schedule_options = self._init_schedule_options()
         self._dwellers = []
+    
+    def is_unique(self):
+        return self._data.get('is_unique', False)
 
     def add_dweller(self, person):
         self._dwellers.append(person)

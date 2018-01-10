@@ -211,6 +211,8 @@ class Schedule(object):
     def set_current(self, obj):
         if self._current[obj.slot()] is not None:
             self._current[obj.slot()].active = False
+        if obj.slot() == self.JOB:
+            obj.productivity = 1
         obj.active = True
         self._current[obj.slot()] = obj
 
@@ -222,3 +224,6 @@ class Schedule(object):
 
     def get_extra(self, index):
         return self._current[self.EXTRA][index]
+
+    def job_productivity(self):
+        return self._current[self.JOB].productivity
