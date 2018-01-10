@@ -91,8 +91,8 @@ class ScheduleJob(ScheduleObject):
 
     @property
     def attribute(self):
-        return self._data.get('attibute')
-    
+        return self._data.get('attribute')
+
     def full_description(self):
         string = self.name()
         string += '\n current effort: %s' % utilities.encolor_text(
