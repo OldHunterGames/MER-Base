@@ -48,7 +48,7 @@ class Housing(object):
         # some premises can be unique for house
         # so remove them from list if they are allready in house
         if house is not None:
-            house_premises_ids = map(lambda x: x.id, house.active_premises)
+            house_premises_ids = map(lambda x: x.id, house.active_premises())
             for i in copy.copy(premises):
                 if i.is_unique():
                     if i.id in house_premises_ids:
