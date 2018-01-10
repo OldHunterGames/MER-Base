@@ -6,18 +6,16 @@ init python:
                 'name': __('Idle'), 
                 'description': 'Idle\nJust rest and take your time for yourself.\n(Timid deed. Well rested - gain green action card.  Stagnation tenses your ambitions)', 
                 # 'attribute': 'hardiness',
-                'difficulty': 0, 
-                'world': None, 
+                'world': None,
                 'image': 'miscards',
                 'slot': 'job'
             },
-        'slave_trainer':
+        'trainer':
              {
                  'name': __('Slave trainer'),
                  'description': 'Train slaves. \nWork in the Guild as a hired slave trainer. \nWillpower based. \nLawful deed. \nSupremacy over slaves give you minor authority satisfaction. \nThis work is gloomy, with no amusement.',
                  'attribute': 'willpower',
-                 'difficulty': 0,
-                 'world': None,
+                 'world': 'core',
                  'image': 'miscards',
                  'slot': 'job'
              },
@@ -30,23 +28,23 @@ init python:
             {
             "name": __("Appartments"),
             'description': __("Standart apartments"),
-            'cost': 25, 
+            'cost': 0,
             'world': 'core',
             'slot': 'accommodation'
             },
         'unsheltered':
             {
-                "name": __("Unsheltered (0)"),
-                "description": __("Live on the streets"),
-                'cost': 0,
-                'world': 'core',
-                'slot': 'accommodation'
+            "name": __("Unsheltered (0)"),
+            "description": __("Live on the streets"),
+            'cost': 0,
+            'world': 'core',
+            'slot': 'accommodation'
             },
         'camping': 
             {
             "name": __("Camping"), 
             'description': __("Camp in the wilds"),
-            'cost': 0, 
+            'cost': 0,
             'world': 'core',
             'slot': 'accommodation'
             },
@@ -54,7 +52,7 @@ init python:
             {
             "name": __("Confined"), 
             'description': __("Confined in a dungeon"),
-            'cost': 0, 
+            'cost': 0,
             'world': 'core',
             'slot': 'accommodation'
             },
@@ -62,7 +60,7 @@ init python:
             {
             "name": __("Cold floor"), 
             'description': __("Sleeps on a cold floor"),
-            'cost': 0, 
+            'cost': 0,
             'world': 'core',
             'slot': 'accommodation'
             },
@@ -70,7 +68,7 @@ init python:
             {
             "name": __("Cot & Blanket"), 
             'description': __("Sleeps in a crouded room"),
-            'cost': 0, 
+            'cost': 0,
             'world': 'core',
             'slot': 'accommodation'
             },
@@ -78,7 +76,7 @@ init python:
             {
             "name": __("Comfortable bed"), 
             'description': __("Nice bed to sleep."),
-            'cost': 0, 
+            'cost': 0,
             'world': 'core',
             'slot': 'accommodation'
             },
@@ -86,7 +84,7 @@ init python:
             {
             "name": __("Private bedroom"), 
             'description': __("Owns a private bedroom"),
-            'cost': 0, 
+            'cost': 0,
             'world': 'core',
             'slot': 'accommodation'
             },
@@ -94,7 +92,7 @@ init python:
             {
             "name": __("Love nest"), 
             'description': __("Huge bed to sleep with a concubine"),
-            'cost': 0, 
+            'cost': 0,
             'world': 'core',
             'slot': 'accommodation'
             },
@@ -103,7 +101,7 @@ init python:
     basic_rations = {
         'famish': 
             {
-            "name": __("Famish (0)"), 
+            "name": __("Famish"),
             'description': __("Eat what you can get for free (basicaly nothing)."), 
             'cost': 0, 
             'world': 'core',
@@ -112,7 +110,7 @@ init python:
         'canned_half': 
             {
             "name": __("Canned food (5)"), 
-            'description': __("5 sparks/decade"), 
+            'description': __("Small portion of canned food. Costs 5 sparks/decade."),
             'cost': 5, 
             'world': 'core',
             'slot': 'ration'
@@ -120,15 +118,15 @@ init python:
         'canned': 
             {
             "name": __("Canned food (10)"), 
-            'description': __("10 sparks/decade"), 
+            'description': __("Standart portion of canned food. Costs 10 sparks/decade"),
             'cost': 10, 
             'world': 'core',
             'slot': 'ration'
             },
         'canned_double': 
             {
-            "name": __("Canned food (15)"), 
-            'description': __("20 sparks/decade"), 
+            "name": __("Canned food (20)"),
+            'description': __("Double portion of canned food. Costs 20 sparks/decade"),
             'cost': 20, 
             'world': 'core',
             'slot': 'ration'
@@ -136,9 +134,9 @@ init python:
 
         'cooked': 
             {
-            "name": __("Cooked food (20)"), 
-            'description': __("Eat cooked food in a pub. 20 sparks/decade"), 
-            'cost': 20, 
+            "name": __("Pub food (25)"),
+            'description': __("Eat cooked food in a local pub. It's good enough to give a minor taste pleasure but costs 25 sparks/decade"),
+            'cost': 25,
             'world': 'core',
             'slot': 'ration'
             },
@@ -273,8 +271,10 @@ label none_job_idle(person):
     # '[person.name] do no job at all'
     return
 
-label none_job_slave_treiner(person):
-    $ salary = 10
+label core_job_trainer(person):
+    python:
+        salary = person.schedule.job_productivity() * 10
+        person.money += salary
     '[person.name] trains slaves for a Guild and gains [salary] sparks'
     return
 

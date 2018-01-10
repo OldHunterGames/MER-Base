@@ -4,14 +4,16 @@ init python:
             'name': __("Pod hotel"),
             'description': __("Pod hotel"),
             'house_type': 'Hostel',
-            'cost': 10
+            'cost': 10,
+            'schedule_options': [('comfortable_bed', 'basic_accommodations', 1)],
         },
+
         'inn': {
             'name': __('Inn'),
             'description': __("Inn"),
             'house_type': 'Hostel',
             'cost': 25,
-            'schedule_options': [('cold_floor', 'basic_accommodations', 5)]
+            'schedule_options': [('private_bedroom', 'basic_accommodations', 1), ('cold_floor', 'basic_accommodations', 1)],
         },
 
         'house': {
