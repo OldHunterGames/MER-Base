@@ -105,7 +105,7 @@ class PsyModel(object):
         self.inactive_needs = []
         self.check_bonus = 0
         self.angst = 0
-        self.angst_points = 0
+        self.motivation_level = 0
 
     def add_motivation(self, card):
         motivations = self.get_motivations()
@@ -288,7 +288,7 @@ class PsyModel(object):
     def reset_psych(self):
         self._motivations = []
         self._used_motivations = []
-        self.angst_points = self.angst
+        self.motivation_level = -self.angst
         for i in self._endturn_motivations:
             self.add_motivation(i)
         self._endturn_motivations = []

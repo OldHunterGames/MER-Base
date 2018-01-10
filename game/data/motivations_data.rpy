@@ -3,7 +3,6 @@ init python:
         'desperation': {
             'name': __("Desperation"),
             'type': 'desperation',
-            'skillcheck': -1
         },
         
         'stress': {
@@ -19,7 +18,6 @@ init python:
         'enthusiasm': {
             'name': __("Enthusiasm"),
             'type': 'enthusiasm',
-            'skillcheck': 1
         }
     }
 
@@ -61,8 +59,19 @@ init python:
 
 label lbl_motivation_desperation_run(motivation, person):
     $ person.angst += 1
+    $ person.motivation_level -= 1
     return
 
 label lbl_motivation_enthusiasm_run(motivation, person):
-    $ person.angst = 0
+    python:
+        if person.motivation_level < 0:
+            person.motivation_level = 0
+        elif person.angst > 0:
+            person.angst = 0
+        else:
+            person.motivation_level += 1
+    return
+
+label lbl_motivation_stress_run(motivation, person):
+    $ person.motivation_level -= 1
     return

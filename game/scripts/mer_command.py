@@ -247,9 +247,12 @@ class Skillcheck(Command):
         value = self.effort()
         for i in self.applied_motivations:
             value += i.skillcheck_bonus()
-        if self.person.angst_points > 0:
+        if self.person.motivation_level > 0:
+            value += 1
+            self.person.motivation_level -= 1
+        elif self.person.motivation_level < 0:
             value -= 1
-            self.person.angst_points -= 1
+            self.person.motivation_level += 1
         result = self.difficulty < value
         if result:
             self.person.needs['ambition'].set_satisfaction('achievement', 1)
