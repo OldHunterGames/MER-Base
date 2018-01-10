@@ -45,7 +45,7 @@ screen sc_card_menu(card_menu, called=True, x_size=200, y_size=300, spacing_=5, 
                 if cancel:
                     imagebutton:
                         idle im.Scale(card_back(), x_size, y_size)
-                        action If(called, Return(), false=Hide('sc_card_menu'))
+                        action [Function(card_menu.cancel_pick), If(called, Return(), false=Hide('sc_card_menu'))]
         if card_menu.current_card is not None:
             python:
                 img = card_menu.current_card.image()

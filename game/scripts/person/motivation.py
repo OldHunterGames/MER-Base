@@ -30,7 +30,7 @@ class Motivation(object):
         return self.data().get('type')
 
     def skillcheck_bonus(self):
-        return {'desperation': -1, 'enthusiasm': 1}.get(self.type(), 0)
+        return self.data().get('skillcheck', 0)
 
     def data(self):
         return store.motivations_data[self.id]

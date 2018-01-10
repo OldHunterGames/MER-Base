@@ -2,7 +2,8 @@ init python:
     motivations_data = {
         'desperation': {
             'name': __("Desperation"),
-            'type': 'desperation'
+            'type': 'desperation',
+            'skillcheck': -1
         },
         
         'stress': {
@@ -17,7 +18,8 @@ init python:
         
         'enthusiasm': {
             'name': __("Enthusiasm"),
-            'type': 'enthusiasm'
+            'type': 'enthusiasm',
+            'skillcheck': 1
         }
     }
 
@@ -58,6 +60,9 @@ init python:
     }
 
 label lbl_motivation_desperation_run(motivation, person):
-    $ conditions = core.conditions_maker.make_conditions('angst', 1)
-    call lbl_pick_condition(person, conditions)
+    $ person.angst += 1
+    return
+
+label lbl_motivation_enthusiasm_run(motivation, person):
+    $ person.angst = 0
     return

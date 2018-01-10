@@ -163,7 +163,11 @@ class CardMenu(object):
             self._cards_list = cards_list
             self.current_card = current
             self.cancel = cancel
+            self.canceled = False
             self.one_action = one_action
+
+        def cancel_pick(self):
+            self.canceled = True
 
         @property
         def cards_list(self):
@@ -243,7 +247,15 @@ class Skillcheck(Command):
         value = self.effort()
         for i in self.applied_motivations:
             value += i.skillcheck_bonus()
-        return self.difficulty < value
+        if self.person.angst_points > 0:
+            value -= 1
+            self.person.angst_points -= 1
+        result = self.difficulty < value
+        if result:
+            self.person.needs['ambition'].set_satisfaction('achievement', 1)
+        else:
+            self.person.needs['ambition'].set_tension('incompetence')
+        return result
 
     def effort(self):
         return getattr(self.person, self.attribute)() + self.person.count_modifiers('skillcheck')
@@ -272,7 +284,9 @@ class UseMotivation(Command):
             return False
         cards = [self._WrapMotivation(
             self.person, i) for i in self.person.get_motivations()]
-        menu = CardMenu(cards)
+        menu = CardMenu(cards, cancel=True)
         menu.show()
+        if menu.canceled:
+            return False
         self.used_motivation_type = self.person.last_used_motivation().type()
         return True
