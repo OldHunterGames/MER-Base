@@ -89,6 +89,10 @@ class ScheduleJob(ScheduleObject):
         super(ScheduleJob, self).__init__(*args, **kwargs)
         self.productivity = 1
 
+    @property
+    def attribute(self):
+        return self._data.get('attibute')
+    
     def full_description(self):
         string = self.name()
         string += '\n current effort: %s' % utilities.encolor_text(
