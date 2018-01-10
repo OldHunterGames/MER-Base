@@ -85,7 +85,7 @@ class Need(object):
 
     def reset(self, reset_satisfactions=True):
         if reset_satisfactions:
-            self.satisfation_points = []
+            self.satisfaction_points = []
         self.tension_points = []
         self.saturation -= 1
         if self.saturation <= 0:
