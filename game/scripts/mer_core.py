@@ -212,9 +212,9 @@ class World(object):
     
     def _transfer_persons(self, *args):
         #basic implementation for persons transfering between worlds
-        for i in args:
-            self.transfer_items(i)
-        self.travelers += args
+        #for i in args:
+        #    self._transfer_items(i)
+        self._travelers += args
     
     def _transfer_items(self, person):
         # basic implementation for items transfering
@@ -230,7 +230,7 @@ class World(object):
         return None
 
     def travel(self, core, travelers):
-        core.world = self
+        core.set_world(self)
         self._transfer_persons(*travelers)
         if getattr(self, '__visited', False):
             if self.return_point() is not None:
@@ -247,31 +247,18 @@ class World(object):
         return [i for i in cls.__subclasses__() if i.can_create_worlds]
 
 
-class WildWorld(World):
-    type = 'Wild world'
-    count = 1
-
-    def __init__(self):
-        super(WildWorld, self).__init__()
-        self.number = self.count
-        count += 1
-
-    def entry_point(self):
-        return 'lbl_wildworld'
+class MistTravel(object):
 
 
-class MystTravel(object):
-
-
-    def __init__(self, core, world_cls, travelers):
+    def __init__(self, core, world_cls, *args):
         self.core = core
         self.world = world_cls()
-        self.travelers = travelers
+        self.travelers = args
     
     def travel(self):
-        #TODO: myst events
-        self.world.travel(self.core, *self.travelers)
-        # myst event again
+        #TODO: mist events
+        self.world.travel(self.core, self.travelers)
+        # mist event again
         self.core.set_world('core')
         #TODO: clear outer world items
 

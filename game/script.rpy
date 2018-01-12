@@ -57,6 +57,7 @@ label generate:
     $ player = core.player
     $ core.unlock_schedule(player)
     $ core.actions.unlock_action(player, 'gamble')
+    $ core.actions.unlock_action(player, 'mist_travel')
     # call screen sc_gen_faction()
     jump lbl_game
 
@@ -118,6 +119,3 @@ label lbl_jobcheck(schedule_obj, person):
     '[productivity_info]'
     return
 
-
-label lbl_wildworld(world):
-    
