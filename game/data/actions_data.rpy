@@ -27,7 +27,7 @@ label lbl_actions_gamble(action):
         result = motivation.run()
         if result:
             motivation_type = motivation.used_motivation_type
-            if motivation_type == 'enthusiams':
+            if motivation_type == 'enthusiasm':
                 mode = 'cheat'
             else:
                 mode = 'fair'
