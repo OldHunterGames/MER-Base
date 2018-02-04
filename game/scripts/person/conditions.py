@@ -7,7 +7,7 @@ import random
 import copy
 
 
-def make_condition(id, data_dict, time):
+def make_condition(id, data_dict, time=1):
     cls_name = data_dict[id].get('cls_name', "PersonCondition")
     return globals()[cls_name](id, data_dict, time)
 

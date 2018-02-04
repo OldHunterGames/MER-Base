@@ -16,6 +16,7 @@ from mer_item import Item
 
 from factions import Faction
 from inventory import InventoryWielder
+from conditions import make_condition
 import mer_utilities as utilities
 from mer_command import *
 
@@ -688,6 +689,15 @@ class FoodSystem(object):
         self._tonus = 0
         self.amount = 0
         self._set_shape()
+        self.owner.satisfy_need.add_callback(self.__activity_callback(1))
+        self.owner.tense_need.add_callback(self.__activity_callback(-1))
+
+    def __activity_callback(self, value):
+        def activity_callback(*args, **kwargs):
+            if args[0] != 'activity':
+                return
+            self.fitness += value
+        return activity_callback
 
     @property
     def food(self):
@@ -736,16 +746,80 @@ class FoodSystem(object):
     def rest(self):
         value = self.food - self.get_activity_points()
         if value < 0:
+            self._negative_food()
+        elif value > 0:
+            self._positive_food()
+        else:
+            self._neutral_food()
 
+        self.calc_fitness()
+        self.food = -1
+        self.tonus = 0
+
+    def calc_fitness(self):
+        workout = self.owner.get_condition('workout')
+        workout_id = workout.id if workout is not None else None
+        if workout_id is None:
+            if self.tonus < 0:
+                self.owner.add_condition(make_condition('slackness', store.conditions_data, time=100))
+            elif self.tonus > 0:
+                self.owner.add_condition(make_condition('fatigue', store.conditions_data, time=100))
+        elif workout_id == 'slackness':
+            if self.tonus >= 0:
+                self.owner.remove_conidtion(workout)
+            else:
+                if self.fitness >= 0:
+                    self.fitness -= 1
+                    self.owner.remove_conidtion(workout)
+        elif workout_id == 'fatigue':
+            if self.tonus <= 0:
+                self.owner.remove_conidtion(workout)
+            else:
+                if self.fitness <= 0:
+                    if self.fatness > 0:
+                        self.fatness -= 1
+                        self.owner.remove_conidtion(workout)
+                        self.fitness += 1
 
     def _negative_food(self):
-        satiety = self.owner.feature_by_slot('satiety')
+        satiety = self.owner.get_condition('satiety')
+        satiety_id = None
         if satiety is not None:
-            satiety = satiety.id
-        if satiety is None:
-            self.owner.add_feature('hunger')
+            satiety_id = satiety.id
+        if satiety_id is None:
+            self.owner.add_condition(make_condition('hunger', store.conditions_data, time=100))
         elif satiety == 'overeating':
-            self.owner.remove_feature_by_slot('satiety')
+            self.owner.remove_condition(satiety)
+
+        if self.fatness > -2:
+            self.fatness -= 1
+        else:
+            if self.owner.has_condition('starvation'):
+                self.owner.die()
+            else:
+                self.owner.add_condition(make_condition('starvation', store.conditions_data, time=100))
+
+    def _neutral_food(self):
+        if self.owner.has_condition('satiety'):
+            self.owner.remove_condition(self.owner.get_condition('satiety'))
+        if self.owner.has_condition('starvation'):
+            self.owner.remove_condition(self.owner.get_condition('starvation'))
+
+    def _positive_food(self):
+        if self.owner.has_condition('starvation'):
+            self.owner.remove_condition(self.owner.get_condition('starvation'))
+        satiety = self.owner.get_condition('satiety')
+        satiety_id = None
+        if satiety is not None:
+            satiety_id = satiety.id
+        if satiety_id is None:
+            self.owner.add_condition(make_condition('overeating', store.conditions_data, time=100))
+        elif satiety == 'hunger':
+            self.owner.remove_condition(satiety)
+        elif satiety == 'overeating':
+            if self.fatness < 2:
+                self.fatness += 1
+                self.owner.remove_condition(satiety)
 
     def set_shape(self, id):
         for key, value in self._features.items():
@@ -1663,12 +1737,12 @@ class Person(InventoryWielder, PsyModel):
 
     # methods for conditions, person.conditions list cleared after person.rest
     def add_condition(self, condition):
-        if not self.has_condition(condition):
+        if not self.has_condition(condition.slot()):
             self._conditions.append(condition)
             condition.on_add(self)
 
     def has_condition(self, condition):
-        return any([i.slot() == condition.slot() for i in self._conditions])
+        return any([i.slot() == condition for i in self._conditions])
 
     def remove_condition(self, condition):
         try:
@@ -1679,6 +1753,12 @@ class Person(InventoryWielder, PsyModel):
 
     def get_conditions(self):
         return copy.copy(self._conditions)
+
+    def get_condition(self, slot):
+        for i in self._conditions:
+            if i.slot() == slot:
+                return i
+        return None
 
     def tick_conditions(self):
         for i in self._conditions:

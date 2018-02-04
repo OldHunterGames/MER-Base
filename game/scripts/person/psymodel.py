@@ -272,6 +272,7 @@ class PsyModel(object):
     def need_level(self, name):
         return max(-1, min(1, self.count_modifiers(name)))
 
+    @utilities.Observable
     def tense_need(self, name, point):
         if name in self.inactive_needs:
             return
