@@ -682,12 +682,24 @@ class FoodSystem(object):
 
     def __init__(self, owner, fatness=0, fitness=0):
         self.owner = owner
-        self.satiety = 0
+        self._food = 0
         self._fatness = fatness
         self._fitness = fitness
         self._tonus = 0
         self.amount = 0
         self._set_shape()
+
+    @property
+    def food(self):
+        return max(-1, min(self._food, 3))
+
+    @food.setter
+    def food(self, value):
+        self._food = value
+
+    def get_activity_points(self):
+        activity = self.owner.get_need('activity')
+        return min(len(activity.tension_points) + len(activity.satisfaction_points), 3)
 
     @property
     def fitness(self):
@@ -722,7 +734,18 @@ class FoodSystem(object):
         self.owner.add_feature(data)
 
     def rest(self):
-        pass
+        value = self.food - self.get_activity_points()
+        if value < 0:
+
+
+    def _negative_food(self):
+        satiety = self.owner.feature_by_slot('satiety')
+        if satiety is not None:
+            satiety = satiety.id
+        if satiety is None:
+            self.owner.add_feature('hunger')
+        elif satiety == 'overeating':
+            self.owner.remove_feature_by_slot('satiety')
 
     def set_shape(self, id):
         for key, value in self._features.items():
@@ -1222,8 +1245,8 @@ class Person(InventoryWielder, PsyModel):
     def has_faction(self):
         return self.faction is not None
 
-    def eat(self, amount, quality):
-        self.food_system.set_food(amount, quality)
+    def eat(self, amount):
+        self.food_system.food += amount
 
     def food_info(self):
         return self.food_system.food_info()

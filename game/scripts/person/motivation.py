@@ -5,17 +5,21 @@ from mer_utilities import encolor_text, get_files, empty_card
 
 
 class Motivation(object):
+    ENTHUSIASM = 'enthusiasm'
+    STRESS = 'stress'
+    DETERMINATION = 'determination'
+    DESPERATION = 'desperation'
     _colors = {
-        'desperation': 'red',
-        'stress': 'magenta',
-        'determination': 'green',
+        DESPERATION: 'red',
+        STRESS: 'magenta',
+        DETERMINATION: 'green',
         'enthusiasm': 'gold'
     }
     _images_bg = {
-        'desperation': 'bronze',
-        'stress': 'silver',
-        'determination': 'silver',
-        'enthusiasm': 'gold'
+        DESPERATION: 'bronze',
+        STRESS: 'silver',
+        DETERMINATION: 'silver',
+        ENTHUSIASM: 'gold'
     }
 
     def __init__(self, id, key):
