@@ -13,34 +13,34 @@ init python:
             'description': __("Slackness condition"),
             'type': 'angst',
             'slot': 'workout',
-            'modifiers': {'skillcheck': -999}
+            'modifiers': {'hardiness': -1}
         },
         'fatigue': {
             'name': __("Fatigue"),
             'description': __("Fatigue condition"),
             'type': 'angst',
             'slot': 'workout',
-            'modifiers': {'skillcheck': -999}
+            'modifiers': {'hardiness': -1}
         },
         'hunger': {
             'name': __("Hunger"),
             'description': __("Hunger condition"),
             'type': 'angst',
             'slot': 'satiety',
-            'modifiers': {'skillcheck': -999}
+            'modifiers': {'hardiness': -1}
         },
         'overeating': {
             'name': __("Overeating"),
             'description': __("Overeating condition"),
             'type': 'angst',
             'slot': 'satiety',
-            'modifiers': {'skillcheck': -999}
+            'modifiers': {'hardiness': -1}
         },
         'starvation': {
             'name': __("Starvation"),
             'description': __("Starvation condition"),
             'type': 'angst',
             'slot': 'starvation',
-            'modifiers': {'skillcheck': -999}
+            'modifiers': {'hardiness': -1}
         }
     }
