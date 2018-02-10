@@ -261,7 +261,7 @@ init python:
 ## RATIONS
 
 label core_ration_cooked(person):
-    $ person.satisfy_need('nutrition', 'taste', 3)
+    #$ person.satisfy_need('nutrition', 'taste', 3)
     $ person.eat(2, 3)
     '[person.name] eats cooked food'
     return
