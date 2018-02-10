@@ -266,17 +266,17 @@ label core_ration_cooked(person):
     '[person.name] eats cooked food'
     return
 
-label core_canned_half(person):
+label core_ration_canned_half(person):
     $ person.eat(1, 0)
     '[person.name] eats half ration of caned food'
     return
 
-label core_canned(person):
+label core_ration_canned(person):
     $ person.eat(2, 0)
     '[person.name] eats caned food'
     return
 
-label core_canned_double(person):
+label core_ration_canned_double(person):
     $ person.eat(3, 0)
     '[person.name] eats double ration of caned food'
     return
