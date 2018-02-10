@@ -1319,7 +1319,8 @@ class Person(InventoryWielder, PsyModel):
     def has_faction(self):
         return self.faction is not None
 
-    def eat(self, amount):
+    def eat(self, amount, quality):
+        self.satisfy_need('nutrition', 'taste', quality)
         self.food_system.food += amount
 
     def food_info(self):
