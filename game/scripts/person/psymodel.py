@@ -54,6 +54,8 @@ class Need(object):
         return token in self.tokens
 
     def set_satisfaction(self, point, value):
+        if value < 1:
+            return
         if self.has_satisfaction(point):
             return
         if value <= self.saturation:
