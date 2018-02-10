@@ -55,6 +55,8 @@ class Need(object):
 
     def set_satisfaction(self, point, value):
         if value < 1:
+            if self.saturation < 0:
+                self.saturation = 0
             return
         if self.has_satisfaction(point):
             return
