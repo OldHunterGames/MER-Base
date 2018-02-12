@@ -55,6 +55,12 @@ class Housing(object):
                         premises.remove(i)
         return premises
 
+    def housing_cost(self, person):
+        if self.dweller_house(person) is None:
+            return 0
+        else:
+            return self.dweller_house(person).cost()
+
 
 class HouseType(object):
 
@@ -151,6 +157,9 @@ class HouseType(object):
                 overused[key] = abs(value)
         return overused
 
+    def reconstruction_cost(self):
+        return self._data.get('reconstruction_cost', 0)
+
 
 class Hostel(HouseType):
     pass
@@ -217,6 +226,9 @@ class PremisedHousing(HouseType):
         inner = sum([i.upkeep() for i in self.active_premises()])
         return inner + self._data.get('upkeep', 0)
 
+    def cost(self):
+        return super(PremisedHousing, self).cost() + self.upkeep()
+
     def schedule_options(self):
         list_ = super(PremisedHousing, self).schedule_options()
         list_ += [option for i in self.active_premises() for option in i.schedule_options()]
@@ -236,3 +248,4 @@ class PremisedHousing(HouseType):
             for key, value in i.resources().items():
                 resources[key] += value
         return resources
+

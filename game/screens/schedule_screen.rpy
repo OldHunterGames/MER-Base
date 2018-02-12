@@ -79,7 +79,7 @@ screen sc_schedule(person):
                     text txt
         vbox:
             xalign 1.0
-            text 'Decade bill: %s' % person.decade_bill()
+            text 'Decade bill: %s' % core.calc_decade_bill(person)
             text 'Income %s' % person.civil_income
             text 'Sparks: %s' % person.money
             if not person.can_tick():

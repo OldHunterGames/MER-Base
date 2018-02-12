@@ -27,6 +27,12 @@ class MERCore(object):
         self.conditions_maker = ConditionsMaker(**store.conditions_data)
         self.actions = Actions()
 
+    def calc_decade_bill(self, person):
+        return person.decade_bill() + self._housing.housing_cost(person)
+
+    def calc_money_change(self, person):
+        return person.money_change() - self._housing.housing_cost(person)
+
     def call_screen(self, screen_name, *args, **kwargs):
         renpy.call_screen(screen_name, *args, **kwargs)
 
@@ -131,6 +137,7 @@ class MERCore(object):
     def skip_turn(self):
         self._journal.skip_turn()
         self.process_wishes()
+        self._player.money += self.calc_money_change(self._player)
         self._player.rest()
         self._player.tick_time()
         renpy.call_in_new_context('lbl_turn_end')

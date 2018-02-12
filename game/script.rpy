@@ -75,7 +75,7 @@ label lbl_game:
     return
 
 label lbl_turn_end:
-    call screen sc_journal(core.get_records(), called=True)
+    # call screen sc_journal(core.get_records(), called=True)
     return
 
 label lbl_wish_test():

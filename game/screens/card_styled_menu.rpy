@@ -60,7 +60,7 @@ screen sc_card_menu(card_menu, called=True, x_size=200, y_size=300, spacing_=5, 
                 if card_menu.current_card.is_active():
                     act = Function(card_menu.run)
                 else:
-                    txt = encolor_text(card_menu.current_card.disabled_hint(), 'red') + '\n' + txt
+                    txt = encolor_text(card_menu.current_card.inactive_hint(), 'red') + '\n' + txt
                     img = im.Grayscale(img)
                     act = NullAction()
             vbox:

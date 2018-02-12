@@ -21,11 +21,20 @@ init python:
 
     class PickPremise(Card, Command):
         source = 'premise'
-        def __init__(self, premise_slot, premise):
+        def __init__(self, premise_slot, premise, person):
             self.premise_slot = premise_slot
             self.premise = premise
+            self.person = person
+
         def run(self):
+            self.person.money -= self.premise.reconstruction_cost()
             return self.premise_slot.set_premise(self.premise)
+
+        def is_active(self):
+            return self.person.has_money(self.premise.reconstruction_cost())
+
+        def inactive_hint(self):
+            return 'Not enough money'
 
     class RemovePremise(Card, Command):
 
@@ -105,7 +114,7 @@ screen sc_pick_house(person):
                             img = i.premise.image()
                         else:
                             img = empty_card()
-                        cards = [PickPremise(i, premise) for premise in core._housing.available_premises(i.type, house)]
+                        cards = [PickPremise(i, premise, person) for premise in core._housing.available_premises(i.type, house)]
                         cards.append(RemovePremise(i))
                     vbox:
                         imagebutton:
