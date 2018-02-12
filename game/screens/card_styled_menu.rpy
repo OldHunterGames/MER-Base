@@ -15,7 +15,13 @@ label _lbl_card_menu(card_menu, called=True, x_size=200, y_size=300, spacing_=5,
 screen sc_card_menu(card_menu, called=True, x_size=200, y_size=300, spacing_=5, cancel=False):
     modal True
     python:
+        cards_in_table = 4
         cards = card_menu.get_sorted()
+        cards_splitted = []
+        while len(cards) / cards_in_table >= 1:
+            cards_splitted.append(cards[cards_in_table-4:cards_in_table])
+            cards_in_table += 4
+        cards_splitted.append(cards[cards_in_table-4:cards_in_table])
         card_menu.called = called
     window:
         xfill True
@@ -29,19 +35,20 @@ screen sc_card_menu(card_menu, called=True, x_size=200, y_size=300, spacing_=5, 
             draggable True
             mousewheel True
             xmaximum 880
-            hbox:
-                xmaximum 880
-                box_wrap True
-                spacing spacing_
-                for i in cards:
-                    vbox:
-                        xsize x_size
-                        box_wrap True
-                        imagebutton:
-                            idle im.Scale(i.image(), x_size, y_size)
-                            action Function(card_menu.set_card, i)
-                        text i.name():
-                            xalign 0.5
+            vbox:
+                for cards_list in cards_splitted:
+                    hbox:
+                        xmaximum 880
+                        spacing spacing_
+                        for i in cards_list:
+                            vbox:
+                                xsize x_size
+                                imagebutton:
+                                    idle im.Scale(i.image(), x_size, y_size)
+                                    action Function(card_menu.set_card, i)
+                                text i.name():
+                                    xalign 0.5
+                    text ''
                 if cancel:
                     imagebutton:
                         idle im.Scale(card_back(), x_size, y_size)
