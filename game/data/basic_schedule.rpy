@@ -107,7 +107,31 @@ init python:
             'world': 'core',
             'slot': 'ration'
             },
-        'canned_half': 
+        'dry_half':
+            {
+                "name": __("Dry food (1)"),
+                'description': __('Small portion of sublimated "slave-food". Costs 1 spark/decade.'),
+                'cost': 1,
+                'world': 'core',
+                'slot': 'ration'
+            },
+        'dry':
+            {
+                "name": __("Dry food (3)"),
+                'description': __('Standard portion of sublimated "slave-food". Costs 3 spark/decade.'),
+                'cost': 3,
+                'world': 'core',
+                'slot': 'ration'
+            },
+        'dry_double':
+            {
+                "name": __("Dry food (5)"),
+                'description': __('Double portion of sublimated "slave-food". Costs 5 spark/decade.'),
+                'cost': 5,
+                'world': 'core',
+                'slot': 'ration'
+            },
+        'canned_half':
             {
             "name": __("Canned food (5)"), 
             'description': __("Small portion of canned food. Costs 5 sparks/decade."),
@@ -118,7 +142,7 @@ init python:
         'canned': 
             {
             "name": __("Canned food (10)"), 
-            'description': __("Standart portion of canned food. Costs 10 sparks/decade"),
+            'description': __("Standard portion of canned food. Costs 10 sparks/decade"),
             'cost': 10, 
             'world': 'core',
             'slot': 'ration'
@@ -131,7 +155,6 @@ init python:
             'world': 'core',
             'slot': 'ration'
             },
-
         'cooked': 
             {
             "name": __("Pub food (25)"),
@@ -153,15 +176,15 @@ init python:
             },
         'relax': 
             {
-            "name": __("Relax (0)"), 
-            'description': __("Jut take some time for a nap and make the world wait for you. (Timid deed. Get the pleasure of comfort.)"), 
+            "name": __("Relax"),
+            'description': __("Jut take some time for a nap and make the world wait for you. (Get the pleasure of comfort.)"),
             'cost': 0, 
             'world': 'core',
             'slot': 'extra'
             },
         'workout': 
             {
-            "name": __("Workout (0)"), 
+            "name": __("Workout"),
             'description': __("Workout persistently to maintain a tonus and excellent physical shape. (Get some adrenaline. It is good for your body.)"), 
             'cost': 0, 
             'world': 'core',
@@ -169,40 +192,32 @@ init python:
             },            
         'thuglife': 
             {
-            "name": __("Thug life (0)"), 
-            'description': __("Abuse those who are weak and mock those who can't repel you. (Ardent and evil deed. Subtlety check. Feeling power satisfies your authority needs.)"),
+            "name": __("Thug life"),
+            'description': __("Abuse those who are weak and mock those who can't repel you. (Evil deed. Subtlety check. Feeling power satisfies your authority needs.)"),
             'cost': 0, 
             'world': 'core',
             'slot': 'extra'
             },
-        'courtship': 
+        'flirt':
             {
-            "name": __("Courtship (0)"), 
-            'description': __("You can draw some romantic attends. Not necessarily serious, but enjoyable. (Timid deed. Purity or refinement check. Interaction is good to satisfy communication needs, but makes your erotic desires burn.)"), 
-            'cost': 0, 
-            'world': 'core',
-            'slot': 'extra'
-            },
-        'flirt': 
-            {
-            "name": __("Flirt (0)"), 
-            'description': __("Do some meaningless flirtations with a strangers. (Ardent and chaotic deed. Extravagance or charisma check. Interaction is good to satisfy communication needs, but makes your erotic desires burn.)"), 
+            "name": __("Flirt"),
+            'description': __("Do some meaningless flirtations with a strangers. (Interaction is good to satisfy communication needs, but makes your erotic desires burn.)"),
             'cost': 0, 
             'world': 'core',
             'slot': 'extra'
             },
         'forum': 
             {
-            "name": __("Forum (0)"), 
-            'description': __("Hot philosophical and political discussions on the forum give an excellent lesson for a keen mind. (Competence or charisma check. Some interaction and minor feel of power.)"), 
+            "name": __("Forum"),
+            'description': __("Hot philosophical and political discussions on the forum give an excellent lesson for a keen mind. (Competence check. Some interaction and minor feel of power.)"),
             'cost': 0, 
             'world': 'core',
             'slot': 'extra'
             },
         'perform': 
             {
-            "name": __("Perform (0)"), 
-            'description': __("You will sing, dance or recite poetry. It does not matter. The main thing is to attract the awed attention of the crowd! (Ardent deed. Extravagance or refinement check. Get interaction and achievement, but public attention can be dangerous!)"), 
+            "name": __("Perform"),
+            'description': __("You will sing, dance or recite poetry. It does not matter. The main thing is to attract the awed attention of the crowd! (Ardent deed. Extravagance check. Get decent attention and minor achievement, but public attention can be dangerous!)"),
             'cost': 0, 
             'world': 'core',
             'slot': 'extra'
@@ -210,32 +225,24 @@ init python:
         'library': 
             {
             "name": __("Library (5)"), 
-            'description': __("The Grand Library of Vatican is opened to everyone... for a fee. (5 sparks / decade. Timid and lawful deed. Enjoy some serenity and amusement, but your body will get stiff.)"), 
-            'cost': 0, 
+            'description': __("The Grand Library of Vatican is opened to everyone... for a fee. (5 sparks / decade. Enjoy some serenity and amusement, but your body will get stiff.)"),
+            'cost': 5,
             'world': 'core',
             'slot': 'extra'
             },
         'tippling': 
             {
-            "name": __("Tippling (5)"), 
-            'description': __("Drink at the pub, chat with patrons, paw maids. (5 sparks / decade. Minor pleasure and interaction.)"), 
+            "name": __("Tippling (10)"),
+            'description': __("Drink at the pub, chat with patrons, paw maids. (10 sparks / decade. Minor amusement and some communication.)"),
             'cost': 0, 
             'world': 'core',
             'slot': 'extra'
             },
-        'gambling': 
-            {
-            "name": __("Gambling (10)"), 
-            'description': __("Casino always wins at the end. But you can have some fun in process! (10 sparks / decade. Chaotic deed. Some pleasure and interaction.)"), 
-            'cost': 0, 
-            'world': 'core',
-            'slot': 'extra'
-            },
-        'cabaret': 
+        'cabaret':
             {
             "name": __("Cabaret (20)"), 
-            'description': __("Cozy and comfortable atmosphere, songs and dances, pretty hostesses, nice wine... what else do you need for the recreation? (20 sparks / decade. Get pleasure and interaction.)"), 
-            'cost': 0, 
+            'description': __("Cozy and comfortable atmosphere, songs and dances, pretty hostesses, nice wine... what else do you need for the recreation? (20 sparks / decade. Get decent amusement, plus some attention and pleasure.)"),
+            'cost': 20,
             'world': 'core',
             'slot': 'extra'
             },
@@ -243,7 +250,7 @@ init python:
             {
             "name": __("Whores (10)"), 
             'description': __("The whores of the Ethernal Rome is the best due to the high competition at the market. (10 sparks / decade. Orgasm satisfies your eros.)"), 
-            'cost': 0, 
+            'cost': 10,
             'world': 'core',
             'slot': 'extra'
             },
@@ -251,7 +258,7 @@ init python:
             {
             "name": __("Shopping (20)"), 
             'description': __("Just sink money for meaningless purchases. (20 sparks / decade. Chaotic deed. Some random luxury make you feel prosperous.)"), 
-            'cost': 0, 
+            'cost': 20,
             'world': 'core',
             'slot': 'extra'
             },
@@ -263,11 +270,31 @@ init python:
 label core_ration_cooked(person):
     #$ person.satisfy_need('nutrition', 'taste', 3)
     $ person.eat(2, 3)
-    '[person.name] eats cooked food'
+    '[person.name] eats cooked food in a pub.'
+    return
+
+label core_ration_dry_half(person):
+    $ person.eat(1, 0)
+    $ person.tense_need('nutrition', 'hunger')
+    $ person.tense_need('prosperity', 'misery')
+    '[person.name] eats half ration of sublimated food'
+    return
+
+label core_ration_dry(person):
+    $ person.eat(2, 0)
+    $ person.tense_need('prosperity', 'misery')
+    '[person.name] eats sublimated food'
+    return
+
+label core_ration_dry_double(person):
+    $ person.eat(3, 0)
+    $ person.tense_need('prosperity', 'misery')
+    '[person.name] eats double ration of sublimated food'
     return
 
 label core_ration_canned_half(person):
     $ person.eat(1, 0)
+    $ person.tense_need('nutrition', 'hunger')
     '[person.name] eats half ration of caned food'
     return
 
@@ -277,7 +304,7 @@ label core_ration_canned(person):
     return
 
 label core_ration_canned_double(person):
-    $ person.eat(3, 0)
+    $ person.eat(3, 1)
     '[person.name] eats double ration of caned food'
     return
 
@@ -302,16 +329,14 @@ label core_extra_promenade(person):
     return
 
 label core_extra_relax(person):
-    "[person.name] relaxes. Timid deed. Minor pleasure of comfort."
+    "[person.name] relaxes. Minor pleasure of comfort."
     $ person.satisfy_need('comfort', 'pleasure', 1)
-    $ person.moral_action(activity='timid')
+    # $ person.moral_action(activity='timid')
     return
 
 label core_extra_workout(person):
-    "[person.name] does a work out. Ardent deed. Minor activity gives adrenaline."
+    "[person.name] does a work out. Minor activity gives adrenaline."
     $ person.satisfy_need('activity', 'adrenaline', 1)
-    $ person.moral_action(activity='ardent')
-
     return
 
 label core_extra_thuglife(person):
@@ -319,72 +344,126 @@ label core_extra_thuglife(person):
     python:
         result = Skillcheck(person, 'subtlety', 1).run()
         if result:
-                "[person.name] mocks and abuses slaves on the square. Evil deed. Minor supremacy fuels authority needs."
-                person.satisfy_need('authority', 'supremacy', 1)
-                person.moral_action(morality='evil')
+            renpy.say(None, "[person.name] mocks and abuses slaves on the square. Evil deed. Minor supremacy fuels authority needs.")
+            person.satisfy_need('authority', 'supremacy', 1)
+            person.moral_action(morality='evil')
         else:
-            "[person.name] fails to mock anyone."
+            renpy.say(None, "[person.name] fails to mock anyone.")
 
-    return
-
-label core_extra_courtship(person):
     return
 
 label core_extra_flirt(person):
+    $ person.satisfy_need('communication', 'attention', 1)
+    $ person.tense_need('eros', 'desire')
+    "[person.name] flirts with strangers. Minor attention satisfies communication need. Unsatisfied desire burns eros."
     return
 
 label core_extra_forum(person):
+    $ person.satisfy_need('communication', 'attention', 2)
+    python:
+        result = Skillcheck(person, 'competence', 2).run()
+        if result:
+            renpy.say(None, "[person.name] is debating at the central forum. Minor supremacy fuels authority needs. Gets some attention.")
+            person.satisfy_need('authority', 'supremacy', 1)
+        else:
+            person.tense_need('authority', 'humiliation')
+            renpy.say(None, "[person.name] humiliated in a dispute at the forum. Gets some attention anyway.")
     return
 
 label core_extra_perform(person):
+    $ person.satisfy_need('communication', 'attention', 3)
+    $ person.moral_action(activity='ardent')
+    python:
+        result = Skillcheck(person, 'creativity', 2).run()
+        if result:
+            renpy.say(None, "[person.name] performs at the central forum. Gets decent attention and minor ambition achievement.")
+            person.satisfy_need('ambition', 'achievement', 1)
+        else:
+            person.tense_need('authority', 'humiliation')
+            person.tense_need('safety', 'fear')
+            renpy.say(None, "[person.name] performs at the forum. Poorly. Gets decent attention but in a humiliating and scary way.")
     return
 
 label core_extra_library(person):
+    $ person.satisfy_need('amusement', 'rapture', 2)
+    $ person.satisfy_need('comfort', 'pleasure', 1)
+    $ person.tense_need('activity', 'deprivation')
+    "[person.name] reading books in a Grand Library of Vatican, enjoying some amusement and minor comfort. The lack of physical activity leads to deprivation."
     return
 
 label core_extra_tippling(person):
-    return
-
-label core_extra_gambling(person):
+    $ person.satisfy_need('amusement', 'rapture', 1)
+    $ person.satisfy_need('communication', 'attention', 2)
+    "[person.name] tippling in a bar. Some attention and minor amusement comes with cost of 10 sparks for drinks and snacks."
     return
 
 label core_extra_cabaret(person):
+    $ person.satisfy_need('amusement', 'rapture', 3)
+    $ person.satisfy_need('communication', 'attention', 2)
+    $ person.satisfy_need('comfort', 'pleasure', 2)
+    $ person.satisfy_need('prosperity', 'opulence', 0)
+    "[person.name] hanging out in an opulent cabaret. Decent amusement plus some pleasure and pleasure."
     return
 
 label core_extra_whores(person):
+    $ person.satisfy_need('eros', 'orgasm', 1)
+    "[person.name] uses prostitutes to get a basic orgasm."
     return
 
 label core_extra_shopping(person):
+    $ person.satisfy_need('amusement', 'rapture', 1)
+    $ person.satisfy_need('prosperity', 'opulence', 2)
+    "[person.name] doing some meaningless purchases at the mall, feeling rich and amused."
     return
 
 
 ## ACCOMODATION
 
 label core_accommodation_appartment(person):
-    $ person.satisfy_need('safety', 'shelter', 2)
+    $ person.satisfy_need('safety', 'confidence', 2)
     $ person.satisfy_need('comfort', 'pleasure', 2)
     # '[person.name] sleeps in good appartments'
     return
 
 label core_accommodation_unsheltered(person):
+    $ person.tense_need('safety', 'fear')
+    $ person.tense_need('prosperity', 'misery')
+    '[person.name] sleeps on a street.'
     return
 
 label core_accommodation_camping(person):
+    '[person.name] sleeps in an improvised camp.'
     return
 
 label core_accommodation_confined(person):
+    $ person.tense_need('safety', 'fear')
+    $ person.tense_need('comfort', 'pain')
+    $ person.tense_need('authority', 'humiliation')
+    '[person.name] is confined.'
     return
 
 label core_accommodation_cold_floor(person):
+    $ person.tense_need('prosperity', 'misery')
+    '[person.name] sleeps in a crowded room.'
     return
 
 label core_accommodation_cot_and_blanket(person):
+    $ person.satisfy_need('safety', 'confidence', 0)
+    $ person.satisfy_need('comfort', 'pleasure', 0)
+    '[person.name] sleeps in a crowded room.'
     return
 
 label core_accommodation_comfortable_bed(person):
+    $ person.satisfy_need('safety', 'confidence', 1)
+    $ person.satisfy_need('comfort', 'pleasure', 1)
+    '[person.name] sleeps in a bad'
     return
 
 label core_accommodation_private_bedroom(person):
+    $ person.satisfy_need('safety', 'confidence', 2)
+    $ person.satisfy_need('comfort', 'pleasure', 2)
+    $ person.satisfy_need('prosperity', 'opulence', 1)
+    '[person.name] sleeps in a private badroom'
     return
 
 label core_accommodation_love_nest(person):
