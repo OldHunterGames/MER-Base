@@ -12,7 +12,7 @@
 ##
 ## The _() surrounding the string marks it as eligible for translation.
 
-define config.name = _("MER NPC relations")
+define config.name = _("MER Shedule & Houses")
 define config.rollback_enabled = False
 
 ## Determines if the title given above is shown on the main menu screen. Set
@@ -23,20 +23,20 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.3.0"
+define config.version = "0.4.0"
 
 
 ## Text that is placed on the game's about screen. To insert a blank line
 ## between paragraphs, write \n\n.
 
-define gui.about = _("It is noncommercial copyleft product, strictly for adult users.\nThis is a standalone character generator for a MER-project, meant as a technical demo version of early random character generation. User interface is a placeholder.\nThe version is stable.")
+define gui.about = _("It is noncommercial copyleft product, strictly for adult users.\nThis is a standalone shedule & housing module for a MER-project, meant as a technical demo version. User interface is a placeholder.\nThe version is unstable. Please report bugs to our discord channel.")
 
 
 ## A short name for the game used for executables and directories in the built
 ## distribution. This must be ASCII-only, and must not contain spaces, colons,
 ## or semicolons.
 
-define build.name = "MER_relations"
+define build.name = "MER_shedule"
 
 
 ## Sounds and music ############################################################

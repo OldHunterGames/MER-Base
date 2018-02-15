@@ -311,13 +311,17 @@ label core_ration_canned_double(person):
 ## JOBS
 
 label none_job_idle(person):
-    # '[person.name] do no job at all'
+    '[person.name] do no job at all'
     return
 
 label core_job_trainer(person):
+
     python:
         salary = person.schedule.job_productivity() * 10
         person.money += salary
+        person.moral_action(orderlines='lawful')
+        person.tense_need('amusement', 'gloom')
+        person.satisfy_need('authority', 'supremacy', 1)
     '[person.name] trains slaves for a Guild and gains [salary] sparks'
     return
 
@@ -407,6 +411,8 @@ label core_extra_cabaret(person):
 
 label core_extra_whores(person):
     $ person.satisfy_need('eros', 'orgasm', 1)
+    $ person.satisfy_need('communication', 'attention', 0)
+    $ person.satisfy_need('authority', 'supremacy', 0)
     "[person.name] uses prostitutes to get a basic orgasm."
     return
 
