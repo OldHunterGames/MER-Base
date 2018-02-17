@@ -4,6 +4,11 @@ init python:
             'name': __("Gamble"),
             'description': __("Gamble"),
             'lbl': 'lbl_actions_gamble'
+        },
+        'mist_travel': {
+            'name': __("Mist travel"),
+            'description': __("Mist travel"),
+            'lbl': 'lbl_actions_mist_travel'
         }
     }
 
@@ -44,4 +49,12 @@ label lbl_actions_gamble(action):
                 '[person.name] gets 100 sparks'
     else:
         '[person.name] has no motivation'
+    return
+
+
+label lbl_actions_mist_travel(action):
+    python:
+        worlds = World.get_worlds()
+        choice = renpy.display_menu([(i.type, i) for i in worlds])
+        MistTravel(core, choice, player).travel()
     return
