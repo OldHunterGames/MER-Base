@@ -73,9 +73,10 @@ init python:
 label lbl_contacts(player):
     $ char_cards = [CardPerson(person, player) for person in player.known_characters()]
     $ char_cards.append(CardNewContact(player, core))
-    $ char_cards.append(CardSkipTurn(core))
-    $ CardMenu(char_cards).show(True, 150, 150, 10)
-    call lbl_contacts(player)
+    $ menu = CardMenu(char_cards, cancel=True)
+    $ menu.show(True, 150, 150, 10)
+    if not menu.canceled:
+        call lbl_contacts(player)
     return
 
 label _contacts_glue(person, _return=True, communicate=True, relations=None):

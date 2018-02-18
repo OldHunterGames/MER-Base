@@ -72,11 +72,11 @@ label lbl_game:
     # $ make_intrigues(core.faction, core.player)
     call lbl_make_faction
     call screen sc_cis(player, True)
-    call lbl_contacts(player)
+    # call lbl_contacts(player)
     return
 
 label lbl_turn_end:
-    # call screen sc_journal(core.get_records(), called=True)
+    call screen sc_journal(core.get_records(), called=True)
     return
 
 label lbl_wish_test():

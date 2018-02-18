@@ -67,10 +67,10 @@ screen sc_cis(person, controlled=False, relations=None):
                 xalign 0.8
                 yalign 0.8
                 action ShowTransient('sc_pick_house', person=person)
-            # textbutton 'Contacts':
-            #     xalign 0.6
-            #     yalign 0.8
-            #     action Function(renpy.call_in_new_context, 'lbl_contacts', person)
+            textbutton 'Contacts':
+                xalign 0.6
+                yalign 0.5
+                action Function(renpy.call_in_new_context, 'lbl_contacts', person)
             textbutton 'Skip turn':
                 xalign 1.0
                 yalign 1.0

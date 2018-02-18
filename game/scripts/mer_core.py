@@ -70,7 +70,6 @@ class MERCore(object):
         return npcs
 
     def process_wishes(self):
-        return
         for i in self.get_active_persons():
             self.wish_maker.process_wishes(i)
 

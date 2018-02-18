@@ -69,6 +69,7 @@ class ScheduleObject(object):
     def use(self, person, type):
         self._on_use(person)
         lbl = str(self.world).lower() + '_%s' % type + '_%s' % self.id
+        print(lbl.encode('utf-8'))
         if renpy.has_label(lbl):
             renpy.call_in_new_context(lbl, person)
         self.locked = False
