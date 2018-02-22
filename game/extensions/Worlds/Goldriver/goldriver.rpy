@@ -9,6 +9,8 @@ init python:
             super(Goldriver, self).__init__()
             self.number = Goldriver.count
             Goldriver.count += 1
+            self.ingot = True
+            self.gold = 0
 
         def entry_point(self):
             return 'ow_goldriver_enter'
