@@ -19,6 +19,14 @@ init python:
                  'image': 'miscards',
                  'slot': 'job'
              },
+        'mist_travel':
+            {
+                'name': __("Mist travel"),
+                'description': 'Travels into mist',
+                'world': 'core',
+                'image': 'miscards',
+                'slot': 'job'
+            }
     }
 
 
@@ -325,6 +333,13 @@ label core_job_trainer(person):
     '[person.name] trains slaves for a Guild and gains [salary] sparks'
     return
 
+
+label core_job_mist_travel(action):
+    python:
+        worlds = World.get_worlds()
+        choice = renpy.display_menu([(i.type, i) for i in worlds])
+        MistTravel(core, choice, player).travel()
+    return
 ## EXTRAS
 
 label core_extra_promenade(person):
