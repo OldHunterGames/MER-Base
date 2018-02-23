@@ -334,11 +334,11 @@ label core_job_trainer(person):
     return
 
 
-label core_job_mist_travel(action):
+label core_job_mist_travel(person):
     python:
         worlds = World.get_worlds()
         choice = renpy.display_menu([(i.type, i) for i in worlds])
-        MistTravel(core, choice, player).travel()
+        MistTravel(core, choice, person).travel()
     return
 ## EXTRAS
 

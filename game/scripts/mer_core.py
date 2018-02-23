@@ -213,8 +213,18 @@ class World(object):
     description = None
     type = None
 
-    def __init__(self):
+    def __init__(self, core, *args, **kwargs):
+        self._core = core
         self._travelers = list()
+
+    @property
+    def player(self):
+        for i in self._travelers:
+            if self._core.player == i:
+                return i
+
+    def get_travelers(self):
+        return copy.copy(self._travelers)
     
     def _transfer_persons(self, *args):
         #basic implementation for persons transfering between worlds
@@ -258,7 +268,7 @@ class MistTravel(object):
 
     def __init__(self, core, world_cls, *args):
         self.core = core
-        self.world = world_cls()
+        self.world = world_cls(core)
         self.travelers = args
     
     def travel(self):
