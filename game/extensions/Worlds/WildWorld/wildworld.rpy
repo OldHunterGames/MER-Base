@@ -5,8 +5,8 @@ init python:
         type = 'Wild world'
         count = 1
 
-        def __init__(self):
-            super(WildWorld, self).__init__()
+        def __init__(self, *args, **kwargs):
+            super(WildWorld, self).__init__(*args, **kwargs)
             self.number = WildWorld.count
             WildWorld.count += 1
 

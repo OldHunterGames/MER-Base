@@ -11,7 +11,7 @@ init -10 python:
     sys.path.append(renpy.loader.transfn("core"))
     from mer_person import *
     from mer_utilities import *
-    from mer_item import Item, init_default_items_data
+    from mer_item import Item, NavigationGem, init_default_items_data
     from mer_command import *
     from intrigue import Intrigue
     from factions import Faction
@@ -57,6 +57,7 @@ label generate:
     $ player = core.player
     $ core.unlock_schedule(player)
     $ core.actions.unlock_action(player, 'gamble')
+    $ core.actions.unlock_action(player, 'bazar')
     # call screen sc_gen_faction()
     jump lbl_game
 
@@ -70,6 +71,8 @@ label lbl_make_faction:
 label lbl_game:
     # $ make_intrigues(core.faction, core.player)
     call lbl_make_faction
+    python:
+        player.add_item(NavigationGem())
     call screen sc_cis(player, True)
     # call lbl_contacts(player)
     return

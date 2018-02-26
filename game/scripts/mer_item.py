@@ -139,7 +139,7 @@ class Item(Modifiable):
             if feature.slot == slot:
                 return feature
 
-    def use(self):
+    def use(self, *args, **kwargs):
         return
 
     def equip(self):
@@ -164,3 +164,30 @@ class Item(Modifiable):
     @property
     def tags(self):
         return self.data.get('tags', list())
+
+
+class NavigationGem(Item):
+    type_ = 'navgem'
+
+    def __init__(self):
+        super(NavigationGem, self).__init__('navgem')
+
+    def has_world(self):
+        return getattr(self, '_world', None) is not None
+
+    def set_world(self, world):
+        if self.has_world():
+            raise Exception("Gem allready has a world")
+        else:
+            self._world = world
+
+    def get_world(self):
+        return getattr(self, '_world', None)
+
+    def name(self):
+        if self.new_name is not None:
+            return self.new_name
+        name = super(NavigationGem, self).name()
+        if self.has_world():
+            return name + '(%s)' % self.get_world().name 
+        return name

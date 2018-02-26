@@ -266,9 +266,12 @@ class World(object):
 class MistTravel(object):
 
 
-    def __init__(self, core, world_cls, *args):
+    def __init__(self, core, world, *args):
         self.core = core
-        self.world = world_cls(core)
+        try:
+            self.world = world(core)
+        except TypeError:
+            self.world = world
         self.travelers = args
     
     def travel(self):

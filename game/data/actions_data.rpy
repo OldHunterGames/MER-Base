@@ -5,6 +5,11 @@ init python:
             'description': __("Gamble"),
             'lbl': 'lbl_actions_gamble'
         },
+        'bazar':{
+            'name': __("Bazar"),
+            'description': __("Go for some trades"),
+            'lbl': 'lbl_actions_bazar'
+        }
     }
 
 
@@ -46,4 +51,37 @@ label lbl_actions_gamble(action):
         '[person.name] has no motivation'
     return
 
+init python:
+    class BazarBuy(object):
+        type = 'buy'
+        def __init__(self, item, price):
+            self.item = item
+            self.price = price
 
+    class BazarSell(BazarBuy):
+        type = 'sell'
+
+label lbl_actions_bazar(action):
+    python:
+        person = action.person
+        worlds = World.get_worlds()
+        choices = [('Gem(%s) - 10 sparks'%i.type, BazarBuy(i, 10)) for i in worlds if person.has_money(10)]
+        if person.has_money(10):
+            choices.append((__("Empty gem - 10 sparks"), BazarBuy(NavigationGem(), 10)))
+        choices.append((__("Leave"), 'leave'))
+        choices.append((__("Sparks left: %s" % person.money), None))
+        choice = renpy.display_menu(choices)
+        if choice == 'leave':
+            pass
+        elif choice.item in worlds:
+            person.money -= choice.price
+            print(choice)
+            gem = NavigationGem()
+            gem.set_world(choice(core))
+            person.add_item(gem)
+        else:
+            person.money -= choice.price
+            person.add_item(choice)
+    if choice != 'leave':
+        call lbl_actions_bazar(action)
+    return

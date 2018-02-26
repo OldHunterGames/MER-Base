@@ -232,5 +232,11 @@ init python:
     ## Unequipible items
 
     item_data = {
-
+        'navgem':{
+            'name': __("Navigation gem"),
+            'description': __('This gem allows you to store way to an outer world'),
+            'price': 10,
+            'mutable_name': True,
+            'mutable_description': True
+        },
     }

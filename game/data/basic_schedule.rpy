@@ -336,7 +336,7 @@ label core_job_trainer(person):
 
 label core_job_mist_travel(person):
     python:
-        worlds = World.get_worlds()
+        worlds = [i.get_world() for i in person.get_items('navgem') if i.has_world()]
         choice = renpy.display_menu([(i.type, i) for i in worlds])
         MistTravel(core, choice, person).travel()
     return
