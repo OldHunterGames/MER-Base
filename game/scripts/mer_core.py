@@ -214,6 +214,8 @@ class World(object):
     type = None
 
     def __init__(self, core, *args, **kwargs):
+        self._synced = False
+        self._gem_added = False
         self._core = core
         self._travelers = list()
 
@@ -262,6 +264,20 @@ class World(object):
     def get_worlds(cls):
         return [i for i in cls.__subclasses__() if i.can_create_worlds]
 
+    def sync_world(self):
+        if self._synced:
+            return False
+        self._synced = True
+        return True
+
+    def leave(self, person=None):
+        if person is None:
+            person = self.player
+        if self._synced and not self._gem_added:
+            player.add_item(NavigationGem(self))
+            self._gem_added = True
+        self._core.set_world('core')
+        self._transfer_persons(*self._travelers)
 
 class MistTravel(object):
 
@@ -277,6 +293,7 @@ class MistTravel(object):
     def travel(self):
         #TODO: mist events
         self.world.travel(self.core, self.travelers)
+        self.world.leave()
         # mist event again
         self.core.set_world('core')
         #TODO: clear outer world items

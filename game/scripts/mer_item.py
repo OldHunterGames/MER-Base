@@ -169,17 +169,9 @@ class Item(Modifiable):
 class NavigationGem(Item):
     type_ = 'navgem'
 
-    def __init__(self):
+    def __init__(self, world):
+        self._world = world
         super(NavigationGem, self).__init__('navgem')
-
-    def has_world(self):
-        return getattr(self, '_world', None) is not None
-
-    def set_world(self, world):
-        if self.has_world():
-            raise Exception("Gem allready has a world")
-        else:
-            self._world = world
 
     def get_world(self):
         return getattr(self, '_world', None)
