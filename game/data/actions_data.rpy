@@ -66,8 +66,6 @@ label lbl_actions_bazar(action):
         person = action.person
         worlds = World.get_worlds()
         choices = [('Gem(%s) - 10 sparks'%i.type, BazarBuy(i, 10)) for i in worlds if person.has_money(10)]
-        if person.has_money(10):
-            choices.append((__("Empty gem - 10 sparks"), BazarBuy(NavigationGem(), 10)))
         choices.append((__("Leave"), 'leave'))
         choices.append((__("Sparks left: %s" % person.money), None))
         choice = renpy.display_menu(choices)
