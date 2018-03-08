@@ -5,8 +5,8 @@ init python:
         type = 'Gold River'
         count = 1
 
-        def __init__(self):
-            super(Goldriver, self).__init__()
+        def __init__(self, *args, **kwargs):
+            super(Goldriver, self).__init__(*args, **kwargs)
             self.number = Goldriver.count
             Goldriver.count += 1
             self.ingot = True
