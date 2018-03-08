@@ -5,8 +5,8 @@ init python:
         type = 'Horny Town'
         count = 1
 
-        def __init__(self):
-            super(HornyTown, self).__init__()
+        def __init__(self, *args, **kwargs):
+            super(HornyTown, self).__init__(*args, **kwargs)
             self.number = HornyTown.count
             HornyTown.count += 1
 
