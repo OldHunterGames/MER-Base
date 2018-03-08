@@ -74,7 +74,7 @@ label lbl_actions_bazar(action):
         elif choice.item in worlds:
             person.money -= choice.price
             print(choice)
-            gem = NavigationGem(choice(core))
+            gem = NavigationGem(choice.item(core))
             person.add_item(gem)
         else:
             person.money -= choice.price
