@@ -1,13 +1,14 @@
-image bg gt = 'bg_gt.png'
-image bg river = 'bg_river.png'
-image nugget = 'nugget.png'
+image bg gt = 'extensions/Worlds/Goldriver/images/bg_gt.png'
+image bg river = 'extensions/Worlds/Goldriver/images/bg_river.png'
+image nugget = 'extensions/Worlds/Goldriver/images/nugget.png'
 
-$ world = Goldriver()
 
 label ow_goldriver_enter(world):
     scene black
-
     'You leaving the Mists, entering an Outer World.'
+    call ow_goldriver_gt(world)
+
+return
 
 label ow_goldriver_gt(world):
     show bg gt
