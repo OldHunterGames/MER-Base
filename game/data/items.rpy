@@ -239,4 +239,11 @@ init python:
             'mutable_name': True,
             'mutable_description': True
         },
+        'gold_unit': {
+            'name': __("Gold unit"),
+            'description': __("This is gold unit"),
+            'price': 100,
+            'mutable_name': False,
+            'mutable_description': False,
+        }
     }

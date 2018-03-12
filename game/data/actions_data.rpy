@@ -57,7 +57,7 @@ init python:
         def __init__(self, item, price):
             self.item = item
             self.price = price
-
+        
     class BazarSell(BazarBuy):
         type = 'sell'
 
@@ -66,6 +66,9 @@ label lbl_actions_bazar(action):
         person = action.person
         worlds = World.get_worlds()
         choices = [('Gem(%s) - 10 sparks'%i.type, BazarBuy(i, 10)) for i in worlds if person.has_money(10)]
+        if len(person.items_with_id('gold_unit')) > 0:
+            unit = person.items_with_id('gold_unit')[0]
+            choices.append(('Sell gold unit - %s' % unit.price, BazarSell(unit, unit.price)))
         choices.append((__("Leave"), 'leave'))
         choices.append((__("Sparks left: %s" % person.money), None))
         choice = renpy.display_menu(choices)
@@ -76,6 +79,9 @@ label lbl_actions_bazar(action):
             print(choice)
             gem = NavigationGem(choice.item(core))
             person.add_item(gem)
+        elif choice.type == 'sell':
+            person.remove_item(choice.item)
+            person.money += choice.price
         else:
             person.money -= choice.price
             person.add_item(choice)

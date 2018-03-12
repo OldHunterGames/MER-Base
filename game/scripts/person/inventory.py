@@ -157,7 +157,7 @@ class Inventory(ItemsStorage, ModifiersStorage):
 
     @property
     def main_hand(self):
-        return self._main_hand.get_item()
+        return self._slots['main_implement'].get_item()
 
     @main_hand.setter
     def main_hand(self, weapon):
@@ -176,7 +176,7 @@ class Inventory(ItemsStorage, ModifiersStorage):
 
     @property
     def other_hand(self):
-        return self._other_hand.get_item()
+        return self._slots['secondary_implement'].get_item()
 
     @other_hand.setter
     def other_hand(self, weapon):
@@ -452,3 +452,6 @@ class InventoryWielder(object):
 
     def all_items(self):
         return self.inventory.items
+    
+    def items_with_id(self, id):
+        return [i for i in self.all_items() if i.id == id]
