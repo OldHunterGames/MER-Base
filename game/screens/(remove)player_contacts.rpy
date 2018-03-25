@@ -75,7 +75,7 @@ label lbl_contacts(player):
     $ char_cards.append(CardNewContact(player, core))
     $ contacts_menu = CardMenu(char_cards, cancel=True)
     $ contacts_menu.show(True, 150, 150, 10)
-    if not menu.canceled:
+    if not contacts_menu.canceled:
         call lbl_contacts(player)
     return
 
