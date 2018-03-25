@@ -337,12 +337,19 @@ label core_job_trainer(person):
 label core_job_mist_travel(person):
     python:
         worlds = [i.get_world() for i in person.get_items('navgem')]
-        if len(worlds) > 0:
-            choice = renpy.display_menu([(i.type, i) for i in worlds])
-            MistTravel(core, choice, person).travel()
-    
-    if len(worlds) < 1:
-        'You have no navgems'
+        all_worlds = World.get_worlds()
+
+    menu:
+        'Choose world' if len(worlds) > 0:
+            python:
+                choice = renpy.display_menu([(i.type, i) for i in worlds])
+                MistTravel(core, choice, person).travel()
+        'Random world' if len(all_worlds) > 0:
+            python:
+                world = random.choice(all_worlds)
+                MistTravel(core, world, person).travel()
+        "Do not travel":
+            return
     return
 ## EXTRAS
 

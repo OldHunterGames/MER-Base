@@ -27,6 +27,12 @@ class MERCore(object):
         self.conditions_maker = ConditionsMaker(**store.conditions_data)
         self.actions = Actions()
 
+    def add_active_npc(self, person):
+        self._active_npcs.add(person)
+
+    def remove_active_npc(self, person):
+        self._active_npcs.remove(person)
+
     def calc_decade_bill(self, person):
         return person.decade_bill() + self._housing.housing_cost(person)
 
@@ -229,8 +235,8 @@ class World(object):
         return copy.copy(self._travelers)
     
     def _transfer_persons(self, *args):
-        #basic implementation for persons transfering between worlds
-        #for i in args:
+        # basic implementation for persons transfering between worlds
+        # for i in args:
         #    self._transfer_items(i)
         self._travelers += args
     
