@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from mer_person import PersonCreator
 from mer_actions import Actions
+from mer_item import NavigationGem
 from schedule import ScheduleObject, ScheduleJob
 from wishes import WishesGenerator
 from collections import defaultdict
@@ -280,7 +281,7 @@ class World(object):
         if person is None:
             person = self.player
         if self._synced and not self._gem_added:
-            player.add_item(NavigationGem(self))
+            person.add_item(NavigationGem(self))
             self._gem_added = True
         self._core.set_world('core')
         self._transfer_persons(*self._travelers)
