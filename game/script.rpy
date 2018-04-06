@@ -18,6 +18,7 @@ init -10 python:
     from relations import Bond
     from motivation import Motivation
     from mer_core import *
+    from ability import Ability
     import collections
 
 # The game starts here.
@@ -28,6 +29,7 @@ label start:
     $ core = MERCore()
     $ house = core.get_house('inn')
     $ core.actions.register_actions(actions_data)
+    $ Ability.make_abilities(abilities_data)
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.

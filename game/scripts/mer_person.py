@@ -936,6 +936,16 @@ class Person(InventoryWielder, PsyModel):
         self.occupation_level = 0
         # civil income is a free money for each citizen of ER
         self.civil_income = 0
+        self._ability = None
+
+    @property
+    def ability(self):
+        return self._ability
+
+    @ability.setter
+    def ability(self, value):
+        value.add(self, self._ability)
+        self._ability = value
 
     def is_phantom(self):
         return not (self.player_controlled or self.know_player())
