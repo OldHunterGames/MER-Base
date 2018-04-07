@@ -1241,6 +1241,8 @@ class Person(InventoryWielder, PsyModel):
             value += i.count_modifiers(attribute)
         value += self._count_conditions(attribute)
         value += self.genus.count_modifiers(attribute)
+        if self.ability is not None:
+            value += self.ability.count_modifiers(attribute)
         return value
 
     def _count_conditions(self, attribute):

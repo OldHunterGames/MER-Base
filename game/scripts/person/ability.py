@@ -16,7 +16,7 @@ class Ability(object):
            return renpy.call_in_new_context(lbl, person, self, prev_ability)
 
     def count_modifiers(self, attr):
-        return self._data.get(attr, 0)
+        return self._data.get('modifiers', {}).get(attr, 0)
 
     def name(self):
         return self._data.get('name', '')
