@@ -293,3 +293,14 @@ class UseMotivation(Command):
             return False
         self.used_motivation_type = self.person.last_used_motivation().type()
         return True
+
+
+class NpcActionCommand(Command):
+
+    def __init__(self, npc, action):
+        self.npc = npc
+        self.action = action
+
+    @Observable
+    def run(self):
+        self.action.act(npc)

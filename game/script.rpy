@@ -18,6 +18,8 @@ init -10 python:
     from relations import Bond
     from motivation import Motivation
     from mer_core import *
+    from mer_faction import *
+    from mer_npc_actions import *
     from ability import Ability
     import collections
 
@@ -30,6 +32,21 @@ label start:
     $ house = core.get_house('inn')
     $ core.actions.register_actions(actions_data)
     $ Ability.make_abilities(abilities_data)
+    $ wealth = Ability.get_ability('wealth')
+    python:
+        # Init Vatican faction
+        faction = CoreFaction('vatican', core_factions['vatican'])
+        for i in range(10):
+            p = core.person_creator.gen_random_person(genus='human')
+            if faction.can_be_member(p):
+                faction.add_member(p, 'ecclesiarchy')
+        core.add_faction(faction)
+
+        # Init npc actions
+        for key, value in npc_actions_data.items():
+            CoreNpcAction.add_action(key, value)
+        CoreNpcAction.randomize_action(core.person_creator.gen_random_person())
+
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.

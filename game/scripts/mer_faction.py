@@ -1,8 +1,13 @@
 # -*- coding: <UTF-8> -*-
-from collection import defaultdict
+from collections import defaultdict
 
 
 class Occupation(object):
+    OCCUPATIONS = dict()
+
+    @staticmethod
+    def get_occupation(person):
+        return Occupation.OCCUPATIONS.get(person)
 
     def __init__(self, data):
 
@@ -11,9 +16,11 @@ class Occupation(object):
 
     def add_employee(self, person):
         self._employess[person] = 1
+        self.OCCUPATIONS[person] = self
 
     def remove_employee(self, person):
         del self._employess[person]
+        del self.OCCUPATIONS[person]
 
     def available(self, person):
         if self.gengder() is None:
@@ -24,6 +31,10 @@ class Occupation(object):
     def level(self, person):
         return self._employess.get(person, 0)
 
+    def promote(self, person):
+        if self.level(person) < 5:
+            self._employess[person] += 1
+
     def name(self):
         return self._data.get('name')
 
@@ -33,55 +44,53 @@ class Occupation(object):
     def gender(self):
         return self._data.get('gender')
 
-class FactionOccupations(object):
-
-    def __init__(self, occupations_data):
-
-        self._occupations_data = occupations_data
-
-    def best_occupation(self, person):
-        best = None
-        for occupation, data in self._occupations_data
-            value = getattr(persob, data['attribute'])()
-            if best is None:
-                best = (occupation, value)
-            else:
-                if value > best[1]:
-                    best = (occupation, value)
-        return best[0]
-
-    def add_occupation(self, occupation_data):
-        self._occupations_data.update(occupation_data)
-
-    def occupation_translation(self, occupation):
-        return self._occupations_data[occuation]['name']
-
 
 class CoreFaction(object):
 
     ROLE_LEADER = 3
     ROLE_TOP = 2
-    ROLE_LOW = 1
+    ROLE_LOW = 
 
-    def __init__(self, data, check_person, occupations, roles_data=None):
+    FACTIONS = {}
 
+    @staticmethod
+    def get_faction(person):
+        return CoreFaction.FACTIONS.get(person)
+
+    def __init__(self, id, data, occupations=None):
+        self._id = id
         self._data = data
-        self._check_person = check_person
         self._members = defaultdict(list)
-        self._occupations_data = occupation
-        if roles_data is None:
-            self._roles_data = dict()
+        if occupations is None:
+            self._occupations = list()
         else:
-            self._roles_data = roles_data
+            self._occupations = occupations
+
+    def roles_data(self):
+        return self._data.get('roles', dict())
+
+    @property
+    def id(self):
+        return self._id
 
     def can_be_member(self, person):
-        return self._check_person(person)
+        func = self._data.get('check_person', lambda x: True)
+        return func(person)
 
     def add_member(self, person, role):
         self._members[role].append(person)
+        self.FACTIONS[person] = self
 
     def name(self):
         return self._data.get('name', 'No name')
 
     def description(self):
         return self._data.get('description', 'No description')
+
+    def available_for_communication(self):
+        available = list()
+        roles = self.roles_data()
+        for key, value in self._members.items():
+            if roles.get(key, self.ROLE_LOW) == self.ROLE_LOW:
+                available.extend(value)
+        return available

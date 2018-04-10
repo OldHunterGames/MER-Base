@@ -27,6 +27,13 @@ class MERCore(object):
         self._housing = Housing()
         self.conditions_maker = ConditionsMaker(**store.conditions_data)
         self.actions = Actions()
+        self.factions = dict()
+    
+    def add_faction(self, faction):
+        self.factions[faction.id] = faction
+
+    def get_faction(self, id):
+        return self.factions.get(id)
 
     def add_active_npc(self, person):
         self._active_npcs.add(person)
