@@ -926,7 +926,6 @@ class Person(InventoryWielder, PsyModel):
         self._phrases = dict()
         self.obligation = False
         # self.rewards = CardsMaker(store.edge_quest_rewards)
-        self._interactions = CardsMaker()
         self._active_quest = None
         self._sexual_orientation = None
         self._sexual_type = None
@@ -1134,14 +1133,7 @@ class Person(InventoryWielder, PsyModel):
         self._sexual_type = store.sexual_type[id]
 
     def get_interactions(self):
-        self._interactions.set_context(owner=self)
-        return self._interactions.run()
-
-    def add_interaction(self, key, value):
-        self._interactions.add_entry(key, value)
-
-    def remove_interaction(self, key):
-        self._interactions.remove_entry(key)
+        return []
 
     # def add_reward(self, reward):
     #     self.rewards.append(reward)

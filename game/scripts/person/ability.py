@@ -24,6 +24,9 @@ class Ability(object):
     def description(self):
         return self._data.get('description', '')
 
+    def interactions(self):
+        return self._data.get('interactions', list())
+
     @staticmethod
     def make_abilities(dict_):
         for key, value in dict_.items():

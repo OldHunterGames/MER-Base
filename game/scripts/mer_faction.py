@@ -49,7 +49,7 @@ class CoreFaction(object):
 
     ROLE_LEADER = 3
     ROLE_TOP = 2
-    ROLE_LOW = 
+    ROLE_LOW = 1
 
     FACTIONS = {}
 

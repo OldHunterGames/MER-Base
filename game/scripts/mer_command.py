@@ -303,4 +303,4 @@ class NpcActionCommand(Command):
 
     @Observable
     def run(self):
-        self.action.act(npc)
+        self.action.act(self.npc)

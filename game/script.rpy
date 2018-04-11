@@ -20,6 +20,7 @@ init -10 python:
     from mer_core import *
     from mer_faction import *
     from mer_npc_actions import *
+    from mer_interaction import *
     from ability import Ability
     import collections
 
@@ -46,6 +47,9 @@ label start:
         for key, value in npc_actions_data.items():
             CoreNpcAction.add_action(key, value)
         CoreNpcAction.randomize_action(core.person_creator.gen_random_person())
+
+        # Init interactions
+        Interaction.add_interactions(interactions_data)
 
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
@@ -90,7 +94,6 @@ label lbl_make_faction:
 label lbl_game:
     # $ make_intrigues(core.faction, core.player)
     call lbl_make_faction
-    $ player.add_item(Item('gold_unit'))
     call screen sc_cis(player, True)
     # call lbl_contacts(player)
     return

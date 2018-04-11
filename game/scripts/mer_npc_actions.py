@@ -61,6 +61,6 @@ class VacationAction(CoreNpcAction):
     
     def _on_another_action_callback(self, command, *args, **kwargs):
         if command.action == self:
-            self.action_fatigue[action.npc] -= 1
+            self.action_fatigue[command.npc] -= 1
         else:
-            self.action_fatigue[action.npc] += 1
+            self.action_fatigue[command.npc] += 1

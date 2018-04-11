@@ -4,7 +4,7 @@ init python:
         'wealth': {
             'name': __("Wealth"),
             'description': __("Have some extra Sparks to spend"),
-            'interactions': [],
+            'interactions': ['give_money',],
         },
         'bankrupt': {
             'name': __("Bankrupt"),
