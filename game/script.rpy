@@ -33,7 +33,6 @@ label start:
     $ house = core.get_house('inn')
     $ core.actions.register_actions(actions_data)
     $ Ability.make_abilities(abilities_data)
-    $ wealth = Ability.get_ability('wealth')
     python:
         # Init Vatican faction
         faction = CoreFaction('vatican', core_factions['vatican'])
@@ -79,8 +78,6 @@ label generate:
     call screen sc_gen_player()
     $ player = core.player
     $ core.unlock_schedule(player)
-    $ core.actions.unlock_action(player, 'gamble')
-    $ core.actions.unlock_action(player, 'bazar')
     # call screen sc_gen_faction()
     jump lbl_game
 
@@ -93,6 +90,9 @@ label lbl_make_faction:
 
 label lbl_game:
     # $ make_intrigues(core.faction, core.player)
+    $ core.actions.unlock_action(player, 'gamble')
+    $ core.actions.unlock_action(player, 'bazar')
+    $ core.actions.unlock_action(player, 'slave_market')
     call lbl_make_faction
     call screen sc_cis(player, True)
     # call lbl_contacts(player)

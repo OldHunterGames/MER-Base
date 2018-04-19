@@ -38,6 +38,12 @@ class Card(object):
     def inactive_hint(self):
         return ''
 
+    def has_additional_info(self):
+        return False
+    
+    def additional_info(self):
+        return
+
 class WrapperCard(Card, Command):
 
     def __init__(self, wrapped_item):

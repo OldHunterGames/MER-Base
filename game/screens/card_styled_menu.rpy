@@ -77,6 +77,10 @@ screen sc_card_menu(card_menu, called=True, x_size=200, y_size=300, spacing_=5, 
                     draggable True
                     mousewheel True
                     xmaximum 380
-                    text txt:
+                    vbox:
                         xalign 0.5
-                        xmaximum 380
+                        if card_menu.current_card.has_additional_info():
+                            textbutton 'Additional info':
+                                action Function(card_menu.current_card.additional_info)
+                        text txt:
+                            xmaximum 380

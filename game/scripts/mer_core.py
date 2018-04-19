@@ -2,6 +2,7 @@
 from mer_person import PersonCreator
 from mer_actions import Actions
 from mer_item import NavigationGem
+from mer_utilities import Observable
 from schedule import ScheduleObject, ScheduleJob
 from wishes import WishesGenerator
 from collections import defaultdict
@@ -28,7 +29,12 @@ class MERCore(object):
         self.conditions_maker = ConditionsMaker(**store.conditions_data)
         self.actions = Actions()
         self.factions = dict()
-    
+        self.on_init()
+
+    @Observable
+    def on_init(self):
+        return True
+
     def add_faction(self, faction):
         self.factions[faction.id] = faction
 
@@ -150,6 +156,7 @@ class MERCore(object):
     def world(self):
         return self._world
 
+    @Observable
     def skip_turn(self):
         self._journal.skip_turn()
         self.process_wishes()

@@ -9,6 +9,11 @@ init python:
             'name': __("Bazar"),
             'description': __("Go for some trades"),
             'lbl': 'lbl_actions_bazar'
+        },
+        'slave_market':{
+            'name': __("Slave market"),
+            'description': __("Here you can buy or sell some slaves"),
+            'lbl': 'lbl_actions_slave_market'
         }
     }
 
@@ -88,3 +93,107 @@ label lbl_actions_bazar(action):
     if choice != 'leave':
         call lbl_actions_bazar(action)
     return
+
+init python:
+    class ActionsSlaveMarket(object):
+
+        def __init__(self, core):
+            self.slaves = [core.person_creator.gen_random_person(gender='female') for i in range(5)]
+            core.skip_turn.add_callback(self.reset_slaves)
+
+        def reset_slaves(self, core, *args, **kwargs):
+            self.slaves = [core.person_creator.gen_random_person(gender='female') for i in range(5)]
+
+        def buy_menu(self, person):
+            cards = [SlaveMarketBuyCard(person, slave, self) for slave in self.slaves]
+            return CardMenu(cards, cancel=True).show()
+
+        def sell_menu(self, person):
+            cards = [SlaveMarketSellCard(person, slave, self) for slave in person.get_slaves()]
+            return CardMenu(cards, cancel=True).show()
+
+    class SlaveMarketBuyCard(Card, Command):
+        def __init__(self, buyer, slave, market):
+
+            self.buyer = buyer
+            self.slave = slave
+            self.market = market
+
+        def name(self):
+            return self.slave.name
+
+        def _cost(self):
+            attributes = ['hardiness', 'grace']
+            return max([getattr(self.slave, i)() for i in attributes]) * 10
+
+        def description(self):
+            return 'Cost: %s' % self._cost()
+
+        def image(self):
+            return self.slave.avatar
+
+        def run(self):
+            self.buyer.remove_money(self._cost())
+            self.buyer.enslave(self.slave)
+            self.market.slaves.remove(self.slave)
+
+        def is_active(self):
+            return self.buyer.has_money(self._cost())
+
+        def inactive_hint(self):
+            return 'Not enough money'
+
+        def has_additional_info(self):
+            return True
+
+        def additional_info(self):
+            return renpy.call_in_new_context('lbl_cis_glue', person=self.slave)
+
+    class SlaveMarketSellCard(Card, Command):
+
+        def __init__(self, buyer, slave, market):
+            self.seller = seller
+            self.slave = slave
+            self.market = market
+
+        def name(self):
+            return self.slave.name
+
+        def _cost(self):
+            attributes = ['hardiness', 'grace']
+            return max([getattr(self.slave, i)() for i in attributes]) * 6
+
+        def description(self):
+            return 'Cost: %s' % self._cost()
+
+        def image(self):
+            return self.slave.avatar
+
+        def run(self):
+            self.buyer.add_money(self._cost())
+            self.buyer.remove_slave(self.slave)
+            self.market.slaves.append(self.slave)
+
+
+    actions_slave_market = None
+
+label lbl_actions_slave_market(action):
+
+    python:
+        if actions_slave_market is None:
+            actions_slave_market = ActionsSlaveMarket(core)
+
+    menu:
+        'Usual slave market'
+        'Buy':
+            python:
+                actions_slave_market.buy_menu(action.person)
+
+        'Sell' if action.person.has_slaves():
+            python:
+                actions_slave_market.sell_menu(action.person)
+
+        'Leave':
+            return
+    call lbl_actions_slave_market(action)
+    return 

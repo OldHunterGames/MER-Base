@@ -20,4 +20,31 @@ init python:
 label lbl_wildworld(world):
     $ name = world.name()
     'Wellcome to [name]'
+    menu:
+        'You see some native girls running into fores when you arrive'
+        'Try to catch any girl':
+            python:
+                check = Skillcheck(world.player, 'hardiness', 2).run()
+            if check:
+                python:
+                    girl = core.person_creator.gen_random_person(gender='female', age='junior')
+                '[world.player.name] ran fast enough to catch [girl.age] girl'
+            else:
+                'You were to slow to catch anyone'
+
+        'Try to lure any girl':
+            python:
+                check = Skillcheck(world.player, 'competence', 2).run()
+            if check:
+                python:
+                    girl = core.person_creator.gen_random_person(gender='female', age='adolescent')
+                '[world.player.name] were smart enough to lure [girl.age] girl'
+            else:
+                'You did not lure anyone'
+
+    
+    if check:
+        python:
+            world.player.enslave(girl)
+            world.sync_world()
     return
