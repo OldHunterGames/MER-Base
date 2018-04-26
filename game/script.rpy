@@ -93,6 +93,10 @@ label lbl_game:
     $ core.actions.unlock_action(player, 'gamble')
     $ core.actions.unlock_action(player, 'bazar')
     $ core.actions.unlock_action(player, 'slave_market')
+    python:
+        gem = NavigationGem(WildWorld)
+        player.add_item(gem)
+        MistTravel(core, gem.get_world(), player, navgem=True).travel()
     call lbl_make_faction
     call screen sc_cis(player, True)
     # call lbl_contacts(player)
