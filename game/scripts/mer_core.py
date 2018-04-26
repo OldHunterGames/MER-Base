@@ -268,10 +268,15 @@ class World(object):
     def return_point(self):
         return None
 
+    def navgem_mark(self):
+        self._gem_added = True
+        self._synced = True
+
     def travel(self, core, travelers):
         core.set_world(self)
         self._transfer_persons(*travelers)
         if getattr(self, '__visited', False):
+            self.__visited = True
             if self.return_point() is not None:
                 renpy.call_in_new_context(self.return_point(), world=self)
         self.__visited = True
@@ -300,19 +305,27 @@ class World(object):
         self._core.set_world('core')
         self._transfer_persons(*self._travelers)
 
+    def path(self, name):
+        return 'extensions/Worlds/' + self.get_path() + name
+
+    def get_path(self):
+        raise NotImplementedError()
+
 class MistTravel(object):
 
 
-    def __init__(self, core, world, *args):
+    def __init__(self, core, world, *args, **kwargs):
         self.core = core
         try:
             self.world = world(core)
         except TypeError:
             self.world = world
         self.travelers = args
+        self.navgem = kwargs.get('navgem', False)
     
     def travel(self):
         #TODO: mist events
+        self.world.navgem_mark()
         self.world.travel(self.core, self.travelers)
         self.world.leave()
         # mist event again
