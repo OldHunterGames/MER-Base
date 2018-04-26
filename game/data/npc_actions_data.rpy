@@ -6,7 +6,43 @@ init python:
         },
         'promotion': {
             'name': __("Promotion"),
-        }
+        },
+        'intrigue': {
+            'name': __("Intrigue"),
+        },
+        'acquistion': {
+            'name': __("Acquistion"),
+        },
+        'love': {
+            'name': __("Love"),
+        },
+        'amity': {
+            'name': __("Amity"),
+        },
+        'partnership': {
+            'name': __("Partnership"),
+        },
+        'reciprocity': {
+            'name': __("reciprocity"),
+        },
+        'serenity': {
+            'name': __("Serenity"),
+        },
+        'independence': {
+            'name': __("Independence"),
+        },
+        'atonement': {
+            'name': __("Atonement"),
+        },
+        'malice': {
+            'name': __("Malice"),
+        },
+        'revenge': {
+            'name': __("Revenge"),
+        },
+        'offense': {
+            'name': __("Offense"),
+        },
     }
 
     def make_bond(person, bond_id, targets):
