@@ -938,6 +938,14 @@ class Person(InventoryWielder, PsyModel):
         self._ability = None
 
     @property
+    def fatness(self):
+        return self.food_system.fatness
+
+    @property
+    def fitness(self):
+        return self.food_system.fitness
+    
+    @property
     def ability(self):
         return self._ability
 
