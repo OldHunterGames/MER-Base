@@ -49,6 +49,11 @@ init python:
             self.ap = self.BASIC_AP - abs(self.starving_points)
             renpy.call_in_new_context('lbl_wildworld_starvation', world=self)
 
+        def attributes(self, person):
+            attrs = []
+            for key, value in person.raw_attributes().items():
+                attrs.append(self.path('img/stats/' + '{0}_{1}.png'.format(key, value)))
+            return attrs
 
 label lbl_wildworld(world):
     $ name = world.name()

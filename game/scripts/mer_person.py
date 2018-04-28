@@ -1847,6 +1847,15 @@ class Person(InventoryWielder, PsyModel):
         value = self.count_modifiers('creativity')
         return max(0, min(value, 5))
 
+    def raw_attributes(self):
+        attributes = store.person_attributes.keys()
+        dict_ = dict()
+        for key in attributes:
+            attribute = getattr(self, key)()
+            if attribute > 0:
+                dict_[key] = attribute
+        return dict_
+
     def show_attributes(self):
         attributes = store.person_attributes.items()
         dict_ = dict()
