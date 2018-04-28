@@ -1,16 +1,16 @@
 init python:
 
-    # occupations = {
-    # 'vatican': {
-    # 'guard': {'rank': __('hellebardier', 'korporal', 'wachtmeister', 'feldwebel', 'hauptmann', 'oberstleutnant'), 'attribute': 'hardiness',},
-    # 'scholar': {'name': __('apprentice', 'scribe', 'registrar', 'lector', 'librarian', 'archivist',), 'attribute': 'competence',},
-    # 'cleric': {'name': __('novitiate', 'enoch', 'monk', 'cleric', 'vicar', 'abbot',), 'attribute': 'willpower',},
-    # 'missionary': {'name': __('novice', 'pastor', 'preacher', 'hospeller', 'prophet', 'hierophant',), 'attribute': 'grace'},
-    # 'chorus': {'name': __('reserve-singer', 'singer', 'chaplain', 'vizekapellmeister', 'kapellmeister', 'choirmaster',), 'attribute': 'creativity',},
-    # 'inquisitor': {'name': __('apprentice', 'detective', 'custodian', 'inquisitor', 'magister', 'lord-inqusitor',), 'attribute': 'subtlety',},
-    # },
+    occupations = {
+    'vatican': {
+    'guard': {'rank': {'0': __('hellebardier'), '1': __('korporal'), '2': __('wachtmeister'), '3': __('feldwebel'), '4': __('hauptmann'), '5': __('oberstleutnant')}, 'attribute': 'hardiness',},
+    'scholar': {'name': {'0': __('apprentice'), '1': __('scribe'), '2': __('registrar'), '3': __('lector'), '4': __('librarian'), '5': __('archivist'),}, 'attribute': 'competence',},
+    'cleric': {'name': {'0': __('novitiate'), '1': __('enoch'), '2': __('monk'), '3': __('cleric'), '4': __('vicar'), '5': __('abbot'),}, 'attribute': 'willpower', },
+    'missionary': {'name': {'0': __('novice'), '1': __('pastor'), '2': __('preacher'), '3': __('hospeller'), '4': __('prophet'), '5': __('hierophant'),}, 'attribute': 'grace'},
+    'chorus': {'name': {'0': __('reserve-singer'), '1': __('singer'), '2': __('chaplain'), '3': __('vizekapellmeister'), '4': __('kapellmeister'), '5': __('choirmaster'),}, 'attribute': 'creativity',},
+    'inquisitor': {'name': {'0': __('apprentice'), '1': __('detective'), '2': __('custodian'), '3': __('inquisitor'), '4': __('magister'), '5': __('lord-inqusitor'),}, 'attribute': 'subtlety',},
+    },
 
-    # }
+    }
 
     core_factions = {
         'vatican': {

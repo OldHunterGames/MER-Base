@@ -18,6 +18,11 @@ label ow_goldriver_gt(world):
         'Go to the river':
             call ow_goldriver_river(world)
 
+        'Get up to the hills':
+            "It's a great look from here"
+            $ world.sync_world()
+            "You syncronised with this world"
+
         'Return to the Mists':
             'You leaving the Gold River Outer World'
     return
@@ -43,6 +48,7 @@ label ow_goldriver_ingot(world):
     'It is indeed a gold in the river. You spot multiple golden nuggets in a bottom.'
     show nugget at top
     "In a few minutes you have a whole trade bushel of gold!"
+    $ world.player.add_item(Item('gold_unit'))
     $ world.gold += 1
     $ world.ingot = False
     'This river still rich with a gold send, you can extract.'
@@ -59,6 +65,7 @@ label ow_goldriver_extraction(world):
     else:
         "You spend a few hours extracting gold send from the river."
         "By the end of the day you have a whole trade bushel of it. More than enough to return to Eternal Rome and sell for profit."
+        $ world.player.add_item(Item('gold_unit'))
 
     "You go to the Edge of Mists."
     call ow_goldriver_gt(world)
