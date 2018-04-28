@@ -3,11 +3,13 @@ from mer_person import PersonCreator
 from mer_actions import Actions
 from mer_item import NavigationGem
 from mer_utilities import Observable
+from mer_faction import CoreFaction
 from schedule import ScheduleObject, ScheduleJob
 from wishes import WishesGenerator
 from collections import defaultdict
 from mer_housing import Housing
 from conditions import ConditionsMaker
+from mer_npc_actions import CoreNpcAction
 import random
 import renpy.exports as renpy
 import renpy.store as store
@@ -84,14 +86,11 @@ class MERCore(object):
 
     def get_active_persons(self, exclude=None):
         npcs = list(self._active_npcs)
+        npcs.extend(CoreFaction.FACTIONS.keys())
         npcs.extend(self._player.known_characters())
         if exclude is not None:
             npcs.remove(exclude)
         return npcs
-
-    def process_wishes(self):
-        for i in self.get_active_persons():
-            self.wish_maker.process_wishes(i)
 
     def process_bonds(self):
         for i in self.get_active_persons():
@@ -156,10 +155,13 @@ class MERCore(object):
     def world(self):
         return self._world
 
+    def npc_actions(self):
+        [CoreNpcAction.randomize_action(person) for person in self.get_active_persons()]
+
     @Observable
     def skip_turn(self):
         self._journal.skip_turn()
-        self.process_wishes()
+        self.npc_actions()
         self._player.money += self.calc_money_change(self._player)
         self._player.rest()
         self._player.tick_time()
