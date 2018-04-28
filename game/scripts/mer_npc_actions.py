@@ -64,3 +64,5 @@ class VacationAction(CoreNpcAction):
             self.action_fatigue[command.npc] -= 1
         else:
             self.action_fatigue[command.npc] += 1
+        if self.action_fatigue[command.npc] < 0:
+            self.action_fatigue[command.npc] = 0
