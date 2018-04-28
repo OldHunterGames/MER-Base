@@ -36,10 +36,7 @@ label start:
     python:
         # Init Vatican faction
         faction = CoreFaction('vatican', core_factions['vatican'])
-        for i in range(10):
-            p = core.person_creator.gen_random_person(genus='human')
-            if faction.can_be_member(p):
-                faction.add_member(p, 'ecclesiarchy')
+        
         core.add_faction(faction)
 
         # Init npc actions
@@ -78,60 +75,27 @@ label generate:
     call screen sc_gen_player()
     $ player = core.player
     $ core.unlock_schedule(player)
-    # call screen sc_gen_faction()
     jump lbl_game
 
-label lbl_make_faction:
-    python:
-        leader = PersonCreator().gen_random_person()
-        faction = Faction(leader)
-        core.faction = faction
-    return
-
 label lbl_game:
-    # $ make_intrigues(core.faction, core.player)
     $ core.actions.unlock_action(player, 'gamble')
     $ core.actions.unlock_action(player, 'bazar')
     $ core.actions.unlock_action(player, 'slave_market')
     python:
+        faction = core.get_faction('vatican')
+        for i in range(20):
+            p = core.person_creator.gen_random_person(genus='human')
+            if faction.can_be_member(p):
+                faction.add_member(p, 'ecclesiarchy')
+                player.relations(p)
         gem = NavigationGem(WildWorld)
         player.add_item(gem)
         MistTravel(core, gem.get_world(), player, navgem=True).travel()
-    call lbl_make_faction
     call screen sc_cis(player, True)
-    # call lbl_contacts(player)
     return
 
 label lbl_turn_end:
     call screen sc_journal(core.get_records(), called=True)
-    return
-
-label lbl_wish_test():
-    # for wish system testing
-    python:
-        person = core.person_creator.gen_random_person()
-        core.faction.add_member(person)
-        for i in range(0, 10):
-            new = core.person_creator.gen_random_person()
-            if i == 5:
-                person.add_bond(Bond(new, 'friend'))
-            if i == 7:
-                person.add_bond(Bond(new, 'ally'))
-            new.add_bond(Bond(person, 'friend'))
-        for i in range(0, 10):
-            new = core.person_creator.gen_random_person()
-            if i == 5:
-                person.add_bond(Bond(new, 'rival'))
-            if i == 7:
-                person.add_bond(Bond(new, 'traitor'))
-            if i == 9:
-                person.add_bond(Bond(new, 'offender'))
-            new.add_bond(Bond(person, 'rival'))
-
-        player.relations(person)
-        for key in wishes_data.keys():
-            core.wish_maker.reserve_wish(person, key)
-            core.wish_maker.process_wishes(person)
     return
 
 label lbl_jobcheck(schedule_obj, person):
